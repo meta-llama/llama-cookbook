@@ -21,3 +21,6 @@ A complete example of how to build a Llama 3 chatbot hosted on your browser that
 
 ## [Sales Bot](./customerservice_chatbots/ai_agent_chatbot/SalesBot.ipynb): Sales Bot with Llama3 - A Summarization and RAG Use Case
 An summarization + RAG use case built around the Amazon product review Kaggle dataset to build a helpful Music Store Sales Bot. The summarization and RAG are built on top of Llama models hosted on OctoAI, and the vector database is hosted on Weaviate Cloud Services.
+
+## [Llamas in Code Review](./coding/llamas-in-code-review/README.md): Two agents writing and reviewing code in a loop
+This demo app shows an example of two agents one that writes code and one that reviews it. They go back and forth for multiple rounds and the code is improved over time. It uses [llama-stack](https://github.com/meta-llama/llama-stack) on the backend.
