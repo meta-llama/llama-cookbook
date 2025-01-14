@@ -8,7 +8,7 @@ list_emails_function = """
             "type": "dic",
             "properties": [
                 {
-                    "maxResults": {
+                    "max_results": {
                         "type": "integer",
                         "description": "The default maximum number of emails to return is 100; the maximum allowed value for this field is 500."
                     }
