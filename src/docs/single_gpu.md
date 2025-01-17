@@ -9,9 +9,9 @@ To run fine-tuning on a single GPU, we will  make use of two packages
 Given combination of PEFT and Int8 quantization, we would be able to fine_tune a Meta Llama 3 8B model on one consumer grade GPU such as A10.
 
 ## Requirements
-To run the examples, make sure to install the llama-recipes package (See [README.md](../README.md) for details).
+To run the examples, make sure to install the llama-cookbook package (See [README.md](../README.md) for details).
 
-**Please note that the llama-recipes package will install PyTorch 2.0.1 version, in case you want to run FSDP + PEFT, please make sure to install PyTorch nightlies.**
+**Please note that the llama-cookbook package will install PyTorch 2.0.1 version, in case you want to run FSDP + PEFT, please make sure to install PyTorch nightlies.**
 
 ## How to run it?
 

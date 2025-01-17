@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 If you want to use PyTorch nightlies instead of the stable release, go to [this guide](https://pytorch.org/get-started/locally/) to retrieve the right `--extra-index-url URL` parameter for the `pip install` commands on your platform.
 
 ### Installing
-Llama-recipes provides a pip distribution for easy install and usage in other projects. Alternatively, it can be installed from source.
+Llama-Cookbook provides a pip distribution for easy install and usage in other projects. Alternatively, it can be installed from source.
 
 > [!NOTE]
 > Ensure you use the correct CUDA version (from `nvidia-smi`) when installing the PyTorch wheels. Here we are using 11.8 as `cu118`.
@@ -16,41 +16,41 @@ Llama-recipes provides a pip distribution for easy install and usage in other pr
 
 #### Install with pip
 ```
-pip install llama-recipes
+pip install llama-cookbook
 ```
 
 #### Install with optional dependencies
-Llama-recipes offers the installation of optional packages. There are three optional dependency groups.
+Llama-cookbook offers the installation of optional packages. There are three optional dependency groups.
 To run the unit tests we can install the required dependencies with:
 ```
-pip install llama-recipes[tests]
+pip install llama-cookbook[tests]
 ```
 For the vLLM example we need additional requirements that can be installed with:
 ```
-pip install llama-recipes[vllm]
+pip install llama-cookbook[vllm]
 ```
 To use the sensitive topics safety checker install with:
 ```
-pip install llama-recipes[auditnlg]
+pip install llama-cookbook[auditnlg]
 ```
-Some recipes require the presence of langchain. To install the packages follow the recipe description or install with:
+Some cookbook require the presence of langchain. To install the packages follow the recipe description or install with:
 ```
-pip install llama-recipes[langchain]
+pip install llama-cookbook[langchain]
 ```
 Optional dependencies can also be combined with [option1,option2].
 
 #### Install from source
 To install from source e.g. for development use these commands. We're using hatchling as our build backend which requires an up-to-date pip as well as setuptools package.
 ```
-git clone git@github.com:meta-llama/llama-recipes.git
-cd llama-recipes
+git clone git@github.com:meta-llama/llama-cookbook.git
+cd llama-cookbook
 pip install -U pip setuptools
 pip install -e .
 ```
-For development and contributing to llama-recipes please install all optional dependencies:
+For development and contributing to llama-cookbook please install all optional dependencies:
 ```
-git clone git@github.com:meta-llama/llama-recipes.git
-cd llama-recipes
+git clone git@github.com:meta-llama/llama-cookbook.git
+cd llama-cookbook
 pip install -U pip setuptools
 pip install -e .[tests,auditnlg,vllm]
 ```
