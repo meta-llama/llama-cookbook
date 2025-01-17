@@ -1,0 +1,23 @@
+name: prompt-migration
+channels:
+  - defaults
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10  # Updated to match pyproject.toml requires-python
+  - pip
+  - numpy<2  # Matches pyproject.toml dependency
+  - pip:
+      - dspy @ git+ssh://git@github.com/stanfordnlp/dspy.git
+      - lm-eval[wandb,api,math,ifeval,sentencepiece]>=0.4.7
+      - python-dotenv>=1.0.1
+      - ipdb>=0.13.13
+      - ipython>=8.31.0
+      - pytest>=8.3.4
+      - ruff>=0.9.1
+      - ipykernel>=6.29.5
+      - torch
+      - transformers
+      - openai
+      - databricks-sdk
+      - bigcode_eval
