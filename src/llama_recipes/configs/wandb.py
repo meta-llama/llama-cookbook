@@ -13,3 +13,4 @@ class wandb_config:
     group: Optional[str] = None
     notes: Optional[str] = None
     mode: Optional[str] = None
+    name: Optional[str] = None
