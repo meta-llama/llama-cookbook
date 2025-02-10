@@ -1,3 +1,5 @@
+#python prep-for-FT.py --input input_file.json --output output_file.json
+
 import json
 import os
 from typing import Dict, Any
