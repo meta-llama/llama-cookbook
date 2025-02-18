@@ -2,15 +2,15 @@ import argparse
 import json
 import os
 from typing import Any, Dict, List, Union
-
+from vllm import LLM, SamplingParams
 import torch
 import yaml
 from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
+import transformers
 
 
-def load_system_prompt(yaml_path: str) -> str:
-    """Load system prompt from a YAML file."""
+def load_system_prompt(yaml_path):
     with open(yaml_path, "r") as f:
         config = yaml.safe_load(f)
     return config["system_prompt"]
@@ -23,9 +23,7 @@ def setup_llm(
     max_model_len: int = 128000,
     gpu_ids: List[int] = None,
 ):
-    """Initialize the vLLM LLM with specified parameters for multi-GPU support."""
-    from vllm import LLM, SamplingParams
-
+    
     if gpu_ids is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_ids))
 
@@ -38,13 +36,8 @@ def setup_llm(
     return llm, SamplingParams
 
 
-def setup_hf_pipeline(
-    model_name: str,
-    gpu_ids: List[int] = None,
-):
-    """Initialize the HuggingFace pipeline."""
-    import transformers
-
+def setup_hf_pipeline(model_name,gpu_ids):
+    
     if gpu_ids is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_ids))
 
@@ -57,41 +50,27 @@ def setup_hf_pipeline(
     return pipeline
 
 
-def create_messages(system_prompt: str, conversation: str) -> List[Dict[str, str]]:
-    """Create the messages list for the model input."""
+def create_messages(system_prompt, conversation):
     return [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": conversation},
     ]
 
 
-def format_prompt(system_prompt: str, conversation: str) -> str:
-    """Format the system prompt and conversation into the specific chat template format."""
+def format_prompt(system_prompt, conversation):
     return (
         f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>{system_prompt}<|eot_id|>"
         f"<|start_header_id|>user<|end_header_id|>{conversation}"
     )
 
 
-def process_with_vllm(
-    item: Dict,
-    llm: Any,
-    system_prompt: str,
-    sampling_params: Any,
-) -> str:
-    """Process a single item using vLLM."""
+def process_with_vllm(item,llm,system_prompt,sampling_params):
     prompt = format_prompt(system_prompt, item["conversations"])
     output = llm.generate(prompt, sampling_params)[0]
     return output.outputs[0].text
 
 
-def process_with_hf(
-    item: Dict,
-    pipeline: Any,
-    system_prompt: str,
-    max_new_tokens: int,
-) -> str:
-    """Process a single item using HuggingFace pipeline."""
+def process_with_hf(item,pipeline,system_prompt,max_new_tokens,):
     messages = create_messages(system_prompt, item["conversations"])
     outputs = pipeline(
         messages,
@@ -100,18 +79,7 @@ def process_with_hf(
     return outputs[0]["generated_text"][-1]["content"]
 
 
-def process_dataset(
-    dataset,
-    system_prompt: str,
-    output_file: str,
-    start_index: int = 0,
-    end_index: int = None,
-    max_new_tokens: int = 128000,
-    use_hf: bool = False,
-    model_instance: Any = None,
-    sampling_params: Any = None,
-) -> None:
-    """Process the dataset using either vLLM or HuggingFace pipeline."""
+def process_dataset(dataset,system_prompt,output_file,start_index,end_index,max_new_tokens,use_hf,model_instance,sampling_params,):
     # Handle end_index
     if end_index is None:
         end_index = len(dataset)
@@ -129,16 +97,14 @@ def process_dataset(
         raise ValueError(
             f"Start index {start_index} must be less than end index {end_index}"
         )
-
-    # Select the specified range
+        
     dataset_slice = dataset.select(range(start_index, end_index))
 
-    # Process examples one at a time
     with open(output_file, "w") as f:
         for item in tqdm(
             dataset_slice, desc=f"Processing rows {start_index} to {end_index}"
         ):
-            # Generate the response using appropriate method
+            # Select output
             if use_hf:
                 cot_response = process_with_hf(
                     item, model_instance, system_prompt, max_new_tokens
@@ -147,8 +113,6 @@ def process_dataset(
                 cot_response = process_with_vllm(
                     item, model_instance, system_prompt, sampling_params
                 )
-
-            # Save the result with both original and CoT conversations
             result = {
                 "id": item["id"],
                 "conversations": item["conversations"],  # Keep original conversations
@@ -214,18 +178,12 @@ def main():
     )
     args = parser.parse_args()
 
-    # Parse GPU IDs if provided
     gpu_ids = None
     if args.gpu_ids:
         gpu_ids = [int(gpu_id) for gpu_id in args.gpu_ids.split(",")]
 
-    # Load system prompt from YAML
     system_prompt = load_system_prompt(args.config)
-
-    # Load dataset
     dataset = load_from_disk(args.dataset_path)
-
-    # Initialize appropriate model instance based on mode
     sampling_params = None
     if args.use_hf:
         model_instance = setup_hf_pipeline(
@@ -244,8 +202,7 @@ def main():
             temperature=0.7,
             top_p=0.95,
         )
-
-    # Process dataset
+        
     process_dataset(
         dataset=dataset,
         system_prompt=system_prompt,

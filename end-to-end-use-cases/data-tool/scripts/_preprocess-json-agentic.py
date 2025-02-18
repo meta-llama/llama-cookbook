@@ -4,7 +4,6 @@ from datasets import DatasetDict, load_from_disk
 
 
 def preprocess_conversation(example):
-    # Convert roles
     for conv in example["conversations"]:
         if conv["from"] == "human":
             conv["from"] = "user"
@@ -20,17 +19,12 @@ def transform_conversations(example):
     )
     return {"id": example["id"], "conversations": conv_str}
 
-
-# Load dataset
 json_balanced = load_from_disk("balanced-json-modeagentic")
 
-# Apply preprocessing
 processed_dataset = json_balanced.map(preprocess_conversation)
 
 processed_dataset = processed_dataset["train"].map(
     transform_conversations, remove_columns=["category", "subcategory", "schema"]
 )
 
-
-# Save dataset
 processed_dataset.save_to_disk("json-agentic-balanced-final")

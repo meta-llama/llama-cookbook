@@ -13,8 +13,6 @@ from datasets import Dataset, load_dataset
 from tqdm import tqdm
 
 dataset = load_dataset("Team-ACE/ToolACE")
-
-# Transform data
 new_data = {"id": [], "conversations": []}
 
 # Process each example
@@ -24,8 +22,6 @@ for example in dataset["train"]:
     new_data["conversations"].append(
         [{"from": "system", "value": example["system"]}] + example["conversations"]
     )
-
-# Create new dataset with just id and conversations
 new_dataset = Dataset.from_dict(new_data)
 
 # Save it

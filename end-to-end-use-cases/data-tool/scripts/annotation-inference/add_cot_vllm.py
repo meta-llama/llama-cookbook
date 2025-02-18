@@ -64,15 +64,13 @@ class LLM_Singleton:
         self.processor = AutoProcessor.from_pretrained(model_id)
 
 
-def load_system_prompt(yaml_path: str) -> str:
-    """Load system prompt from YAML config."""
+def load_system_prompt(yaml_path):
     with open(yaml_path, "r") as f:
         config = yaml.safe_load(f)
     return config["system_prompt"]
 
 
-def create_chat_message(system_prompt: str, conversation: str) -> List[Dict[str, Any]]:
-    """Create properly formatted chat messages."""
+def create_chat_message(system_prompt, conversation):
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": conversation},
@@ -80,8 +78,7 @@ def create_chat_message(system_prompt: str, conversation: str) -> List[Dict[str,
     return messages
 
 
-def parse_json_output(output_text: str) -> List[Dict[str, str]]:
-    """Parse and clean model output to ensure valid JSON."""
+def parse_json_output(output_text):
     output_text = output_text.strip()
     json_match = re.search(r"\[.*\]", output_text, re.DOTALL)
 
@@ -117,7 +114,6 @@ def process_dataset(
     batch_size: int = 16,
     max_seq_len: int = 64000,
 ) -> List[Dict]:
-    """Process the dataset in parallel batches and return results."""
     if end_index is None:
         end_index = len(dataset)
     else:
@@ -126,13 +122,10 @@ def process_dataset(
     # Handle random sampling
     dataset_size = end_index - start_index
     if n_samples > 0:
-        # If n_samples is larger than dataset size, use full dataset size
         n_samples = min(n_samples, dataset_size)
-        # Generate random indices within the specified range
         indices = random.sample(range(start_index, end_index), n_samples)
         dataset_slice = dataset.select(indices)
     else:
-        # If no sampling requested, use the full range
         dataset_slice = dataset.select(range(start_index, end_index))
 
     results = []
@@ -154,7 +147,6 @@ def process_dataset(
                 )
                 batch_inputs.append(input_text)
 
-            # max_tokens here is per-batch generation limit
             sampling_params = SamplingParams(
                 max_tokens=max_seq_len, temperature=0.1, top_p=0.95
             )
@@ -242,7 +234,6 @@ def main():
     # Set spawn method for multiprocessing
     os.environ["VLLM_WORKER_MULTIPROC_METHOD"] = "spawn"
 
-    # Load system prompt and dataset
     system_prompt = load_system_prompt(args.config)
     dataset = load_from_disk(args.dataset_path)
     if isinstance(dataset, dict):
@@ -251,13 +242,12 @@ def main():
     # Initialize VLLM instance
     model_instance = LLM_Singleton(
         model_id=args.model_id,
-        max_model_len=args.max_seq_len,  # Use the passed max_seq_len
+        max_model_len=args.max_seq_len,
         max_num_seqs=16,
         enforce_eager=True,
         debug=args.debug,
     )
 
-    # Process dataset and get results
     results = process_dataset(
         dataset=dataset,
         system_prompt=system_prompt,
@@ -269,7 +259,6 @@ def main():
         max_seq_len=args.max_seq_len,
     )
 
-    # Convert results to HuggingFace dataset
     output_dataset = Dataset.from_dict(
         {
             "id": [r["id"] for r in results],
@@ -278,7 +267,6 @@ def main():
         }
     )
 
-    # Save dataset
     output_dataset.save_to_disk(args.output_path)
 
 

@@ -5,20 +5,6 @@ from torchtune.data import _messages, Message
 from torchtune.datasets import SFTDataset
 from torchtune.modules.transforms import Transform
 from torchtune.modules.transforms.tokenizers import ModelTokenizer
-
-# Store original validate_messages for reference if needed
-original_validate = _messages.validate_messages
-
-
-# Replace with no-op function
-def no_validate(messages):
-    pass
-
-
-# Monkey patch
-_messages.validate_messages = no_validate
-
-
 class ToolCallMessages(Transform):
     def __init__(self):
         self._role_map = {
