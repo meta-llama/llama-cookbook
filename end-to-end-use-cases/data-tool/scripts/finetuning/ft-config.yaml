@@ -6,15 +6,7 @@
 #   tune download meta-llama/Meta-Llama-3.1-70B-Instruct --output-dir /tmp/Meta-Llama-3.1-70B-Instruct --ignore-patterns "original/consolidated*"
 #
 # To launch on 8 devices, run the following command from root:
-#   tune run --nproc_per_node 8 full_finetune_distributed --config llama3_1/70B_full
-#
-# You can add specific overrides through the command line. For example
-# to override the checkpointer directory while launching training
-# you can run:
-#   tune run --nproc_per_node 8 full_finetune_distributed --config llama3_1/70B_full checkpointer.checkpoint_dir=<YOUR_CHECKPOINT_DIR>
-#
-# This config is only tested on an 8xA100 machine.
-#
+#   tune run --nproc_per_node 8 tune run --nproc_per_node 8 full_finetune_distributed --config ft-config.yaml 
 
 output_dir: /tmp/torchtune/llama3_1_70B/full # /tmp may be deleted by your system. Change it to your preference.
 seed: 69
