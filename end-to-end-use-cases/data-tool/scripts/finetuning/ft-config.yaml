@@ -52,8 +52,14 @@ checkpointer:
 resume_from_checkpoint: False
 
 # Fine-tuning arguments
-batch_size: 2
-epochs: 1
+batch_size: 4
+epochs: 30
+save_every_epochs: 10
+max_steps_per_epoch: null
+
+lr_scheduler:
+  _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
+  num_warmup_steps: 10
 
 optimizer:
   _component_: torch.optim.AdamW
@@ -64,7 +70,6 @@ optimizer:
 
 loss:
   _component_: torchtune.modules.loss.CEWithChunkedOutputLoss
-max_steps_per_epoch: null
 gradient_accumulation_steps: 1  # Use to increase effective batch size
 
 
@@ -74,8 +79,8 @@ device: cuda
 # Memory management
 enable_activation_checkpointing: True  # True reduces memory
 enable_activation_offloading: False  # True reduces memory
-custom_sharded_layers: ['tok_embeddings', 'output']  # Layers to shard separately (useful for large vocab size models). Lower Memory, but lower speed.
-fsdp_cpu_offload: True
+#custom_sharded_layers: ['tok_embeddings', 'output']  # Layers to shard separately (useful for large vocab size models). Lower Memory, but lower speed.
+fsdp_cpu_offload: False
 clip_grad_norm: null
 compile: False  # torch.compile the model + loss, True increases speed + decreases memory
 optimizer_in_bwd: False  # True saves memory. Requires gradient_accumulation_steps=1
@@ -85,7 +90,8 @@ dtype: bf16
 
 # Logging
 metric_logger:
-  _component_: torchtune.training.metric_logging.DiskLogger
+  _component_: torchtune.training.metric_logging.WandBLogger
+  project: ctt
   log_dir: ${output_dir}/logs
 log_every_n_steps: 1
 log_peak_memory_stats: True
