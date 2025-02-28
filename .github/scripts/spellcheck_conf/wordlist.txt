@@ -1254,9 +1254,6 @@ subtasks
 EleutherAI
 CodeLlama
 LlamaGuard
-OctoAI
-octoai
-OctoAI's
 PurpleLlama
 Youtube
 wandb

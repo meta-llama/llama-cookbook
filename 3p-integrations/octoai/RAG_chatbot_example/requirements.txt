@@ -1,7 +1,0 @@
-gradio==4.19.2
-pypdf==4.0.0
-langchain==0.1.19
-sentence-transformers==2.2.2
-faiss-cpu==1.7.4
-text-generation==0.6.1
-octoai-sdk==0.10.1
