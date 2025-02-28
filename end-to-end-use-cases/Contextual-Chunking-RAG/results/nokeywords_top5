@@ -1,0 +1,1490 @@
+#========= No keywords Top 5 ==============
+
+
+--- Test: When was 3M Company incorporated? idx: 4
+{'id': '305'}
+{'id': '307'}
+{'id': '0'}
+{'id': '12'}
+{'id': '237'}
+
+
+--- Test: Where can the public obtain documents filed by 3M Company with the SEC? idx: 4
+{'id': '4'}
+{'id': '0'}
+{'id': '1'}
+{'id': '265'}
+{'id': '273'}
+
+
+--- Test: What is the ticker symbol of 3M Company? idx: 4
+{'id': '0'}
+{'id': '19'}
+{'id': '305'}
+{'id': '307'}
+{'id': '4'}
+
+
+--- Test: How many business segments does 3M manage its operations in? idx: 5
+{'id': '5'}
+{'id': '8'}
+{'id': '37'}
+{'id': '256'}
+{'id': '260'}
+
+
+--- Test: What is the approximate number of people employed by 3M as of December 31, 2018? idx: 5
+{'id': '72'}
+{'id': '54'}
+{'id': '66'}
+{'id': '68'}
+{'id': '63'}
+
+
+--- Test: What are some of the markets served by 3M's Industrial segment? idx: 5
+{'id': '5'}
+{'id': '6'}
+{'id': '8'}
+{'id': '7'}
+{'id': '10'}
+
+
+--- Test: What types of products does 3M's Health Care segment provide to medical clinics and hospitals? idx: 8
+{'id': '8'}
+{'id': '7'}
+{'id': '5'}
+{'id': '9'}
+{'id': '6'}
+
+
+--- Test: What are some of the specific oral care solutions offered by 3M? idx: 8
+{'id': '8'}
+{'id': '6'}
+{'id': '7'}
+{'id': '67'}
+{'id': '9'}
+
+
+--- Test: What kind of software and services does 3M provide in the area of health information systems? idx: 8
+{'id': '8'}
+{'id': '5'}
+{'id': '67'}
+{'id': '7'}
+{'id': '66'}
+
+
+--- Test: How does 3M protect its intellectual property? idx: 12
+{'id': '8'}
+{'id': '12'}
+{'id': '11'}
+{'id': '7'}
+{'id': '5'}
+
+
+--- Test: What is the expected impact of environmental cleanup activities on 3M's capital expenditures and earnings? idx: 12
+{'id': '33'}
+{'id': '85'}
+{'id': '243'}
+{'id': '24'}
+{'id': '30'}
+
+
+--- Test: Who is the current Chief Executive Officer of 3M and when was he elected to this position? idx: 12
+{'id': '12'}
+{'id': '14'}
+{'id': '13'}
+{'id': '273'}
+{'id': '305'}
+
+
+--- Test: Who is the Executive Vice President of the Industrial Business Group at 3M? idx: 13
+{'id': '14'}
+{'id': '13'}
+{'id': '12'}
+{'id': '5'}
+{'id': '273'}
+
+
+--- Test: What is the role of Ivan K. Fong at 3M? idx: 13
+{'id': '12'}
+{'id': '13'}
+{'id': '8'}
+{'id': '14'}
+{'id': '308'}
+
+
+--- Test: How long has Nicholas C. Gangestad been the Senior Vice President and Chief Financial Officer at 3M? idx: 13
+{'id': '14'}
+{'id': '273'}
+{'id': '13'}
+{'id': '12'}
+{'id': '99'}
+
+
+--- Test: How do changes in 3M's credit ratings affect its cost of funding? idx: 17
+{'id': '17'}
+{'id': '81'}
+{'id': '80'}
+{'id': '172'}
+{'id': '49'}
+
+
+--- Test: What factors affect the demand for 3M's products and its revenue and profit margins? idx: 17
+{'id': '37'}
+{'id': '17'}
+{'id': '11'}
+{'id': '67'}
+{'id': '54'}
+
+
+--- Test: How does 3M's ability to introduce new products impact its growth objectives? idx: 17
+{'id': '11'}
+{'id': '37'}
+{'id': '67'}
+{'id': '8'}
+{'id': '9'}
+
+
+--- Test: What are the potential risks that could affect 3M's ability to bring new products to market? idx: 18
+{'id': '18'}
+{'id': '17'}
+{'id': '11'}
+{'id': '8'}
+{'id': '9'}
+
+
+--- Test: How many manufacturing facilities does 3M operate globally? idx: 18
+{'id': '72'}
+{'id': '66'}
+{'id': '18'}
+{'id': '5'}
+{'id': '307'}
+
+
+--- Test: Where are 3M's general offices and corporate research laboratories located? idx: 18
+{'id': '305'}
+{'id': '18'}
+{'id': '307'}
+{'id': '12'}
+{'id': '306'}
+
+
+--- Test: What was the total number of shares purchased by 3M from January 1 to December 31, 2018? idx: 21
+{'id': '20'}
+{'id': '22'}
+{'id': '49'}
+{'id': '90'}
+{'id': '21'}
+
+
+--- Test: What was the average price per share of 3M's stock repurchases from July 1 to September 30, 2018? idx: 21
+{'id': '20'}
+{'id': '90'}
+{'id': '49'}
+{'id': '22'}
+{'id': '89'}
+
+
+--- Test: How much did 3M spend on stock repurchases in the month of October 2018? idx: 21
+{'id': '20'}
+{'id': '49'}
+{'id': '90'}
+{'id': '89'}
+{'id': '22'}
+
+
+--- Test: What was the net income attributable to 3M for full year 2018? idx: 26
+{'id': '26'}
+{'id': '33'}
+{'id': '262'}
+{'id': '34'}
+{'id': '25'}
+
+
+--- Test: How much did 3M's earnings per share increase on a per diluted share basis for full year 2018 compared to full year 2017? idx: 26
+{'id': '26'}
+{'id': '24'}
+{'id': '100'}
+{'id': '262'}
+{'id': '25'}
+
+
+--- Test: What was the pre-tax gain reported by 3M from the divestiture of its identity management business in 2017? idx: 26
+{'id': '145'}
+{'id': '54'}
+{'id': '30'}
+{'id': '57'}
+{'id': '55'}
+
+
+--- Test: What was the net impact of the Scott Safety acquisition on 3M's earnings per diluted share for full year 2017? idx: 31
+{'id': '31'}
+{'id': '65'}
+{'id': '26'}
+{'id': '66'}
+{'id': '24'}
+
+
+--- Test: How much did foreign currency impacts decrease 3M's pre-tax earnings in 2017? idx: 31
+{'id': '96'}
+{'id': '61'}
+{'id': '48'}
+{'id': '29'}
+{'id': '68'}
+
+
+--- Test: What was the reason for the increase in 3M's accruals for respirator mask/asbestos liabilities in the fourth quarter of 2017? idx: 31
+{'id': '222'}
+{'id': '219'}
+{'id': '223'}
+{'id': '220'}
+{'id': '58'}
+
+
+--- Test: What was the total sales change for 3M in Q4 2018? idx: 36
+{'id': '68'}
+{'id': '54'}
+{'id': '63'}
+{'id': '37'}
+{'id': '48'}
+
+
+--- Test: Which business segment had the highest operating income in Q4 2018? idx: 36
+{'id': '38'}
+{'id': '40'}
+{'id': '55'}
+{'id': '256'}
+{'id': '35'}
+
+
+--- Test: What was the organic local-currency sales change for the Industrial segment in the three months ended December 31, 2018? idx: 36
+{'id': '42'}
+{'id': '38'}
+{'id': '44'}
+{'id': '43'}
+{'id': '45'}
+
+
+--- Test: What was the organic local-currency sales growth for 3M's Health Care segment in Q4 2018? idx: 42
+{'id': '37'}
+{'id': '38'}
+{'id': '48'}
+{'id': '67'}
+{'id': '66'}
+
+
+--- Test: How did 3M's total sales in China/Hong Kong change in Q4 2018? idx: 42
+{'id': '48'}
+{'id': '68'}
+{'id': '37'}
+{'id': '63'}
+{'id': '54'}
+
+
+--- Test: What was the organic local-currency sales growth for 3M in the Latin America/Canada geographic area in Q4 2018? idx: 42
+{'id': '48'}
+{'id': '43'}
+{'id': '42'}
+{'id': '37'}
+{'id': '45'}
+
+
+--- Test: What factors contributed to the decrease in 3M's operating income margins year-on-year? idx: 58
+{'id': '56'}
+{'id': '58'}
+{'id': '37'}
+{'id': '55'}
+{'id': '69'}
+
+
+--- Test: How did 3M benefit from raw material sourcing cost reduction projects in 2017? idx: 58
+{'id': '49'}
+{'id': '58'}
+{'id': '53'}
+{'id': '256'}
+{'id': '63'}
+
+
+--- Test: Why did interest expense increase for 3M in 2018 and 2017? idx: 58
+{'id': '58'}
+{'id': '49'}
+{'id': '33'}
+{'id': '215'}
+{'id': '88'}
+
+
+--- Test: What is the estimated effective tax rate for 3M in 2019? idx: 60
+{'id': '162'}
+{'id': '33'}
+{'id': '29'}
+{'id': '60'}
+{'id': '59'}
+
+
+--- Test: How much did currency effects decrease pre-tax income for 3M in 2018? idx: 60
+{'id': '33'}
+{'id': '96'}
+{'id': '61'}
+{'id': '29'}
+{'id': '59'}
+
+
+--- Test: What percentage of 3M India Limited is owned by 3M? idx: 60
+{'id': '156'}
+{'id': '54'}
+{'id': '37'}
+{'id': '307'}
+{'id': '63'}
+
+
+--- Test: What factors could result in future impairment charges for 3M's goodwill and long-lived assets? idx: 78
+{'id': '78'}
+{'id': '76'}
+{'id': '149'}
+{'id': '112'}
+{'id': '77'}
+
+
+--- Test: How does 3M determine if its long-lived assets with a definite life are impaired? idx: 78
+{'id': '78'}
+{'id': '76'}
+{'id': '110'}
+{'id': '149'}
+{'id': '213'}
+
+
+--- Test: What guidance does 3M follow to record tax liabilities for anticipated tax audit issues in the United States and other tax jurisdictions? idx: 78
+{'id': '79'}
+{'id': '164'}
+{'id': '166'}
+{'id': '163'}
+{'id': '33'}
+
+
+--- Test: What is the maximum amount of debt or equity securities that 3M can issue and sell under its updated shelf registration statement? idx: 81
+{'id': '81'}
+{'id': '80'}
+{'id': '89'}
+{'id': '20'}
+{'id': '102'}
+
+
+--- Test: What is the total amount of debt issued by 3M as part of its medium-term notes program (Series F) as of December 31, 2018? idx: 81
+{'id': '81'}
+{'id': '89'}
+{'id': '171'}
+{'id': '87'}
+{'id': '173'}
+
+
+--- Test: What is the maximum amount that 3M's revolving credit facility can be increased to, at the lenders' discretion? idx: 81
+{'id': '81'}
+{'id': '172'}
+{'id': '80'}
+{'id': '171'}
+{'id': '173'}
+
+
+--- Test: What is the return on invested capital (ROIC) and how is it used to measure financial performance? idx: 83
+{'id': '83'}
+{'id': '82'}
+{'id': '55'}
+{'id': '117'}
+{'id': '35'}
+
+
+--- Test: How much was the net income including noncontrolling interest for 3M in 2018? idx: 83
+{'id': '262'}
+{'id': '33'}
+{'id': '100'}
+{'id': '34'}
+{'id': '26'}
+
+
+--- Test: What was the total depreciation and amortization for 3M in 2017? idx: 83
+{'id': '144'}
+{'id': '51'}
+{'id': '54'}
+{'id': '34'}
+{'id': '151'}
+
+
+--- Test: What was the total amount of debt issued by 3M in October 2017? idx: 88
+{'id': '88'}
+{'id': '173'}
+{'id': '89'}
+{'id': '80'}
+{'id': '81'}
+
+
+--- Test: What was the coupon rate of the 10-year fixed rate medium-term notes issued by 3M in October 2017? idx: 88
+{'id': '173'}
+{'id': '89'}
+{'id': '88'}
+{'id': '174'}
+{'id': '169'}
+
+
+--- Test: How much did 3M repurchase in outstanding notes via cash tender offers in October 2017? idx: 88
+{'id': '88'}
+{'id': '173'}
+{'id': '89'}
+{'id': '20'}
+{'id': '49'}
+
+
+--- Test: What types of risks does 3M face in its financial operations? idx: 94
+{'id': '18'}
+{'id': '17'}
+{'id': '66'}
+{'id': '99'}
+{'id': '49'}
+
+
+--- Test: How does 3M mitigate its exposure to foreign exchange rates risk? idx: 94
+{'id': '94'}
+{'id': '93'}
+{'id': '61'}
+{'id': '95'}
+{'id': '207'}
+
+
+--- Test: What is the maximum length of time over which 3M hedges its exposure to variability in future cash flows of forecasted transactions? idx: 94
+{'id': '198'}
+{'id': '81'}
+{'id': '94'}
+{'id': '199'}
+{'id': '80'}
+
+
+--- Test: What was the net income attributable to 3M in 2018? idx: 99
+{'id': '33'}
+{'id': '26'}
+{'id': '34'}
+{'id': '262'}
+{'id': '25'}
+
+
+--- Test: How long has PricewaterhouseCoopers LLP served as the auditor for 3M Company? idx: 99
+{'id': '99'}
+{'id': '98'}
+{'id': '12'}
+{'id': '33'}
+{'id': '237'}
+
+
+--- Test: What was the total operating expenses for 3M Company in 2017? idx: 99
+{'id': '34'}
+{'id': '53'}
+{'id': '262'}
+{'id': '51'}
+{'id': '66'}
+
+
+--- Test: What was the total other comprehensive income (loss) for 3M Company in 2018, net of tax? idx: 103
+{'id': '156'}
+{'id': '100'}
+{'id': '157'}
+{'id': '33'}
+{'id': '54'}
+
+
+--- Test: How much were the dividends declared per share by 3M Company in 2017? idx: 103
+{'id': '90'}
+{'id': '26'}
+{'id': '100'}
+{'id': '22'}
+{'id': '49'}
+
+
+--- Test: What was the balance of 3M Company's reacquired stock at December 31, 2016? idx: 103
+{'id': '102'}
+{'id': '49'}
+{'id': '20'}
+{'id': '22'}
+{'id': '156'}
+
+
+--- Test: How does 3M Company account for its Argentine subsidiaries in its financial statements, given Argentina's highly inflationary economy? idx: 109
+{'id': '109'}
+{'id': '107'}
+{'id': '108'}
+{'id': '72'}
+{'id': '61'}
+
+
+--- Test: What method does 3M use to determine the cost of securities sold from its marketable securities portfolio? idx: 109
+{'id': '210'}
+{'id': '213'}
+{'id': '186'}
+{'id': '86'}
+{'id': '110'}
+
+
+--- Test: How does 3M classify and record impairments associated with its marketable securities, and what is the impact on net income? idx: 109
+{'id': '110'}
+{'id': '78'}
+{'id': '213'}
+{'id': '76'}
+{'id': '217'}
+
+
+--- Test: How is the depreciation of property, plant and equipment generally computed? idx: 111
+{'id': '111'}
+{'id': '117'}
+{'id': '113'}
+{'id': '75'}
+{'id': '154'}
+
+
+--- Test: What is the initial measurement of a liability for an asset retirement obligation? idx: 111
+{'id': '111'}
+{'id': '73'}
+{'id': '193'}
+{'id': '124'}
+{'id': '213'}
+
+
+--- Test: How is goodwill defined in the context of an acquired entity? idx: 111
+{'id': '148'}
+{'id': '112'}
+{'id': '149'}
+{'id': '78'}
+{'id': '76'}
+
+
+--- Test: What is the amortization period for sales commissions incurred by 3M? idx: 116
+{'id': '116'}
+{'id': '144'}
+{'id': '54'}
+{'id': '145'}
+{'id': '99'}
+
+
+--- Test: How does 3M determine the allowance for doubtful accounts and product returns? idx: 116
+{'id': '115'}
+{'id': '217'}
+{'id': '116'}
+{'id': '76'}
+{'id': '78'}
+
+
+--- Test: What was the total amount spent by 3M on advertising and merchandising in 2018? idx: 116
+{'id': '68'}
+{'id': '54'}
+{'id': '145'}
+{'id': '11'}
+{'id': '49'}
+
+
+--- Test: How much did research and development expenses total in 2018? idx: 117
+{'id': '117'}
+{'id': '53'}
+{'id': '258'}
+{'id': '52'}
+{'id': '261'}
+
+
+--- Test: What is the typical amortization period for internal-use software costs? idx: 117
+{'id': '117'}
+{'id': '116'}
+{'id': '113'}
+{'id': '151'}
+{'id': '150'}
+
+
+--- Test: How are environmental expenditures for capital projects that contribute to current or future operations typically accounted for? idx: 117
+{'id': '117'}
+{'id': '111'}
+{'id': '85'}
+{'id': '72'}
+{'id': '127'}
+
+
+--- Test: How does the Company account for uncertainty regarding the realizability of its deferred tax assets? idx: 118
+{'id': '118'}
+{'id': '79'}
+{'id': '164'}
+{'id': '78'}
+{'id': '160'}
+
+
+--- Test: What is the effect of the Company's stock-based compensation plans on the calculation of diluted earnings per share? idx: 118
+{'id': '119'}
+{'id': '118'}
+{'id': '253'}
+{'id': '32'}
+{'id': '263'}
+
+
+--- Test: What was the net income attributable to 3M in 2018? idx: 118
+{'id': '33'}
+{'id': '26'}
+{'id': '34'}
+{'id': '262'}
+{'id': '25'}
+
+
+--- Test: What accounting standard does 3M follow for fair value measurements and disclosures? idx: 121
+{'id': '121'}
+{'id': '210'}
+{'id': '213'}
+{'id': '211'}
+{'id': '122'}
+
+
+--- Test: How did 3M adopt the new revenue recognition standard, ASC 606, and what was the impact on its retained earnings? idx: 121
+{'id': '136'}
+{'id': '23'}
+{'id': '131'}
+{'id': '121'}
+{'id': '123'}
+
+
+--- Test: What is the definition of fair value according to ASC 820, and what hierarchy is used for inputs used in measuring fair value? idx: 121
+{'id': '210'}
+{'id': '121'}
+{'id': '189'}
+{'id': '196'}
+{'id': '211'}
+
+
+--- Test: What is the effective date for 3M to adopt ASU No. 2018-08, Clarifying the Scope and the Accounting Guidance for Contributions Received and Contributions Made? idx: 132
+{'id': '132'}
+{'id': '128'}
+{'id': '133'}
+{'id': '135'}
+{'id': '131'}
+
+
+--- Test: How does ASU No. 2018-08 require business entities to recognize contribution expenses for conditional and unconditional arrangements? idx: 132
+{'id': '132'}
+{'id': '128'}
+{'id': '134'}
+{'id': '135'}
+{'id': '126'}
+
+
+--- Test: What is the impact of ASU No. 2018-10, Codification Improvements to Topic 842, Leases, on 3M's consolidated results of operations and financial condition? idx: 132
+{'id': '123'}
+{'id': '133'}
+{'id': '135'}
+{'id': '134'}
+{'id': '128'}
+
+
+--- Test: What were the net sales of 3M's Abrasives segment in 2018? idx: 137
+{'id': '137'}
+{'id': '63'}
+{'id': '54'}
+{'id': '37'}
+{'id': '65'}
+
+
+--- Test: Which business segment had the highest net sales in 2017? idx: 137
+{'id': '256'}
+{'id': '46'}
+{'id': '137'}
+{'id': '38'}
+{'id': '64'}
+
+
+--- Test: What were the total net sales of 3M's Safety and Graphics Business Group in 2016? idx: 137
+{'id': '65'}
+{'id': '66'}
+{'id': '37'}
+{'id': '54'}
+{'id': '7'}
+
+
+--- Test: What is the total worldwide net sales of 3M in 2016? idx: 140
+{'id': '54'}
+{'id': '63'}
+{'id': '66'}
+{'id': '68'}
+{'id': '48'}
+
+
+--- Test: How much did the Health Care segment of 3M generate in net sales in the United States in 2016? idx: 140
+{'id': '66'}
+{'id': '37'}
+{'id': '67'}
+{'id': '54'}
+{'id': '256'}
+
+
+--- Test: Which business segment of 3M had the highest net sales in Europe, Middle East and Africa in 2016? idx: 140
+{'id': '37'}
+{'id': '256'}
+{'id': '66'}
+{'id': '54'}
+{'id': '71'}
+
+
+--- Test: What was the total value of purchased identifiable finite-lived intangible assets related to acquisition activity in 2016? idx: 144
+{'id': '143'}
+{'id': '148'}
+{'id': '144'}
+{'id': '75'}
+{'id': '150'}
+
+
+--- Test: Why does 3M divest certain businesses from time to time? idx: 144
+{'id': '8'}
+{'id': '54'}
+{'id': '5'}
+{'id': '66'}
+{'id': '145'}
+
+
+--- Test: What was the pre-tax gain from the sale of certain personal safety product offerings to TSI, Inc. in February 2018? idx: 144
+{'id': '145'}
+{'id': '144'}
+{'id': '31'}
+{'id': '65'}
+{'id': '54'}
+
+
+--- Test: How much did 3M receive in cash proceeds from the sale of its Communication Markets Division to Corning Incorporated? idx: 145
+{'id': '145'}
+{'id': '54'}
+{'id': '57'}
+{'id': '86'}
+{'id': '144'}
+
+
+--- Test: What was the pre-tax gain recorded by 3M from the sale of its safety prescription eyewear business to HOYA Vision Care in 2017? idx: 145
+{'id': '145'}
+{'id': '66'}
+{'id': '54'}
+{'id': '146'}
+{'id': '144'}
+
+
+--- Test: Which company acquired 3M's identity management business in May 2017? idx: 145
+{'id': '8'}
+{'id': '66'}
+{'id': '146'}
+{'id': '141'}
+{'id': '67'}
+
+
+--- Test: What is the total balance of goodwill and other intangible assets as of December 31, 2018? idx: 149
+{'id': '148'}
+{'id': '101'}
+{'id': '178'}
+{'id': '154'}
+{'id': '149'}
+
+
+--- Test: How often is goodwill required to be tested for impairment according to accounting standards? idx: 149
+{'id': '112'}
+{'id': '76'}
+{'id': '78'}
+{'id': '149'}
+{'id': '111'}
+
+
+--- Test: Did 3M identify any goodwill impairment in 2016, 2017, or 2018? idx: 149
+{'id': '77'}
+{'id': '149'}
+{'id': '76'}
+{'id': '78'}
+{'id': '144'}
+
+
+--- Test: What is the total value of other current liabilities for 3M in the given financial statement? idx: 155
+{'id': '102'}
+{'id': '171'}
+{'id': '207'}
+{'id': '99'}
+{'id': '81'}
+
+
+--- Test: How many shares of common stock are authorized for 3M, and what is the par value per share? idx: 155
+{'id': '20'}
+{'id': '22'}
+{'id': '102'}
+{'id': '119'}
+{'id': '49'}
+
+
+--- Test: What were the total year declared and paid dividends per share for 3M in 2018? idx: 155
+{'id': '90'}
+{'id': '100'}
+{'id': '26'}
+{'id': '22'}
+{'id': '25'}
+
+
+--- Test: What is the total amount of deferred tax assets for 3M in 2017? idx: 160
+{'id': '159'}
+{'id': '166'}
+{'id': '118'}
+{'id': '79'}
+{'id': '163'}
+
+
+--- Test: How much is the valuation allowance for deferred tax assets in 2017? idx: 160
+{'id': '161'}
+{'id': '160'}
+{'id': '118'}
+{'id': '163'}
+{'id': '60'}
+
+
+--- Test: What is the net amount of deferred tax assets for 3M in 2018? idx: 160
+{'id': '159'}
+{'id': '163'}
+{'id': '166'}
+{'id': '33'}
+{'id': '118'}
+
+
+--- Test: What is the total valuation allowance provided by the Company against its deferred tax assets as of December 31, 2018? idx: 161
+{'id': '160'}
+{'id': '161'}
+{'id': '118'}
+{'id': '165'}
+{'id': '164'}
+
+
+--- Test: How long do federal tax attribute carryovers typically expire after? idx: 161
+{'id': '161'}
+{'id': '164'}
+{'id': '163'}
+{'id': '60'}
+{'id': '29'}
+
+
+--- Test: What was the statutory U.S. tax rate for the year 2018? idx: 161
+{'id': '162'}
+{'id': '60'}
+{'id': '29'}
+{'id': '163'}
+{'id': '28'}
+
+
+--- Test: What was the total value of 3M's marketable securities at December 31, 2018? idx: 167
+{'id': '167'}
+{'id': '82'}
+{'id': '86'}
+{'id': '213'}
+{'id': '80'}
+
+
+--- Test: How much of 3M's marketable securities were due to mature in one year or less as of December 31, 2018? idx: 167
+{'id': '167'}
+{'id': '86'}
+{'id': '80'}
+{'id': '81'}
+{'id': '173'}
+
+
+--- Test: Did 3M expect any material impact on its financial condition or liquidity due to its holdings in asset-backed securities? idx: 167
+{'id': '49'}
+{'id': '80'}
+{'id': '86'}
+{'id': '18'}
+{'id': '144'}
+
+
+--- Test: What is the fair value of plan assets for postretirement benefit plans at December 31, 2018? idx: 189
+{'id': '189'}
+{'id': '193'}
+{'id': '186'}
+{'id': '178'}
+{'id': '176'}
+
+
+--- Test: How are certain investments measured at fair value using the net asset value (NAV) per share, according to ASC 820-10? idx: 189
+{'id': '189'}
+{'id': '196'}
+{'id': '192'}
+{'id': '195'}
+{'id': '210'}
+
+
+--- Test: What is the total cash and cash equivalents held by the postretirement benefit plans at December 31, 2018? idx: 189
+{'id': '189'}
+{'id': '180'}
+{'id': '176'}
+{'id': '182'}
+{'id': '175'}
+
+
+--- Test: What is the total value of Equities in the pension plan assets for 2018? idx: 190
+{'id': '193'}
+{'id': '189'}
+{'id': '178'}
+{'id': '177'}
+{'id': '74'}
+
+
+--- Test: How much is invested in U.S. government securities in the Fixed Income category for 2017? idx: 190
+{'id': '190'}
+{'id': '187'}
+{'id': '188'}
+{'id': '194'}
+{'id': '169'}
+
+
+--- Test: What is the value of Partnership investments in the Private Equity category for 2018? idx: 190
+{'id': '188'}
+{'id': '190'}
+{'id': '194'}
+{'id': '191'}
+{'id': '187'}
+
+
+--- Test: How are the fair values of pension plan assets determined? idx: 193
+{'id': '193'}
+{'id': '186'}
+{'id': '189'}
+{'id': '196'}
+{'id': '176'}
+
+
+--- Test: What are the different asset classes held by international pension plans? idx: 193
+{'id': '193'}
+{'id': '186'}
+{'id': '197'}
+{'id': '179'}
+{'id': '185'}
+
+
+--- Test: How often are the asset allocations of international pension plans reviewed and rebalanced? idx: 193
+{'id': '193'}
+{'id': '186'}
+{'id': '74'}
+{'id': '185'}
+{'id': '50'}
+
+
+--- Test: What was the total pretax gain (loss) recognized in income from foreign currency forward/option contracts and interest rate swap contracts for the year ended December 31, 2018? idx: 200
+{'id': '200'}
+{'id': '204'}
+{'id': '203'}
+{'id': '205'}
+{'id': '96'}
+
+
+--- Test: How much ineffective portion of gain (loss) on derivative was recognized in cost of sales for the year ended December 31, 2017? idx: 200
+{'id': '200'}
+{'id': '201'}
+{'id': '204'}
+{'id': '205'}
+{'id': '137'}
+
+
+--- Test: What was the pretax gain (loss) recognized in income from interest rate swap contracts for the year ended December 31, 2016? idx: 200
+{'id': '200'}
+{'id': '201'}
+{'id': '199'}
+{'id': '204'}
+{'id': '203'}
+
+
+--- Test: What is the total amount of foreign currency denominated debt held by 3M as of December 31, 2016? idx: 205
+{'id': '80'}
+{'id': '89'}
+{'id': '88'}
+{'id': '171'}
+{'id': '205'}
+
+
+--- Test: Where are the gains and losses on derivative instruments not designated as hedging instruments recorded in 3M's consolidated statements of income? idx: 205
+{'id': '205'}
+{'id': '198'}
+{'id': '201'}
+{'id': '120'}
+{'id': '61'}
+
+
+--- Test: What was the gain (loss) on foreign currency forward/option contracts recognized in income for the year ended December 31, 2016? idx: 205
+{'id': '200'}
+{'id': '205'}
+{'id': '204'}
+{'id': '203'}
+{'id': '96'}
+
+
+--- Test: What types of claims and lawsuits is 3M involved in, according to the document? idx: 217
+{'id': '247'}
+{'id': '219'}
+{'id': '244'}
+{'id': '220'}
+{'id': '237'}
+
+
+--- Test: How does 3M determine whether to record liabilities for legal proceedings, and what guidance does it follow? idx: 217
+{'id': '217'}
+{'id': '18'}
+{'id': '79'}
+{'id': '247'}
+{'id': '115'}
+
+
+--- Test: What is 3M's policy on disclosing the amount of a possible loss or range of loss in excess of established accruals for legal proceedings? idx: 217
+{'id': '217'}
+{'id': '247'}
+{'id': '218'}
+{'id': '222'}
+{'id': '18'}
+
+
+--- Test: How much was 3M ordered to pay in damages to two coal miners in a Kentucky state court in 2018? idx: 220
+{'id': '220'}
+{'id': '237'}
+{'id': '247'}
+{'id': '245'}
+{'id': '219'}
+
+
+--- Test: What is the name of the disease that 3M believes is costlier to resolve in claims, along with other malignancies and black lung disease? idx: 220
+{'id': '220'}
+{'id': '219'}
+{'id': '221'}
+{'id': '222'}
+{'id': '237'}
+
+
+--- Test: In what year did the State of West Virginia file a complaint against 3M and two other manufacturers of respiratory protection products? idx: 220
+{'id': '220'}
+{'id': '221'}
+{'id': '219'}
+{'id': '237'}
+{'id': '244'}
+
+
+--- Test: What is the status of the lawsuit filed by the State of West Virginia against 3M regarding asbestos liabilities? idx: 221
+{'id': '220'}
+{'id': '221'}
+{'id': '219'}
+{'id': '237'}
+{'id': '240'}
+
+
+--- Test: How does 3M estimate its respirator mask/asbestos liabilities and what factors does it consider in this process? idx: 221
+{'id': '222'}
+{'id': '220'}
+{'id': '223'}
+{'id': '219'}
+{'id': '221'}
+
+
+--- Test: Why has 3M not recorded a liability for the West Virginia lawsuit, and what are the reasons for this decision? idx: 221
+{'id': '220'}
+{'id': '221'}
+{'id': '247'}
+{'id': '217'}
+{'id': '237'}
+
+
+--- Test: How much did 3M's Aearo subsidiary accrue for product liabilities and defense costs related to asbestos and silica-related claims as of December 31, 2018? idx: 223
+{'id': '223'}
+{'id': '222'}
+{'id': '247'}
+{'id': '224'}
+{'id': '219'}
+
+
+--- Test: What type of products did Aearo Technologies manufacture and sell, according to the text? idx: 223
+{'id': '223'}
+{'id': '224'}
+{'id': '9'}
+{'id': '6'}
+{'id': '225'}
+
+
+--- Test: How much was 3M's receivable for insurance recoveries related to respirator mask/asbestos litigation as of December 31, 2018? idx: 223
+{'id': '223'}
+{'id': '219'}
+{'id': '220'}
+{'id': '222'}
+{'id': '247'}
+
+
+--- Test: What are the new health-based values (HBVs) for PFOS and PFOA set by the Minnesota Department of Health (MDH) in May 2017? idx: 230
+{'id': '230'}
+{'id': '231'}
+{'id': '228'}
+{'id': '227'}
+{'id': '239'}
+
+
+--- Test: What actions did the EPA announce in May 2018 regarding perfluorinated compounds (PFAS)? idx: 230
+{'id': '228'}
+{'id': '230'}
+{'id': '227'}
+{'id': '231'}
+{'id': '239'}
+
+
+--- Test: What was the outcome of the reports published by the MDH in February 2018 regarding cancer rates and birth outcomes among residents of Washington and Dakota counties in Minnesota? idx: 230
+{'id': '245'}
+{'id': '237'}
+{'id': '230'}
+{'id': '229'}
+{'id': '246'}
+
+
+--- Test: What is the name of the water authority affected by PFAS contamination in Alabama? idx: 234
+{'id': '228'}
+{'id': '235'}
+{'id': '234'}
+{'id': '233'}
+{'id': '231'}
+
+
+--- Test: Which companies are being sued by plaintiffs for allegedly releasing PFAS into the Tennessee River? idx: 234
+{'id': '234'}
+{'id': '235'}
+{'id': '233'}
+{'id': '236'}
+{'id': '240'}
+
+
+--- Test: What type of relief are the plaintiffs seeking in their lawsuit against 3M, Dyneon, and Daikin America? idx: 234
+{'id': '235'}
+{'id': '245'}
+{'id': '244'}
+{'id': '237'}
+{'id': '234'}
+
+
+--- Test: What chemicals are alleged to have contaminated the water supplied by the West Morgan-East Lawrence Water and Sewer Authority? idx: 235
+{'id': '234'}
+{'id': '235'}
+{'id': '233'}
+{'id': '228'}
+{'id': '241'}
+
+
+--- Test: Who are the defendants in the "King" case filed in the U.S. District Court for the Northern District of Alabama in November 2017? idx: 235
+{'id': '235'}
+{'id': '233'}
+{'id': '232'}
+{'id': '234'}
+{'id': '236'}
+
+
+--- Test: What is the name of the wastewater treatment plant that allegedly discharged wastewater containing PFOA, PFOS, and related chemicals into the Tennessee River? idx: 235
+{'id': '234'}
+{'id': '235'}
+{'id': '228'}
+{'id': '233'}
+{'id': '230'}
+
+
+--- Test: What is the name of the act under which the State of Minnesota filed a lawsuit against 3M in December 2010 to recover damages for alleged injury to natural resources? idx: 236
+{'id': '237'}
+{'id': '236'}
+{'id': '245'}
+{'id': '247'}
+{'id': '243'}
+
+
+--- Test: In what year is the trial scheduled to begin in the lawsuit filed by the City of Lake Elmo against 3M for damages from drinking water supplies contaminated with PFAS? idx: 236
+{'id': '236'}
+{'id': '237'}
+{'id': '239'}
+{'id': '240'}
+{'id': '235'}
+
+
+--- Test: What is the name of the company that was sued by an individual plaintiff in the U.S. District Court for the Northern District of Alabama in September 2018 for allegations related to PFAS contamination? idx: 236
+{'id': '236'}
+{'id': '239'}
+{'id': '235'}
+{'id': '233'}
+{'id': '240'}
+
+
+--- Test: How much did Occidental Chemical Corporation estimate it would cost to remove and cap sediment containing PCBs and dioxins? idx: 242
+{'id': '242'}
+{'id': '229'}
+{'id': '243'}
+{'id': '237'}
+{'id': '230'}
+
+
+--- Test: What is the total amount of liabilities recorded by the Company for environmental remediation costs as of December 31, 2018? idx: 242
+{'id': '242'}
+{'id': '243'}
+{'id': '226'}
+{'id': '154'}
+{'id': '222'}
+
+
+--- Test: Over what period of time does the Company expect to pay the amounts recorded for environmental remediation costs? idx: 242
+{'id': '242'}
+{'id': '243'}
+{'id': '226'}
+{'id': '225'}
+{'id': '222'}
+
+
+--- Test: What is the total fair value of restricted stock and restricted stock units that vested during 2018? idx: 252
+{'id': '252'}
+{'id': '248'}
+{'id': '251'}
+{'id': '254'}
+{'id': '250'}
+
+
+--- Test: How much compensation expense related to non-vested restricted stock and restricted stock units has yet to be recognized as of December 31, 2018? idx: 252
+{'id': '252'}
+{'id': '248'}
+{'id': '250'}
+{'id': '249'}
+{'id': '254'}
+
+
+--- Test: What is the typical vesting period for restricted stock units granted by the Company? idx: 252
+{'id': '252'}
+{'id': '248'}
+{'id': '253'}
+{'id': '251'}
+{'id': '275'}
+
+
+--- Test: What is the weighted-average fair value per option granted by 3M during 2018? idx: 255
+{'id': '251'}
+{'id': '250'}
+{'id': '255'}
+{'id': '266'}
+{'id': '22'}
+
+
+--- Test: How many business segments does 3M manage its operations in, and what are they? idx: 255
+{'id': '5'}
+{'id': '8'}
+{'id': '37'}
+{'id': '260'}
+{'id': '256'}
+
+
+--- Test: What is the reason for the difference between operating income and pre-tax income in 3M's business segments? idx: 255
+{'id': '55'}
+{'id': '255'}
+{'id': '256'}
+{'id': '33'}
+{'id': '37'}
+
+
+--- Test: How did 3M's expansion of business alignment initiatives affect customer interactions with multiple 3M businesses? idx: 256
+{'id': '8'}
+{'id': '256'}
+{'id': '67'}
+{'id': '54'}
+{'id': '5'}
+
+
+--- Test: What was the impact of the centralization of manufacturing and supply technology platforms on the Electronics and Energy business segment's net sales and operating income in 2017? idx: 256
+{'id': '46'}
+{'id': '256'}
+{'id': '69'}
+{'id': '68'}
+{'id': '38'}
+
+
+--- Test: What accounting standard update did 3M adopt in 2018, and how did it affect the presentation of net periodic pension cost and net periodic postretirement benefit cost? idx: 256
+{'id': '59'}
+{'id': '176'}
+{'id': '127'}
+{'id': '51'}
+{'id': '52'}
+
+
+--- Test: What is the name of the trustee company for 3M's senior debt securities? idx: 268
+{'id': '268'}
+{'id': '81'}
+{'id': '305'}
+{'id': '307'}
+{'id': '173'}
+
+
+--- Test: What is the date of the 3M Company 2016 Long-Term Incentive Plan? idx: 268
+{'id': '269'}
+{'id': '268'}
+{'id': '270'}
+{'id': '247'}
+{'id': '271'}
+
+
+--- Test: Where can the Form of Performance Share Award Agreement for performance share awards granted under the 3M Company 2016 Long-Term Incentive Plan prior to February 5, 2018, be found? idx: 268
+{'id': '269'}
+{'id': '270'}
+{'id': '268'}
+{'id': '285'}
+{'id': '293'}
+
+
+--- Test: How long does an election under Section 4.1(a) remain in effect? idx: 279
+{'id': '279'}
+{'id': '278'}
+{'id': '277'}
+{'id': '296'}
+{'id': '282'}
+
+
+--- Test: How is interest calculated on Deferred Cash in a memorandum account? idx: 279
+{'id': '279'}
+{'id': '281'}
+{'id': '280'}
+{'id': '198'}
+{'id': '201'}
+
+
+--- Test: When are distributions made from a Deferred Cash memorandum account? idx: 279
+{'id': '281'}
+{'id': '279'}
+{'id': '280'}
+{'id': '278'}
+{'id': '296'}
+
+
+--- Test: What happens to amounts deferred under the Plan prior to the Effective Date? idx: 282
+{'id': '279'}
+{'id': '284'}
+{'id': '275'}
+{'id': '281'}
+{'id': '286'}
+
+
+--- Test: How will awards of Shares and DSUs be handled if the number of Shares available under the LTIP is not sufficient? idx: 282
+{'id': '275'}
+{'id': '281'}
+{'id': '282'}
+{'id': '296'}
+{'id': '295'}
+
+
+--- Test: Can the Board or Committee delegate its powers under the Plan to others, and if so, what restrictions apply? idx: 282
+{'id': '283'}
+{'id': '275'}
+{'id': '284'}
+{'id': '282'}
+{'id': '291'}
+
+
+--- Test: What is the vesting schedule for the shares granted under the 3M Company 2016 Long-Term Incentive Plan? idx: 285
+{'id': '270'}
+{'id': '269'}
+{'id': '268'}
+{'id': '285'}
+{'id': '253'}
+
+
+--- Test: What happens if a provision of the Plan is found to be invalid or unenforceable? idx: 285
+{'id': '303'}
+{'id': '292'}
+{'id': '285'}
+{'id': '291'}
+{'id': '284'}
+
+
+--- Test: How does a participant accept the award and agree to the terms and conditions of the Stock Issuance Award Agreement? idx: 285
+{'id': '285'}
+{'id': '294'}
+{'id': '288'}
+{'id': '291'}
+{'id': '286'}
+
+
+--- Test: What happens if a participant fails to comply with their tax-related obligations under the Plan? idx: 288
+{'id': '288'}
+{'id': '298'}
+{'id': '287'}
+{'id': '297'}
+{'id': '292'}
+
+
+--- Test: Can a participant sell, exchange, or dispose of the Shares before ceasing to serve as a member of the Board if the Award is part of their annual stock retainer? idx: 288
+{'id': '288'}
+{'id': '278'}
+{'id': '277'}
+{'id': '282'}
+{'id': '289'}
+
+
+--- Test: Who has the sole discretion to make decisions about future stock issuances or other grants under the Plan? idx: 288
+{'id': '275'}
+{'id': '285'}
+{'id': '288'}
+{'id': '299'}
+{'id': '294'}
+
+
+--- Test: What is the purpose of Section 409A in the Deferred Stock Unit Award Agreement? idx: 293
+{'id': '294'}
+{'id': '288'}
+{'id': '299'}
+{'id': '293'}
+{'id': '304'}
+
+
+--- Test: What are the governing law and venue for litigating disputes concerning the grant of shares or the Agreement? idx: 293
+{'id': '293'}
+{'id': '299'}
+{'id': '304'}
+{'id': '302'}
+{'id': '288'}
+
+
+--- Test: What is the responsibility of the Participant regarding compliance with insider trading restrictions and market abuse laws? idx: 293
+{'id': '304'}
+{'id': '293'}
+{'id': '292'}
+{'id': '303'}
+{'id': '290'}
+
+
+--- Test: What happens to the DSUs, Shares, and Dividend Equivalents in the event of certain changes or terminations? idx: 302
+{'id': '295'}
+{'id': '302'}
+{'id': '296'}
+{'id': '300'}
+{'id': '304'}
+
+
+--- Test: Can the Company assign its rights under the Agreement to another party? idx: 302
+{'id': '291'}
+{'id': '302'}
+{'id': '292'}
+{'id': '303'}
+{'id': '299'}
+
+
+--- Test: What is the relationship between the Plan and the Agreement in the event of inconsistencies between the two? idx: 302
+{'id': '291'}
+{'id': '302'}
+{'id': '292'}
+{'id': '284'}
+{'id': '303'}
+
+
+--- Test: What is the purpose of the Sarbanes-Oxley Section 906 Certification in the 3M Company's Annual Report? idx: 310
+{'id': '310'}
+{'id': '309'}
+{'id': '98'}
+{'id': '272'}
+{'id': '4'}
+
+
+--- Test: Who are the two executives that certified the 3M Company's Annual Report on Form 10-K for the period ended December 31, 2018? idx: 310
+{'id': '309'}
+{'id': '308'}
+{'id': '273'}
+{'id': '4'}
+{'id': '0'}
+
+
+--- Test: What type of information is required to be reported by the Company under Section 1503(a) of the Act, as disclosed in Exhibit 95? idx: 310
+{'id': '1'}
+{'id': '310'}
+{'id': '272'}
+{'id': '309'}
+{'id': '2'}
+Test correct, all: 136 186
