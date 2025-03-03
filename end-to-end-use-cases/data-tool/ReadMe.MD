@@ -110,17 +110,19 @@ All outputs are saved as UTF-8 txt files in `data/output/` unless otherwise set.
 └── README.md          # You are here
 ```
 
-## 🤖 Generate Q&A Pairs for Fine-tuning
+## Generate QA:
 
-Want to turn your documents into training data? After parsing, use the `generate_qa.py` script to create question-answer pairs using the Cerebras LLM API:
+After parsing your documents, the next step is to parse them into QA pairs:
+
+Use the `generate_qa.py` script to create using the Cerebras LLM API:
 
 ```bash
 # Set your API key first
 export CEREBRAS_API_KEY="your_key_here"
 
-# Generate QA pairs from a document in three steps:
-# 1. Summarize the document
-# 2. Generate question-answer pairs
+# This happens in 3 steps:
+# 1. Summarize the doc
+# 2. Generate QA
 # 3. Evaluate & filter based on relevance
 python src/generate_qa.py docs/report.pdf
 
@@ -132,32 +134,6 @@ python src/generate_qa.py docs/report.pdf --text-file data/output/report.txt
 
 # Save output to a specific directory
 python src/generate_qa.py docs/report.pdf --output-dir training_data/
-```
-
-### 📊 Sample Output
-
-The script outputs a JSON file with:
-- A comprehensive summary of the document
-- Question-answer pairs in a format ready for fine-tuning
-- Quality metrics about the generated pairs
-
-```jsonc
-{
-  "summary": "This document explains the principles of deep learning...",
-  
-  "qa_pairs": [
-    {"from": "user", "value": "What are the key components of a neural network?"},
-    {"from": "assistant", "value": "The key components of a neural network include..."},
-    // More Q&A pairs...
-  ],
-  
-  "metrics": {
-    "initial_pairs": 25,        // Total generated pairs
-    "filtered_pairs": 19,       // Pairs that passed quality check
-    "retention_rate": 0.76,     // Percentage kept
-    "average_relevance_score": 7.8  // Average quality score
-  }
-}
 ```
 
 ## Known bugs/sharp edges:
