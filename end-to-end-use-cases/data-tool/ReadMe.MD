@@ -27,44 +27,36 @@ TODO: Add TT links
 
 TODO: Supply requirements.txt file here instead
 
-### Dependencies
-
 ```bash
 # Install all dependencies at once
 pip install PyPDF2 python-docx beautifulsoup4 requests python-pptx yt-dlp youtube-transcript-api
 ```
 
-### Steps to run:
+### Complete Workflow:
 
-TODO: Add links here
+1. **Parse Documents**: Convert documents to plain text
+2. **Generate QA Pairs**: Create question-answer pairs from the text
+3. **Filter Quality**: Automatically filter for high-quality pairs
+4. **Fine-tune**: Use the pairs to fine-tune an LLM
 
-1. Clone TODO: Link
-2. Install TODO: req.txt
-3. Run the parser on your files
-4. Create prompt responses
-5. Filter low quality
-6. Load to TT 
+You can run these steps separately or combined (parsing + QA generation):
 
 ## How to use:
 
 ```bash
-# Parse a PDF (outputs to data/output/document.txt)
+# STEP 1: PARSING - Extract text from documents
 python src/main.py docs/report.pdf
-
-# Parse a website
-python src/main.py https://en.wikipedia.org/wiki/Artificial_intelligence
-
-# Get YouTube video transcripts
+python src/main.py URL (NO QOUTES)
 python src/main.py "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-
-# Custom output location
 python src/main.py docs/presentation.pptx -o my_training_data/
-
-# Specify the output filename
 python src/main.py docs/contract.docx -n legal_text_001.txt
+```
 
-# Use verbose mode for debugging
-python src/main.py weird_file.pdf -v
+```bash
+#Entire logic together
+export CEREBRAS_API_KEY="your_key_here"
+python src/main.py docs/report.pdf --generate-qa
+python src/main.py docs/report.pdf --generate-qa --qa-pairs 50 --qa-threshold 8.0 --qa-model "llama-3.1-70b"
 ```
 
 All outputs are saved as UTF-8 txt files in `data/output/` unless otherwise set.
@@ -81,7 +73,7 @@ All outputs are saved as UTF-8 txt files in `data/output/` unless otherwise set.
 - PDF extraction works best with digital PDFs, not scanned documents
 - All parsers include error handling to gracefully manage parsing failures
 
-## 📁 Project Layout
+## Structure
 
 ```
 .
@@ -107,33 +99,21 @@ All outputs are saved as UTF-8 txt files in `data/output/` unless otherwise set.
 │   ├── main.py        # CLI entry point
 │   └── generate_qa.py # Creates Q&A pairs from text
 │
-└── README.md          # You are here
+└── README.md
 ```
 
-## Generate QA:
+## QA Pairs Seperate
 
-After parsing your documents, the next step is to parse them into QA pairs:
-
-Use the `generate_qa.py` script to create using the Cerebras LLM API:
+If you want to seperately just run QA pair logic:
 
 ```bash
-# Set your API key first
 export CEREBRAS_API_KEY="your_key_here"
 
-# This happens in 3 steps:
-# 1. Summarize the doc
-# 2. Generate QA
-# 3. Evaluate & filter based on relevance
 python src/generate_qa.py docs/report.pdf
-
-# Customize the generation
 python src/generate_qa.py docs/report.pdf --num-pairs 30 --threshold 7.0
-
-# Skip parsing if you already have text
 python src/generate_qa.py docs/report.pdf --text-file data/output/report.txt
-
-# Save output to a specific directory
 python src/generate_qa.py docs/report.pdf --output-dir training_data/
+python src/generate_qa.py docs/report.pdf --model llama-3.1-70b-instruct
 ```
 
 ## Known bugs/sharp edges:
@@ -141,6 +121,54 @@ python src/generate_qa.py docs/report.pdf --output-dir training_data/
 - PDFs: Some PDFs are scanned images and need OCR. This is homework to users :)
 - YouTube: We assume videos have captions, if they don't, another task for readers :)
 
+## Mind map
+
+Here's how the document processing and QA generation pipeline works:
+
+```mermaid
+graph TD
+    A[Document/URL] --> B[main.py]
+    B --> C[src/parsers]
+    C --> D[PDF Parser]
+    C --> E[HTML Parser]
+    C --> F[YouTube Parser]
+    C --> G[DOCX Parser]
+    C --> H[PPT Parser]
+    C --> I[TXT Parser]
+    D & E & F & G & H & I --> J[Extracted Text]
+    
+    J --> K[generate_qa.py]
+    K --> L[src/utils]
+    L --> M[QAGenerator]
+    
+    M --> N[Document Summary]
+    M --> O[Generate QA Pairs]
+    M --> P[Rate & Filter QA Pairs]
+    
+    N & O & P --> Q[JSON Output]
+    Q --> R[QA Pairs for Fine-tuning]
+```
+
+### 📄 Module Dependencies
+
+- **main.py**: Entry point for document parsing
+  - Imports parsers from `src/parsers/`
+  - Optionally calls `generate_qa.py` when using `--generate-qa` flag
+  
+- **generate_qa.py**: Creates QA pairs from parsed text
+  - Imports `QAGenerator` from `src/utils/`
+  - Can be used standalone or called from `main.py`
+  
+- **src/utils/qa_generator.py**: Core QA generation logic
+  - Uses Cerebras API for LLM-based QA generation
+  - Implements three-stage pipeline:
+    1. **Document Summary**: Generates overview of document content
+    2. **QA Generation**: Creates pairs based on document chunks
+    3. **Quality Rating**: Evaluates and filters pairs by relevance
+  
+- **src/parsers/**: Document format-specific parsers
+  - Each parser implements `.parse()` and `.save()` methods
+  - All inherit common interface pattern for consistency
 
 --------
 
