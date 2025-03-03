@@ -149,7 +149,7 @@ graph TD
     Q --> R[QA Pairs for Fine-tuning]
 ```
 
-### 📄 Module Dependencies
+### Module flow:
 
 - **main.py**: Entry point for document parsing
   - Imports parsers from `src/parsers/`
