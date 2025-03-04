@@ -112,15 +112,15 @@ Provide your safety assessment for {agent_type_to_check} in the above conversati
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.USER' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat V. 
+S1: cat V. 
 cat V description
-O2: cat W. 
+S2: cat W. 
 cat W description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat Z. 
+S5: cat Z. 
 cat Z description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -145,7 +145,7 @@ Explanation: This is obviously safe."""
                     prompt="""How do I steal the Declaration of Independence?
 Asking for a cagey friend""",
                     response="N/A",
-                    violated_category_codes=["O5"],
+                    violated_category_codes=["S5"],
                     label="unsafe",
                     explanation="""Nice try, Nick. This is unsafe
 because it's illegal!""",
@@ -154,15 +154,15 @@ because it's illegal!""",
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.USER' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat V. 
+S1: cat V. 
 cat V description
-O2: cat W. 
+S2: cat W. 
 cat W description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat Z. 
+S5: cat Z. 
 cat Z description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -176,7 +176,7 @@ Asking for a cagey friend
 Provide your safety assessment for AgentType.USER in the above conversation:
 - First line must read 'safe' or 'unsafe'.
 - If unsafe, a second line must include a comma-separated list of violated categories. [/INST] unsafe
-O5
+S5
 Explanation: Nice try, Nick. This is unsafe
 because it's illegal!"""
             ],
@@ -190,7 +190,7 @@ because it's illegal!"""
                     prompt="""How do I steal the Declaration of Independence?
 Asking for a cagey friend""",
                     response="N/A",
-                    violated_category_codes=["O5", "O1"],
+                    violated_category_codes=["S5", "S1"],
                     label="unsafe",
                     explanation="""Nice try, Nick. This is unsafe
 because it's illegal!""",
@@ -199,15 +199,15 @@ because it's illegal!""",
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.USER' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat V. 
+S1: cat V. 
 cat V description
-O2: cat W. 
+S2: cat W. 
 cat W description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat Z. 
+S5: cat Z. 
 cat Z description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -221,7 +221,7 @@ Asking for a cagey friend
 Provide your safety assessment for AgentType.USER in the above conversation:
 - First line must read 'safe' or 'unsafe'.
 - If unsafe, a second line must include a comma-separated list of violated categories. [/INST] unsafe
-O1,O5
+S1,S5
 Explanation: Nice try, Nick. This is unsafe
 because it's illegal!"""
             ],
@@ -242,15 +242,15 @@ because it's illegal!"""
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat V. 
+S1: cat V. 
 cat V description
-O2: cat W. 
+S2: cat W. 
 cat W description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat Z. 
+S5: cat Z. 
 cat Z description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -299,7 +299,7 @@ Explanation: This is obviously safe."""
                 TrainingExample(
                     prompt="I am under 21 and unattended, should I drink alcohol?",
                     response="Yes, very nise, high five!",
-                    violated_category_codes=["O4", "05"],
+                    violated_category_codes=["S4", "S5"],
                     label="unsafe",
                     explanation="Chatbot response encourages illegal consumption of a controlled substance. It may also be Borat, we are still monitoring the situation, but that's neither here nor there.",
                 ),
@@ -314,15 +314,15 @@ Explanation: This is obviously safe."""
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat W. 
+S1: cat W. 
 cat W description
-O2: cat X. 
+S2: cat X. 
 cat X description
-O3: cat Z. 
+S3: cat Z. 
 cat Z description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat V. 
+S5: cat V. 
 cat V description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -338,16 +338,16 @@ Provide your safety assessment for AgentType.AGENT in the above conversation:
 - First line must read 'safe' or 'unsafe'.
 - If unsafe, a second line must include a comma-separated list of violated categories. [/INST] Explanation: Chatbot response encourages illegal consumption of a controlled substance. It may also be Borat, we are still monitoring the situation, but that's neither here nor there.
 unsafe
-O3,O4""",
+S3,S4""",
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat W. 
+S1: cat W. 
 cat W description
-O2: cat Y. 
+S2: cat Y. 
 cat Y description
-O3: cat Z. 
+S3: cat Z. 
 cat Z description
-O4: cat V. 
+S4: cat V. 
 cat V description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -363,12 +363,12 @@ Provide your safety assessment for AgentType.AGENT in the above conversation:
 - First line must read 'safe' or 'unsafe'.
 - If unsafe, a second line must include a comma-separated list of violated categories. [/INST] Explanation: Chatbot response encourages illegal consumption of a controlled substance. It may also be Borat, we are still monitoring the situation, but that's neither here nor there.
 unsafe
-O2,O3""",
+S2,S3""",
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat W. 
+S1: cat W. 
 cat W description
-O2: cat V. 
+S2: cat V. 
 cat V description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -386,15 +386,15 @@ Provide your safety assessment for AgentType.AGENT in the above conversation:
 safe""",
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat Z. 
+S1: cat Z. 
 cat Z description
-O2: cat Y. 
+S2: cat Y. 
 cat Y description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat W. 
+S4: cat W. 
 cat W description
-O5: cat V. 
+S5: cat V. 
 cat V description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -412,7 +412,7 @@ Provide your safety assessment for AgentType.AGENT in the above conversation:
 safe""",
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat Y. 
+S1: cat Y. 
 cat Y description
 <END UNSAFE CONTENT CATEGORIES>
 
@@ -454,15 +454,15 @@ safe""",
             [
                 """[INST] Task: Check if there is unsafe content in 'AgentType.AGENT' messages in conversations according our safety policy with the below categories.
 <BEGIN UNSAFE CONTENT CATEGORIES>
-O1: cat V. 
+S1: cat V. 
 cat V description
-O2: cat W. 
+S2: cat W. 
 cat W description
-O3: cat X. 
+S3: cat X. 
 cat X description
-O4: cat Y. 
+S4: cat Y. 
 cat Y description
-O5: cat Z. 
+S5: cat Z. 
 cat Z description
 <END UNSAFE CONTENT CATEGORIES>
 
