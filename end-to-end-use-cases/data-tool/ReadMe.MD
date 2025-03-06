@@ -138,7 +138,14 @@ graph TD
     D & E & F & G & H & I --> J[Extracted Text]
     
     J --> K[generate_qa.py]
+    J --> KK[dpo.py]
+    J --> KL[summarization.py]
+    J --> KM[alpaca.py]
+
     K --> L[src/utils]
+    KK --> L[src/utils]
+    KL --> L[src/utils]
+    KM--> L[src/utils]
     L --> M[QAGenerator]
     
     M --> N[Document Summary]
