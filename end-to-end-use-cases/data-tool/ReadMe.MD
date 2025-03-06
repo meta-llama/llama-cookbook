@@ -142,11 +142,10 @@ graph TD
     J --> KL[summarization.py]
     J --> KM[alpaca.py]
 
-    K --> L[src/utils]
-    KK --> L[src/utils]
-    KL --> L[src/utils]
-    KM--> L[src/utils]
-    L --> M[QAGenerator]
+    K --> M[Data Generation]
+    KK --> M[Data Generation]
+    KL --> M[Data Generation]
+    KM--> M[Data Generation]
     
     M --> N[Document Summary]
     M --> O[Generate QA Pairs]
