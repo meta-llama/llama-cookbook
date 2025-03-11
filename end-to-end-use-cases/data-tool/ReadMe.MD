@@ -137,13 +137,17 @@ graph TD
     C --> I[TXT Parser]
     D & E & F & G & H & I --> J[Extracted Text]
     
-    J --> K[generate_qa.py]
-    J --> KK[WIP dpo.py]
-    J --> KL[WIP summarization.py]
-    J --> KM[WIP alpaca.py]
+    J --> K[Generate_QA]
+    J --> KKK[Synthetic Reasoning]
+    J --> KK[DPO Formatting]
+    J --> KLL[GRPO Formatting]
+    J --> KL[Summarization Formatting]
+    J --> KM[Alpaca Format]
 
     K --> M[Data Generation]
+    KKK --> M[Data Generation]
     KK --> M[Data Generation]
+    KLL --> M[Data Generation]
     KL --> M[Data Generation]
     KM--> M[Data Generation]
     
