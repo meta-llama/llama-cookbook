@@ -1,11 +1,6 @@
 # Llama Cookbook: The Official Guide to building with Llama Models
 
-<<<<<<< HEAD
 Checkout our latest model tutorial here: [Build with Llama 4 Scout](./getting-started/build_with_llama_4.ipynb)
-=======
-Checkout our latest model tutorial here:
-> * [Build with Llama 4 Scout](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/build_with_Llama_4.ipynb)
->>>>>>> be7060f (Update README.md)
 
 Welcome to the official repository for helping you get started with [inference](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/inference/), [fine-tuning](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/finetuning) and [end-to-end use-cases](https://github.com/meta-llama/llama-cookbook/tree/main/end-to-end-use-cases) of building with the Llama Model family.
 
@@ -13,16 +8,7 @@ This repository covers the most popular community approaches, use-cases and the 
 
 > [!TIP]
 > Popular getting started links:
-<<<<<<< HEAD
-<<<<<<< HEAD
 > * [Build with Llama 4 Scout](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/build_with_llama_4.ipynb)
-=======
-> * [Llama 4 Scout Prompts](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/llama_4_prompt_examples.ipynb)
-> * [Build with Llama 3.2 Tutorial](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/build_with_Llama_3_2.ipynb)
->>>>>>> c2e2c59 (Update README.md with link to l4 notebook)
-=======
-> * [Build with Llama 4 Scout](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/build_with_Llama_4.ipynb)
->>>>>>> be7060f (Update README.md)
 > * [Multimodal Inference with Llama 3.2 Vision](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/inference/local_inference/README.md#multimodal-inference)
 > * [Inferencing using Llama Guard (Safety Model)](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/responsible_ai/llama_guard/)
 
