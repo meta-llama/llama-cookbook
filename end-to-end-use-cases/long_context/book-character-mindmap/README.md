@@ -1,6 +1,6 @@
 # Book Character Mindmap
 
-[![thumbnail](https://github.com/user-attachments/assets/11c6f1f3-59db-4638-9b1a-68f1d25efec4)](https://youtu.be/DL4-DswxfEM)
+![Book Character Mindmap](public/mindmap.png)
 
 Book Mind is a web application that allows users to explore character relationships and storylines in books using AI-powered visualizations.
 This leverages Llama 4's impressive 10M token context window to process entire books at once, enabling comprehensive analysis of complex narratives and character relationships across lengthy texts.
