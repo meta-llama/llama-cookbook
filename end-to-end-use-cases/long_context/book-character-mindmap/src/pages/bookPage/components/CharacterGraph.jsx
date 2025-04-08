@@ -30,18 +30,6 @@ export default function CharacterGraph({ graphData }) {
       <div ref={containerRef} className="w-full h-[600px]">
         <ForceGraph2D
           graphData={graphData}
-          // d3Force={(engine) => {
-          //   engine.force('charge').strength(-300); // Increase repulsion (negative value)
-          //   engine.force('link').distance(200);    // Increase link distance
-          // }}
-          d3Force={(engine) => {
-            // Make sure the forces exist before modifying them
-            if (engine.force('charge')) engine.force('charge').strength(-500);
-            if (engine.force('link')) engine.force('link').distance(300);
-
-            // // Add a center force to keep nodes in view
-            // engine.force('center', d3.forceCenter(dimensions.width/2, dimensions.height/2));
-          }}
           nodeCanvasObject={(node, ctx, globalScale) => {
             // Draw node
             ctx.beginPath();
