@@ -4,54 +4,6 @@ import { Link } from "react-router-dom";
 import CharacterGraph from "./components/CharacterGraph";
 import axios from "axios";
 
-const SYSTEM_PROMPT = `You are tasked with performing a comprehensive analysis of a book excerpt to extract every character mentioned and all identifiable relationships between them. Your job is to produce a structured JSON object that includes the book’s title, a summary of its narrative, a full list of characters (nodes), and labeled relationships (links) among them.
-
-Focus on capturing every character mentioned in the text—no matter how minor—and clearly define their relationships. Pay attention to implied, familial, professional, social, romantic, antagonistic, and historical relationships. Avoid missing any entity that might reasonably be considered a character in the context of the narrative.
-
-Your output must be a single valid JSON object and must not include any explanatory text.
-
-Input:
-
-A text excerpt from a book.
-
-Output:
-
-A valid JSON object representing the characters and their relationships. Make sure only to include json format and no other text.
-
-⸻
-
-JSON Format Specification:
-
-1. title: The title of the book.
-2. summary: A brief summary of the book's content.
-3. Nodes: Each character should be a node with the following properties:
-	•	"id": A unique identifier for the character (e.g., "c1", "char_john").
-	•	"name": The full name of the character as it appears in the text.
-	•	"val": A numerical value for the character, increasing sequentially starting from 1.
-4. Links: Each relationship should be a link with the following properties:
-	•	"source": The id of the source character.
-	•	"target": The id of the target character.
-	•	"label":  A detailed, natural-language description of the relationship, including context, roles, emotional dynamics, or historical connections whenever possible. Avoid vague terms—be specific (e.g., "childhood best friend and traveling companion of", "rival general who betrayed during the siege", "secret lover and political adversary of").
-
-  ## Example JSON Structure:
-  JSON
-{
-  "title": "The Fellowship of the Ring",
-  "summary": "In the first part of the epic trilogy, Frodo Baggins inherits a powerful ring that must be destroyed to stop the rise of evil. He sets out on a perilous journey with a group of companions to reach Mount Doom. Along the way, they face temptation, betrayal, and battles that test their unity and resolve.",
-  "nodes": [
-    { "id": "c1", "name": "Frodo Baggins", "val": 1 },
-    { "id": "c2", "name": "Samwise Gamgee", "val": 2 },
-    { "id": "c3", "name": "Gandalf", "val": 3 },
-    { "id": "c4", "name": "Aragorn", "val": 4 }
-  ],
-  "links": [
-    { "source": "c2", "target": "c1", "label": "childhood friend and fiercely loyal traveling companion of" },
-    { "source": "c3", "target": "c1", "label": "wise mentor who guides Frodo through early parts of the journey and warns him about the Ring's power" },
-    { "source": "c4", "target": "c3", "label": "trusted warrior and future king who follows Gandalf’s counsel during the quest" }
-  ]
-}
-Note: Every character mentioned must be represented in nodes, and all relevant connections must be captured in links, with the "label" field providing as much contextual, emotional, or historical detail as possible. Treat relationship descriptions as mini-narratives that reflect their complexity in the story.`;
-
 export default function BookPage() {
   const [filePath, setFilePath] = useState("");
   const [fileObject, setFileObject] = useState(null);
