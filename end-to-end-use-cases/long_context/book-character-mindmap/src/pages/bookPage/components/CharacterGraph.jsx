@@ -51,7 +51,7 @@ export default function CharacterGraph({ graphData }) {
 
             // Always show node label
             const label = node.name;
-            const fontSize = 12 / globalScale;
+            const fontSize = 20 / globalScale;
             ctx.font = `${fontSize}px Arial`;
             const textWidth = ctx.measureText(label).width;
             const bckgDimensions = [textWidth, fontSize].map(
@@ -90,7 +90,7 @@ export default function CharacterGraph({ graphData }) {
             ctx.moveTo(start.x, start.y);
             ctx.lineTo(end.x, end.y);
             ctx.strokeStyle = "#9ca3af";
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
 
             // Only draw label if link is hovered
@@ -107,7 +107,7 @@ export default function CharacterGraph({ graphData }) {
               const textWidth = ctx.measureText(link.label).width;
               const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2);
 
-              ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
               ctx.fillRect(
                 textPos.x - bckgDimensions[0] / 2,
                 textPos.y - bckgDimensions[1] / 2,
