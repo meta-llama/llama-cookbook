@@ -64,6 +64,7 @@ export default function BookPage() {
   const [graphData, setGraphData] = useState(null);
   const [bookData, setBookData] = useState(null);
   const [searchComplete, setSearchComplete] = useState(false);
+  const debug = false;
 
   const readFileContent = async (file) => {
     try {
@@ -138,37 +139,85 @@ export default function BookPage() {
       console.log("fileContent", fileContent)
       // const queryResult = await submitQuery(fileContent);
       const queryResultString = await submitQuery(fileContent);
-      const queryResult = JSON.parse(queryResultString.replace(/^```json|```$/g, ""));
-      // const queryResult = JSON.parse(`{
-      //   "title": "The Reunion",
-      //   "summary": "A group of friends reunite in their hometown five years after high school, rekindling their old relationships and navigating changes in their lives.",
-      //   "nodes": [
-      //     { "id": "c1", "name": "Alex Chen", "val": 10 },
-      //     { "id": "c2", "name": "Emily Patel", "val": 10 },
-      //     { "id": "c3", "name": "Jake Lee", "val": 10 },
-      //     { "id": "c4", "name": "Sarah Kim", "val": 10 }
-      //   ],
-      //   "links": [
-      //     { "source": "c1", "target": "c2", "label": "best friends with" },
-      //     { "source": "c1", "target": "c3", "label": "friends with" },
-      //     { "source": "c1", "target": "c4", "label": "friends with" },
-      //     { "source": "c2", "target": "c3", "label": "friends with" },
-      //     { "source": "c2", "target": "c4", "label": "friends with" },
-      //     { "source": "c3", "target": "c4", "label": "dating" },
-      //     { "source": "c3", "target": "c1", "label": "friends with" },
-      //     { "source": "c4", "target": "c1", "label": "friends with" },
-      //     { "source": "c4", "target": "c2", "label": "friends with" }
-      //   ]
-      // }`);
+      let cleanedResponse = queryResultString.replace(/```(?:json)?|```/g, "").trim();
 
-      // setBookData({
-      //   title: bookInfo.title,
-      //   subtitle: bookInfo.summary,
-      //   posterUrl: bookInfo.coverUrl,
-      //   author: bookInfo.author,
-      //   publishedDate: bookInfo.publishedDate,
-      //   pageCount: bookInfo.pageCount,
-      // });
+      // Handle potential leading/trailing backticks that might remain
+      if (cleanedResponse.startsWith('`')) {
+        cleanedResponse = cleanedResponse.substring(1);
+      }
+      if (cleanedResponse.endsWith('`')) {
+        cleanedResponse = cleanedResponse.substring(0, cleanedResponse.length - 1);
+      }
+
+      const queryResult = JSON.parse(cleanedResponse);
+
+      // Result of Maverick
+      if (debug) {
+        const queryResult = JSON.parse(`{
+          "title": "Romeo and Juliet",
+          "summary": "The tragic love story of Romeo and Juliet, two young lovers from feuding families in Verona, who ultimately sacrifice everything for their love.",
+          "nodes": [
+            { "id": "c1", "name": "Romeo Montague", "val": 1 },
+            { "id": "c2", "name": "Juliet Capulet", "val": 2 },
+            { "id": "c3", "name": "Friar Laurence", "val": 3 },
+            { "id": "c4", "name": "Tybalt", "val": 4 },
+            { "id": "c5", "name": "Mercutio", "val": 5 },
+            { "id": "c6", "name": "Benvolio", "val": 6 },
+            { "id": "c7", "name": "Lord Capulet", "val": 7 },
+            { "id": "c8", "name": "Lady Capulet", "val": 8 },
+            { "id": "c9", "name": "Lord Montague", "val": 9 },
+            { "id": "c10", "name": "Lady Montague", "val": 10 },
+            { "id": "c11", "name": "Paris", "val": 11 },
+            { "id": "c12", "name": "Nurse", "val": 12 },
+            { "id": "c13", "name": "Prince Escalus", "val": 13 },
+            { "id": "c14", "name": "Sampson", "val": 14 },
+            { "id": "c15", "name": "Gregory", "val": 15 },
+            { "id": "c16", "name": "Abram", "val": 16 },
+            { "id": "c17", "name": "Balthasar", "val": 17 },
+            { "id": "c18", "name": "Peter", "val": 18 },
+            { "id": "c19", "name": "Apothecary", "val": 19 },
+            { "id": "c20", "name": "Chorus", "val": 20 },
+            { "id": "c21", "name": "Friar John", "val": 21 },
+            { "id": "c22", "name": "County Paris's Page", "val": 22 }
+          ],
+          "links": [
+            { "source": "c1", "target": "c2", "label": "secretly married to" },
+            { "source": "c1", "target": "c5", "label": "close friend of" },
+            { "source": "c1", "target": "c6", "label": "cousin and friend of" },
+            { "source": "c1", "target": "c4", "label": "sworn enemy of" },
+            { "source": "c2", "target": "c7", "label": "daughter of" },
+            { "source": "c2", "target": "c8", "label": "daughter of" },
+            { "source": "c2", "target": "c12", "label": "nursed by" },
+            { "source": "c3", "target": "c1", "label": "married Romeo and Juliet" },
+            { "source": "c4", "target": "c8", "label": "nephew of" },
+            { "source": "c5", "target": "c13", "label": "kinsman of" },
+            { "source": "c5", "target": "c1", "label": "friend of" },
+            { "source": "c6", "target": "c9", "label": "nephew of" },
+            { "source": "c6", "target": "c1", "label": "cousin and friend of" },
+            { "source": "c7", "target": "c2", "label": "father of" },
+            { "source": "c7", "target": "c8", "label": "husband of" },
+            { "source": "c8", "target": "c2", "label": "mother of" },
+            { "source": "c8", "target": "c7", "label": "wife of" },
+            { "source": "c8", "target": "c4", "label": "aunt of" },
+            { "source": "c9", "target": "c1", "label": "father of" },
+            { "source": "c9", "target": "c10", "label": "husband of" },
+            { "source": "c10", "target": "c9", "label": "wife of" },
+            { "source": "c11", "target": "c2", "label": "suitor of" },
+            { "source": "c12", "target": "c2", "label": "nurse of" },
+            { "source": "c14", "target": "c7", "label": "servant of" },
+            { "source": "c15", "target": "c7", "label": "servant of" },
+            { "source": "c16", "target": "c9", "label": "servant of" },
+            { "source": "c17", "target": "c1", "label": "servant of" },
+            { "source": "c18", "target": "c12", "label": "servant of" },
+            { "source": "c1", "target": "c11", "label": "killed by" },
+            { "source": "c4", "target": "c5", "label": "killed by" },
+            { "source": "c1", "target": "c4", "label": "killed" },
+            { "source": "c2", "target": "c1", "label": "loved" },
+            { "source": "c2", "target": "c11", "label": "betrothed to" },
+            { "source": "c1", "target": "c2", "label": "loved" }
+          ]
+        }`);
+      }
 
       setBookData({
         title: queryResult.title,
