@@ -6,6 +6,7 @@ export default function CharacterGraph({ graphData }) {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 600 });
   const [hoveredLink, setHoveredLink] = useState(null);
+  const fgRef = useRef();
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -29,6 +30,7 @@ export default function CharacterGraph({ graphData }) {
       </h2>
       <div ref={containerRef} className="w-full h-[600px]">
         <ForceGraph2D
+          ref={fgRef}
           graphData={graphData}
           nodeCanvasObject={(node, ctx, globalScale) => {
             // Draw node
@@ -101,11 +103,18 @@ export default function CharacterGraph({ graphData }) {
               ctx.fillText(link.label, textPos.x, textPos.y);
             }
           }}
-          linkColor={() => "#9ca3af"}
+          onNodeDragEnd={node => {
+            node.fx = node.x;
+            node.fy = node.y;
+          }}
+          linkDirectionalArrowLength={3.5}
+          linkDirectionalArrowRelPos={3}
           linkWidth={1}
           backgroundColor="#ffffff"
           width={dimensions.width}
           height={dimensions.height}
+          onEngineStop={() => fgRef.current.zoomToFit(600)}
+          cooldownTicks={100}
         />
       </div>
     </div>
