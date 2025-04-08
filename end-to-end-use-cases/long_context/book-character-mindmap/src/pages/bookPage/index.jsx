@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaSearch, FaBook, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import AISearch from "./components/AISearch";
 import CharacterGraph from "./components/CharacterGraph";
 import Together from "together-ai";
 
