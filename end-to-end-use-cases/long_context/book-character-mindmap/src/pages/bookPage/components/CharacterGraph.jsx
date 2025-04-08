@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import ForceGraph2D from "react-force-graph-2d";
-// import * as d3 from 'd3';
 
 export default function CharacterGraph({ graphData }) {
   const containerRef = useRef(null);
@@ -33,12 +32,6 @@ export default function CharacterGraph({ graphData }) {
           ref={fgRef}
           graphData={graphData}
           nodeCanvasObject={(node, ctx, globalScale) => {
-            // Draw node
-            ctx.beginPath();
-            ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = "transparent";
-            ctx.fill();
-
             // Always show node label
             const label = node.name;
             const fontSize = 20 / globalScale;
