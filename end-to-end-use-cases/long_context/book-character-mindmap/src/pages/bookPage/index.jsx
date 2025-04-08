@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaSearch, FaBook, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CharacterGraph from "./components/CharacterGraph";
-import Together from "together-ai";
+import axios from "axios";
 
 const SYSTEM_PROMPT = `You are tasked with performing a comprehensive analysis of a book excerpt to extract every character mentioned and all identifiable relationships between them. Your job is to produce a structured JSON object that includes the book’s title, a summary of its narrative, a full list of characters (nodes), and labeled relationships (links) among them.
 
@@ -52,10 +52,6 @@ JSON Format Specification:
 }
 Note: Every character mentioned must be represented in nodes, and all relevant connections must be captured in links, with the "label" field providing as much contextual, emotional, or historical detail as possible. Treat relationship descriptions as mini-narratives that reflect their complexity in the story.`;
 
-const together = new Together({
-  apiKey: process.env.REACT_APP_TOGETHER_API_KEY
-});
-
 export default function BookPage() {
   const [filePath, setFilePath] = useState("");
   const [fileObject, setFileObject] = useState(null);
@@ -82,21 +78,17 @@ export default function BookPage() {
 
   const submitQuery = async (query) => {
     try {
-      const response = await together.chat.completions.create({
-        model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-        max_tokens: 8192,
-        messages: [{
-          role: "system",
-          content: SYSTEM_PROMPT
-        },
-        {
-          role: "user",
-          content: query
-        }]
+      // Create FormData to send the file
+      const formData = new FormData();
+      formData.append('file', fileObject);
+
+      const response = await axios.post("http://localhost:5001/inference", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
-      console.log("Response:", response.choices[0].message.content);
-      setTokenUsage(response.usage.prompt_tokens);
-      return response.choices[0].message.content;
+      setTokenUsage(response.data.usage?.prompt_tokens || 0);
+      return response.data.response;
     } catch (error) {
       console.error("Error submitting query:", error);
       return "Sorry, I couldn't generate a response.";
