@@ -102,7 +102,7 @@ export default function CharacterGraph({ graphData }) {
             node.fy = node.y;
           }}
           linkDirectionalArrowLength={3.5}
-          linkDirectionalArrowRelPos={3}
+          linkDirectionalArrowRelPos={1}
           linkWidth={1}
           backgroundColor="#ffffff"
           width={dimensions.width}
