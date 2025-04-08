@@ -31,6 +31,7 @@ export default function CharacterGraph({ graphData }) {
         <ForceGraph2D
           ref={fgRef}
           graphData={graphData}
+          nodeAutoColorBy="val"
           nodeCanvasObject={(node, ctx, globalScale) => {
             // Always show node label
             const label = node.name;
@@ -43,7 +44,7 @@ export default function CharacterGraph({ graphData }) {
 
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillStyle = "#3b82f6";
+            ctx.fillStyle = node.color;
             ctx.fillText(label, node.x, node.y);
 
             node.__bckgDimensions = bckgDimensions;
