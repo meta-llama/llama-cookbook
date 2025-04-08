@@ -130,14 +130,7 @@ export default function BookPage() {
 
     setIsLoading(true);
     try {
-      // Initialize memory and fetch book data in parallel
-      // const [memoryResponse, bookInfo] = await Promise.all([
-      //   initializeMemory(filePath),
-      //   fetchBookData(filePath),
-      // ]);
       const fileContent = await readFileContent(fileObject);
-      console.log("fileContent", fileContent)
-      // const queryResult = await submitQuery(fileContent);
       const queryResultString = await submitQuery(fileContent);
       let cleanedResponse = queryResultString.replace(/```(?:json)?|```/g, "").trim();
 
@@ -241,58 +234,6 @@ export default function BookPage() {
       setIsLoading(false);
     }
   };
-  // Add new function to fetch book cover
-  // const fetchBookData = async (bookTitle) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.googleapis.com/books/v1/volumes`,
-  //       {
-  //         params: {
-  //           q: bookTitle,
-  //           key: process.env.REACT_APP_GOOGLE_BOOKS_API_KEY,
-  //         },
-  //       }
-  //     );
-
-  //     if (response.data.items && response.data.items[0]) {
-  //       const volumeInfo = response.data.items[0].volumeInfo;
-  //       const imageLinks = volumeInfo.imageLinks || {};
-
-  //       return {
-  //         coverUrl:
-  //           imageLinks.extraLarge ||
-  //           imageLinks.large ||
-  //           imageLinks.medium ||
-  //           imageLinks.thumbnail ||
-  //           "/placeholder.jpg",
-  //         summary: volumeInfo.description || "No summary available",
-  //         title: volumeInfo.title,
-  //         author: volumeInfo.authors?.[0] || "Unknown Author",
-  //         publishedDate: volumeInfo.publishedDate,
-  //         pageCount: volumeInfo.pageCount,
-  //       };
-  //     }
-
-  //     return {
-  //       coverUrl: "/placeholder.jpg",
-  //       summary: "No summary available",
-  //       title: bookTitle,
-  //       author: "Unknown Author",
-  //       publishedDate: "",
-  //       pageCount: 0,
-  //     };
-  //   } catch (error) {
-  //     console.error("Error fetching book data:", error);
-  //     return {
-  //       coverUrl: "/placeholder.jpg",
-  //       summary: "Failed to load book information",
-  //       title: bookTitle,
-  //       author: "Unknown Author",
-  //       publishedDate: "",
-  //       pageCount: 0,
-  //     };
-  //   }
-  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-16 px-4 sm:px-6 lg:px-8">
@@ -382,13 +323,6 @@ export default function BookPage() {
           <div className="space-y-8">
             <div className="bg-white shadow-xl rounded-xl overflow-hidden">
               <div className="md:flex">
-                <div className="md:flex-shrink-0">
-                  <img
-                    src={bookData.posterUrl}
-                    alt={bookData.title}
-                    className="h-48 w-full object-cover md:h-full md:w-48"
-                  />
-                </div>
                 <div className="p-8">
                   <div className="flex items-center">
                     <FaBook className="text-blue-500 mr-2" />
@@ -399,15 +333,9 @@ export default function BookPage() {
                   <p className="mt-2 text-gray-600">{bookData.subtitle}</p>
                 </div>
               </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl p-6">
-                <AISearch bookTitle={bookData.title} />
               </div>
               <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl p-6">
                 <CharacterGraph graphData={graphData} />
-              </div>
             </div>
           </div>
         )}
