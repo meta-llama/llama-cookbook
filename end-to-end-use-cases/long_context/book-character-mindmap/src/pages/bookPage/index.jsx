@@ -83,8 +83,7 @@ export default function BookPage() {
   const submitQuery = async (query) => {
     try {
       const response = await together.chat.completions.create({
-        // model: "Llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-        model: "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
         messages: [{
           role: "system",
           content: SYSTEM_PROMPT
@@ -333,8 +332,8 @@ export default function BookPage() {
                   <p className="mt-2 text-gray-600">{bookData.subtitle}</p>
                 </div>
               </div>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl p-6">
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl p-6">
                 <CharacterGraph graphData={graphData} />
             </div>
           </div>
