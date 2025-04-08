@@ -5,6 +5,7 @@ export default function CharacterGraph({ graphData }) {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 600 });
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [showAllLabels, setShowAllLabels] = useState(false);
   const fgRef = useRef();
 
   useEffect(() => {
@@ -24,9 +25,17 @@ export default function CharacterGraph({ graphData }) {
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Character Relationship Graph
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-800">
+          Character Relationship Graph
+        </h2>
+        <button
+          onClick={() => setShowAllLabels(!showAllLabels)}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {showAllLabels ? "Hide Labels" : "Show All Labels"}
+        </button>
+      </div>
       <div ref={containerRef} className="w-full h-[600px]">
         <ForceGraph2D
           ref={fgRef}
@@ -72,7 +81,7 @@ export default function CharacterGraph({ graphData }) {
 
             // Only draw label if link is hovered
             const linkId = `${link.source.id}-${link.target.id}`;
-            if (hoveredLink === linkId && link.label) {
+            if ((showAllLabels || hoveredLink === linkId) && link.label) {
               const textPos = {
                 x: start.x + (end.x - start.x) / 2,
                 y: start.y + (end.y - start.y) / 2
