@@ -1,0 +1,42 @@
+# Book Character Mindmap
+
+[![thumbnail](https://github.com/user-attachments/assets/11c6f1f3-59db-4638-9b1a-68f1d25efec4)](https://youtu.be/DL4-DswxfEM)
+
+Book Mind is a web application that allows users to explore character relationships and storylines in books using AI-powered visualizations.
+This leverages Llama 4's impressive 10M token context window to process entire books at once, enabling comprehensive analysis of complex narratives and character relationships across lengthy texts.
+
+## Features
+
+- Interactive Mind Maps: Visualize relationships between characters and plot elements.
+- Book Summaries: Get concise overviews of plots and themes.
+
+## Getting Started
+
+### Get API Key
+
+Sign up for a free API key at [https://www.together.ai/](https://www.together.ai/).
+
+Create a `.env` file in the root directory of the project and add the following line:
+
+```
+REACT_APP_TOGETHER_API_KEY=<YOUR_API_KEY>
+```
+
+### Frontend Setup
+
+1. Install dependencies:
+
+```
+npm install
+```
+
+2. Run the application:
+
+```
+npm start
+```
+
+## Get Copyright Free Books
+
+- [Project Gutenberg](https://www.gutenberg.org/)
+  - [Romeo and Juliet](https://www.gutenberg.org/ebooks/1513)
