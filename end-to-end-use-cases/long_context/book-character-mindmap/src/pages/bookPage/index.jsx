@@ -63,6 +63,7 @@ export default function BookPage() {
   const [graphData, setGraphData] = useState(null);
   const [bookData, setBookData] = useState(null);
   const [searchComplete, setSearchComplete] = useState(false);
+  const [tokenUsage, setTokenUsage] = useState(0);
   const debug = false;
 
   const readFileContent = async (file) => {
@@ -83,6 +84,7 @@ export default function BookPage() {
     try {
       const response = await together.chat.completions.create({
         model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+        max_tokens: 8192,
         messages: [{
           role: "system",
           content: SYSTEM_PROMPT
@@ -93,6 +95,7 @@ export default function BookPage() {
         }]
       });
       console.log("Response:", response.choices[0].message.content);
+      setTokenUsage(response.usage.prompt_tokens);
       return response.choices[0].message.content;
     } catch (error) {
       console.error("Error submitting query:", error);
@@ -314,6 +317,12 @@ export default function BookPage() {
           <p className="mt-4 text-center text-sm text-gray-600">
             Search for any book or movie to explore character relationships
           </p>
+        {/* Token Usage Section */}
+        {searchComplete && (
+          <div className="mt-4 text-center text-lg font-bold text-gray-600">
+            <p>Input Tokens: {tokenUsage}</p>
+          </div>
+        )}
         </div>
 
         {/* Info Section - Only show when search is complete */}
