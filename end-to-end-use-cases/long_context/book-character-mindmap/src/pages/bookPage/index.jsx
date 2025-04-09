@@ -291,6 +291,13 @@ export default function BookPage() {
             </div>
           </div>
         )}
+
+        {/* Chat Section - Only show when search is complete */}
+        {graphData && relationshipData && (
+          <div className="mt-12">
+            <ChatInterface relationshipData={relationshipData} />
+          </div>
+        )}
       </div>
     </div>
   );
