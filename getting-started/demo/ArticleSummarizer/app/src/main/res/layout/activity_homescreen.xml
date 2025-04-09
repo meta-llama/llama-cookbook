@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/summarizer"
+        android:scaleType="centerInside"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Article Summarizer!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="12dp"/>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send any image article to summarize and translate into any supported languages"
+        android:textAlignment="center"
+        android:paddingBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btn_start_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="70dp"
+        android:text="Start a Chat"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_recent_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent Questions"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_marginTop="50dp"/>
+
+    <ListView
+        android:id="@+id/lv_recent_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
+
+    <TextView
+        android:id="@+id/tv_description3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:paddingBottom="16dp"
+        android:text="This app operates using Llama 4 models through any of the supported remote inference providers."
+        android:textAlignment="center" />
+
+</LinearLayout>

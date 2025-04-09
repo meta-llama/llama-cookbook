@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#DCD7D7"
+    android:clipToPadding="false"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/top_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/banner_shape"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:text="Llama"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ram_usage_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:paddingLeft="5dp"
+            android:text="0 MB"
+            android:textAlignment="viewEnd"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/showLogsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingTop="20dp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_article_24" />
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingTop="20dp"
+            android:src="@drawable/baseline_settings_24" />
+
+        <TextView
+            android:id="@+id/generationMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Remote"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/messages_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/chat_background"
+            android:divider="#fff"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mediaPreviewConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16293D"
+            android:visibility="gone">
+
+            <HorizontalScrollView
+                android:id="@+id/mediaPreviewScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:layout_constraintEnd_toStartOf="@id/mediaPreviewCloseButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/mediaPreviewImageView1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                    <ImageView
+                        android:id="@+id/mediaPreviewImageView2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                    <ImageView
+                        android:id="@+id/mediaPreviewImageView3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                    <ImageView
+                        android:id="@+id/mediaPreviewImageView4"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                    <ImageView
+                        android:id="@+id/mediaPreviewImageView5"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                    <ImageButton
+                        android:id="@+id/addMoreImageButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="#16293D"
+                        android:padding="5dp"
+                        android:src="@drawable/outline_add_box_48" />
+
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
+
+            <ImageButton
+                android:id="@+id/mediaPreviewCloseButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:src="@drawable/baseline_close_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16293D"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/addMediaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/baseline_add_24" />
+
+            <ImageButton
+                android:id="@+id/addLanguageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/baseline_language_24" />
+
+            <EditText
+                android:id="@+id/editTextMessage"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_weight="2"
+                android:background="@drawable/input_text_shape"
+                android:ems="8"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:translationY="5dp" />
+
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/baseline_send_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addMediaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16293D"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <ImageButton
+                    android:id="@+id/cameraButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/custom_button_round"
+                    android:src="@drawable/outline_camera_alt_48" />
+
+                <ImageButton
+                    android:id="@+id/galleryButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@drawable/custom_button_round"
+                    android:src="@drawable/outline_image_48" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

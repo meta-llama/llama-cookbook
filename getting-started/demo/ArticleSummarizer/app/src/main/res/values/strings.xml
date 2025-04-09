@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Llama Demo</string>
+    <string name="demo_pref_file_key">DemoPrefFileKey</string>
+    <string name="saved_messages_json_key">SavedMessagesJsonKey</string>
+    <string name="settings_json_key">SettingsJsonKey</string>
+    <string name="logs_json_key">LogsJsonKey</string>
+    <string name="start_chat_button_text">Start Chat</string>
+</resources>
