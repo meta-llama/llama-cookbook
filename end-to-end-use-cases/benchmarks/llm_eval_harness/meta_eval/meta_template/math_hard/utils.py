@@ -19,8 +19,16 @@ please install sympy via pip install lm-eval[math] or pip install -e .[math]",
 
 # taken from
 # https://github.com/wellecks/lm-evaluation-harness/blob/master/lm_eval/tasks/minerva_math.py
+token_convert = {
+    "<|start_header_id|>":"<|header_start|>",
+    "<|end_header_id|>":"<|header_end|>",
+    "<|eot_id|>":"<|eot|>",
+}
 def doc_to_text(doc: dict) -> str:
-    return doc["input_final_prompts"][0]
+    prompt = doc["input_final_prompts"][0]
+    for k,v in token_convert.items():
+        prompt = prompt.replace(k,v)
+    return prompt
 
 def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:
     def _process_doc(doc: dict) -> dict:

@@ -3,8 +3,16 @@ import string
 import datasets
 
 
+token_convert = {
+    "<|start_header_id|>":"<|header_start|>",
+    "<|end_header_id|>":"<|header_end|>",
+    "<|eot_id|>":"<|eot|>",
+}
 def doc_to_text(doc: dict) -> str:
-    return doc["input_final_prompts"][0]
+    prompt = doc["input_final_prompts"][0]
+    for k,v in token_convert.items():
+        prompt = prompt.replace(k,v)
+    return prompt
 
 
 def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:
