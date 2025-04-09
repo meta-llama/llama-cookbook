@@ -167,6 +167,9 @@ def inference():
         # Read file content directly from the uploaded file
         file_content = file.read().decode("utf-8")
 
+        with open("book.txt", "w") as f:
+            f.write(file_content)
+
         # Calculate the number of input tokens
         num_input_tokens = calculate_input_tokens(file_content)
 
