@@ -163,7 +163,10 @@ def inference():
             {"role": "system", "content": RELATIONSHIP_SYSTEM_PROMPT},
             {"role": "user", "content": f"Book content:\n{file_content}"},
             {"role": "assistant", "content": character_response_text},
-            {"role": "user", "content": "Generate the JSON graph with title, summary, nodes, and links."}
+            {
+                "role": "user",
+                "content": "Generate the JSON graph with title, summary, nodes, and links.",
+            },
         ]
         relationship_outputs = llm.chat(messages, sampling_params)
         relationship_response_text = relationship_outputs[0].outputs[0].text
@@ -185,7 +188,13 @@ def inference():
                 logging.error(f"Error parsing graph response from json result: {e}")
 
         return (
-            jsonify({"response": graph_data, "num_input_tokens": num_input_tokens}),
+            jsonify(
+                {
+                    "graph_data": graph_data,
+                    "character_response_text": character_response_text,
+                    "num_input_tokens": num_input_tokens,
+                }
+            ),
             200,
         )
 
