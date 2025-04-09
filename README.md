@@ -35,7 +35,7 @@ This repository covers the most popular community approaches, use-cases and the 
   **A:** We recently renamed llama-recipes to llama-cookbook.
 
 - **Q:** Prompt Template changes for Multi-Modality?
-  **A:** Llama 3.2 follows the same prompt template as Llama 3.1, with a new special token `<|image|>` representing the input image for the multimodal models. More details on the prompt templates for image reasoning, tool-calling, and code interpreter can be found [on the documentation website](https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_2).
+  **A:** Llama 3.2 follows the same prompt template as Llama 3.1, with a new special token `<|image|>` representing the input image for the multimodal models. More details on the prompt templates for image reasoning, tool-calling, and code interpreter can be found [on the documentation website](https://www.llama.com/docs/overview).
 
 - **Q:** I have some questions for Fine-Tuning, is there a section to address these?
   **A:** Checkout the Fine-Tuning FAQ [here](https://github.com/meta-llama/llama-cookbook/tree/main/src/docs/).
