@@ -126,8 +126,10 @@ You are an expert search AI designed to help users find detailed information abo
 Use this format to assist users in finding the relationship information they need.
 """
 
+HEAVY_MODEL = True
+
 if HEAVY_MODEL:
-    #LLM_MODEL = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
+    # LLM_MODEL = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
     LLM_MODEL = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
     llm = LLM(
         model=LLM_MODEL,
