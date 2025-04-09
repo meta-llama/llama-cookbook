@@ -1538,3 +1538,7 @@ jina
 jinaai
 Moby
 storylines
+AppUtils
+ArticleSummarizer
+ModelUtils
+Summarizer
