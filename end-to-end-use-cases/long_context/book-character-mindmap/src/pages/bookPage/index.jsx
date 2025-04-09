@@ -13,6 +13,7 @@ export default function BookPage() {
   const [bookData, setBookData] = useState(null);
   const [searchComplete, setSearchComplete] = useState(false);
   const [tokenUsage, setTokenUsage] = useState(0);
+  const [relationshipData, setRelationshipData] = useState(null);
   const debug = false;
 
   const readFileContent = async (file) => {
@@ -40,8 +41,10 @@ export default function BookPage() {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setTokenUsage(response.data.usage?.prompt_tokens || 0);
-      return response.data.response;
+
+      setTokenUsage(response.data.num_input_tokens || 0);
+      setRelationshipData(response.data.character_response_text);
+      return response.data.graph_data;
     } catch (error) {
       console.error("Error submitting query:", error);
       return "Sorry, I couldn't generate a response.";
