@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaSearch, FaBook, FaHome } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaBook, FaHome, FaMagic } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CharacterGraph from "./components/CharacterGraph";
 import ChatInterface from "./components/ChatInterface";
@@ -16,21 +16,52 @@ export default function BookPage() {
   const [relationshipData, setRelationshipData] = useState(null);
   const debug = false;
 
-  const readFileContent = async (file) => {
-    try {
-      const reader = new FileReader();
-      return new Promise((resolve, reject) => {
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject("Error reading file");
-        reader.readAsText(file);
-      });
-    } catch (error) {
-      console.error("Error reading file content:", error);
-      return "Failed to read file content.";
-    }
-  };
+  useEffect(() => {
+    if (debug) {
+      setRelationshipData(`**Character:** Alex Chen
+      * **Relationship with Emily Patel:** Described as a deep and unwavering bond. They share a history of trust and mutual support, evident from their ability to fall back into their old rhythms without hesitation. The text states, "they all knew that things had changed" but also "their connection remained strong," indicating that their relationship has held up over time. This connection is built on a foundation of trust, as evident from Emily being Alex's "best friend and confidant." However, the text does suggest that this friendship has become "more complicated," implying that there might be underlying tensions or challenges in their relationship.
+      * **Relationship with Jake Lee:** No direct information about Alex and Jake's relationship is provided, except that they seem to share a comfortable banter and camaraderie, as seen in their "laughing and joking like they used to." This suggests a friendly and familiar rapport, but no deeper emotional nuances are described.
+      * **Relationship with Sarah Kim:** The text does not explicitly describe Alex's relationship with Sarah, only mentioning that their connection remains strong despite the fact that they've grown apart. This implies a deep affection, but the text does not provide specific details about their interaction or the nature of their bond.
+      * **Relationship with Jake Lee (secondary context):** Not explicitly mentioned, but the text does state that Jake was in a relationship with Sarah, creating a shared connection with Alex through his friend. This adds a layer of interconnectedness among the group, but does not directly describe Alex-Jake's relationship.
 
-  const submitQuery = async (query) => {
+  **Character:** Emily Patel
+      * **Relationship with Alex Chen:** See above. Emily is described as Alex's best friend and confidant, and their bond has become "more complicated," suggesting underlying tensions or challenges. She seems to have a deep understanding of Alex and is able to offer emotional support, as seen in the mention of Alex's drive for success and his cost of ambition.
+      * **Relationship with Jake Lee:** The text does not provide direct information about Emily-Jake's relationship. However, Emily's affectionate interaction with Alex and the comfortable banter between them suggest a familiar, close relationship. Emily's connection to Jake is also emotional, as she is actively engaged with his partner Sarah.
+      * **Relationship with Sarah Kim:** No explicit information is provided about Emily's relationship with Sarah. However, her support for Alex in his endeavors and her presence in his life suggest a caring and nurturing nature, potentially suggesting a good rapport with Sarah as well.
+      * **Relationship with Jake Lee (secondary context):** As mentioned earlier, Jake and Sarah's relationship is secondary to the main relationships described, but it does not provide direct information about Emily-Jake's relationship. However, given the group's dynamics, it can be inferred that Emily's emotional involvement with Jake might imply some level of emotional investment or familiarity in his life.
+
+  **Character:** Jake Lee
+      * **Relationship with Alex Chen:** The text does not provide explicit information about their relationship. However, their comfortable banter and familiar interaction suggest a friendly rapport, indicating a level of ease and comfort in each other's company.
+      * **Relationship with Emily Patel:** As mentioned earlier, the text describes a "deep bond" between Emily and Alex, and it can be inferred that Jake is also included in this group, allowing for a level of emotional proximity. However, direct information about Jake-Emily's relationship is limited.
+      * **Relationship with Sarah Kim:** Jake and Sarah are partners in life, which implies a romantic relationship and potentially deep emotional connection. The text does not explicitly describe their relationship, but it suggests a level of intimacy and trust.
+      * **Relationship with Alex Chen (secondary context):** As mentioned earlier, Jake's relationship with Sarah is not directly connected to Alex, but through his partner, Jake maintains a level of friendship with Alex, suggesting he is part of the group's social fabric.
+
+  **Character:** Sarah Kim
+      * **Relationship with Alex Chen:** No explicit information about Alex-Sarah's relationship is provided. However, her emotional involvement with Alex and her close bond with Emily suggest a caring nature that could apply to her connection with Alex.
+      * **Relationship with Emily Patel:** As mentioned earlier, Emily is described as Sarah's confidant and possibly friend, indicating a level of emotional closeness. The text does not explicitly describe their relationship, but it suggests that they share a connection.
+      * **Relationship with Jake Lee:** As mentioned earlier, Sarah and Jake are romantic partners, and this information hints at a deep emotional connection. Sarah's interaction with Emily also implies a level of familiarity and care.
+      * **Relationship with Alex Chen (secondary context):** As mentioned earlier, Sarah is mentioned as a part of Alex's life through her relationship with Jake, suggesting she is a valued member of the social circle that includes Alex.`)
+    setGraphData({"nodes": [
+        { "id": "n1", "name": "Alex Chen", "val": 1 },
+        { "id": "n2", "name": "Emily Patel", "val": 2 },
+        { "id": "n3", "name": "Jake Lee", "val": 3 },
+        { "id": "n4", "name": "Sarah Kim", "val": 4 }
+      ],
+      "links": [
+        { "source": "n1", "target": "n2", "label": "best friend and confidant" },
+        { "source": "n2", "target": "n1", "label": "childhood friend and confidant, bond became more complicated" },
+        { "source": "n2", "target": "n3", "label": "possible secondary connection, not directly described" },
+        { "source": "n2", "target": "n4", "label": "possible secondary connection, not directly described" },
+        { "source": "n3", "target": "n1", "label": "friendly rapport, comfortable banter" },
+        { "source": "n3", "target": "n2", "label": "friendly rapport, comfortable banter" },
+        { "source": "n3", "target": "n4", "label": "possibly familiar through her relationship with Sarah" },
+        { "source": "n4", "target": "n1", "label": "caring and nurturing, possible secondary connection" },
+        { "source": "n4", "target": "n2", "label": "caring and nurturing, possible secondary connection" }
+      ]})
+    };
+  }, [debug]);
+
+  const submitBookQuery = async (query) => {
     try {
       // Create FormData to send the file
       const formData = new FormData();
@@ -79,87 +110,7 @@ export default function BookPage() {
 
     setIsLoading(true);
     try {
-      const fileContent = await readFileContent(fileObject);
-      const queryResultString = await submitQuery(fileContent);
-      let cleanedResponse = queryResultString.replace(/```(?:json)?|```/g, "").trim();
-
-      // Handle potential leading/trailing backticks that might remain
-      if (cleanedResponse.startsWith('`')) {
-        cleanedResponse = cleanedResponse.substring(1);
-      }
-      if (cleanedResponse.endsWith('`')) {
-        cleanedResponse = cleanedResponse.substring(0, cleanedResponse.length - 1);
-      }
-
-      const queryResult = JSON.parse(cleanedResponse);
-
-      // Result of Maverick
-      if (debug) {
-        const queryResult = JSON.parse(`{
-          "title": "Romeo and Juliet",
-          "summary": "The tragic love story of Romeo and Juliet, two young lovers from feuding families in Verona, who ultimately sacrifice everything for their love.",
-          "nodes": [
-            { "id": "c1", "name": "Romeo Montague", "val": 1 },
-            { "id": "c2", "name": "Juliet Capulet", "val": 2 },
-            { "id": "c3", "name": "Friar Laurence", "val": 3 },
-            { "id": "c4", "name": "Tybalt", "val": 4 },
-            { "id": "c5", "name": "Mercutio", "val": 5 },
-            { "id": "c6", "name": "Benvolio", "val": 6 },
-            { "id": "c7", "name": "Lord Capulet", "val": 7 },
-            { "id": "c8", "name": "Lady Capulet", "val": 8 },
-            { "id": "c9", "name": "Lord Montague", "val": 9 },
-            { "id": "c10", "name": "Lady Montague", "val": 10 },
-            { "id": "c11", "name": "Paris", "val": 11 },
-            { "id": "c12", "name": "Nurse", "val": 12 },
-            { "id": "c13", "name": "Prince Escalus", "val": 13 },
-            { "id": "c14", "name": "Sampson", "val": 14 },
-            { "id": "c15", "name": "Gregory", "val": 15 },
-            { "id": "c16", "name": "Abram", "val": 16 },
-            { "id": "c17", "name": "Balthasar", "val": 17 },
-            { "id": "c18", "name": "Peter", "val": 18 },
-            { "id": "c19", "name": "Apothecary", "val": 19 },
-            { "id": "c20", "name": "Chorus", "val": 20 },
-            { "id": "c21", "name": "Friar John", "val": 21 },
-            { "id": "c22", "name": "County Paris's Page", "val": 22 }
-          ],
-          "links": [
-            { "source": "c1", "target": "c2", "label": "secretly married to" },
-            { "source": "c1", "target": "c5", "label": "close friend of" },
-            { "source": "c1", "target": "c6", "label": "cousin and friend of" },
-            { "source": "c1", "target": "c4", "label": "sworn enemy of" },
-            { "source": "c2", "target": "c7", "label": "daughter of" },
-            { "source": "c2", "target": "c8", "label": "daughter of" },
-            { "source": "c2", "target": "c12", "label": "nursed by" },
-            { "source": "c3", "target": "c1", "label": "married Romeo and Juliet" },
-            { "source": "c4", "target": "c8", "label": "nephew of" },
-            { "source": "c5", "target": "c13", "label": "kinsman of" },
-            { "source": "c5", "target": "c1", "label": "friend of" },
-            { "source": "c6", "target": "c9", "label": "nephew of" },
-            { "source": "c6", "target": "c1", "label": "cousin and friend of" },
-            { "source": "c7", "target": "c2", "label": "father of" },
-            { "source": "c7", "target": "c8", "label": "husband of" },
-            { "source": "c8", "target": "c2", "label": "mother of" },
-            { "source": "c8", "target": "c7", "label": "wife of" },
-            { "source": "c8", "target": "c4", "label": "aunt of" },
-            { "source": "c9", "target": "c1", "label": "father of" },
-            { "source": "c9", "target": "c10", "label": "husband of" },
-            { "source": "c10", "target": "c9", "label": "wife of" },
-            { "source": "c11", "target": "c2", "label": "suitor of" },
-            { "source": "c12", "target": "c2", "label": "nurse of" },
-            { "source": "c14", "target": "c7", "label": "servant of" },
-            { "source": "c15", "target": "c7", "label": "servant of" },
-            { "source": "c16", "target": "c9", "label": "servant of" },
-            { "source": "c17", "target": "c1", "label": "servant of" },
-            { "source": "c18", "target": "c12", "label": "servant of" },
-            { "source": "c1", "target": "c11", "label": "killed by" },
-            { "source": "c4", "target": "c5", "label": "killed by" },
-            { "source": "c1", "target": "c4", "label": "killed" },
-            { "source": "c2", "target": "c1", "label": "loved" },
-            { "source": "c2", "target": "c11", "label": "betrothed to" },
-            { "source": "c1", "target": "c2", "label": "loved" }
-          ]
-        }`);
-      }
+      const queryResult = await submitBookQuery();
 
       setBookData({
         title: queryResult.title,
@@ -257,13 +208,13 @@ export default function BookPage() {
                        disabled:opacity-50 disabled:cursor-not-allowed
                        flex items-center justify-center space-x-2"
               >
-                <FaSearch className={`${isLoading ? "animate-spin" : ""}`} />
+                <FaMagic className={`${isLoading ? "animate-spin" : ""}`} />
                 <span>{isLoading ? "Generating..." : "Visualize"}</span>
               </button>
             </form>
           </div>
           <p className="mt-4 text-center text-sm text-gray-600">
-            Search for any book or movie to explore character relationships
+            Visualize any book or movie to explore character relationships
           </p>
         {/* Token Usage Section */}
         {searchComplete && (
@@ -273,7 +224,7 @@ export default function BookPage() {
         )}
         </div>
 
-        {/* Info Section - Only show when search is complete */}
+        {/* Graph Section - Only show when search is complete */}
         {searchComplete && bookData && (
           <div className="space-y-8">
             <div className="bg-white shadow-xl rounded-xl overflow-hidden">
