@@ -103,7 +103,28 @@ Output must:
 4. Be valid, parseable JSON
 ```
 """
-HEAVY_MODEL = False
+
+SEARCH_SYSTEM_PROMPT = """
+You are an expert search AI designed to help users find detailed information about character relationships from a book. Your task is to assist users in querying the relationship data extracted from the book.
+
+**Objective:** Allow users to search for specific character relationships using natural language queries. Provide concise and accurate responses based on the relationship data.
+
+**Instructions:**
+
+1. **Understand the Query:** Analyze the user's query to identify the characters and the type of relationship information they are seeking.
+2. **Search Relationship Data:** Use the relationship data extracted from the book to find relevant information. Focus on the characters and relationship details mentioned in the query.
+3. **Provide Clear Responses:** Respond with clear and concise information about the relationship, including roles, dynamics, history, and key interactions as described in the data.
+4. **Be Specific:** Avoid vague responses. Use specific details from the relationship data to answer the query.
+5. **Maintain Context:** Ensure that the response is relevant to the query and provides a comprehensive understanding of the relationship.
+
+**Example Query and Response:**
+
+*Query:* "What is the relationship between Frodo Baggins and Samwise Gamgee?"
+
+*Response:* "Samwise Gamgee is Frodo Baggins' childhood friend and fiercely loyal traveling companion. He provides emotional support and protection during their journey."
+
+Use this format to assist users in finding the relationship information they need.
+"""
 
 if HEAVY_MODEL:
     #LLM_MODEL = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
