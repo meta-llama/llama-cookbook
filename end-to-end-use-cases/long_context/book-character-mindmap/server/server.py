@@ -224,6 +224,52 @@ def inference():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/chat", methods=["POST"])
+def chat():
+    """
+    Handles search requests from the frontend.
+    """
+    try:
+        data = request.json
+        search_query = data.get("query")
+        relationship_data = data.get("relationship_data")
+        chat_history_data = data.get("chat_history_data")
+
+        with open("book.txt", "r") as f:
+            file_content = f.read()
+
+        if not search_query or not relationship_data:
+            return (
+                jsonify({"error": "search_query and relationship_data are required"}),
+                400,
+            )
+        messages = [
+            {"role": "system", "content": SEARCH_SYSTEM_PROMPT},
+            {"role": "assistant", "content": file_content},
+            {"role": "assistant", "content": relationship_data},
+        ]
+
+        # Format chat history for the model
+        formatted_history = []
+        for msg in chat_history_data:
+            formatted_history.append({"role": msg["sender"], "content": msg["text"]})
+
+        # Add chat history
+        messages.extend(formatted_history)
+
+        # Add the current user message
+        messages.append({"role": "user", "content": search_query})
+
+        search_outputs = llm.chat(messages, sampling_params)
+        search_response_text = search_outputs[0].outputs[0].text
+        print("search_response_text: ", search_response_text)
+        return jsonify({"response": search_response_text}), 200
+
+    except Exception as e:
+        print(f"Error processing request: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
 def llm_json_output(response):
     messages = [
         {"role": "system", "content": JSON_SYSTEM_PROMPT},
