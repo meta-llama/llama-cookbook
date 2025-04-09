@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaSearch, FaBook, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CharacterGraph from "./components/CharacterGraph";
+import ChatInterface from "./components/ChatInterface";
 import axios from "axios";
 
 export default function BookPage() {
