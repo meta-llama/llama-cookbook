@@ -54,6 +54,10 @@ class ExampleLlamaRemoteInference(remoteURL: String) {
             .readTimeout(0, TimeUnit.MILLISECONDS) // No timeout for streaming
             .build()
 
+        if (AppUtils.API_KEY == "") {
+            AppLogging.getInstance().log("API key not set, configure it in AppUtils")
+        }
+
         val request = Request.Builder()
             .url(url)
             .addHeader("Authorization","Bearer " + AppUtils.API_KEY)
@@ -64,7 +68,7 @@ class ExampleLlamaRemoteInference(remoteURL: String) {
         return client.newCall(request).execute()
     }
 
-    private fun llamaChatCompletion(ctx: Context, modelName: String, conversationHistory: ArrayList<Message>, userProvidedSystemPrompt: String){
+    private fun llamaChatCompletion(ctx: Context, modelName: String, conversationHistory: ArrayList<Message>, userProvidedSystemPrompt: String, temperature: Double){
         var msg = """
                         {
                           "role": "system",
@@ -83,7 +87,7 @@ class ExampleLlamaRemoteInference(remoteURL: String) {
                     ],
                     "model": "$modelName",
                     "repetition_penalty": 1,
-                    "temperature": 0.6,
+                    "temperature": $temperature,
                     "top_p": 0.9,
                     "max_completion_tokens": 2048,
                     "stream": true
@@ -136,7 +140,7 @@ class ExampleLlamaRemoteInference(remoteURL: String) {
     //Example running simple inference + tool calls without using agent's workflow
     private fun inferenceCallWithoutAgent(modelName: String, temperature: Double, conversationHistory: ArrayList<Message>, userProvidedSystemPrompt: String, ctx: Context, streaming: Boolean): String {
 
-        llamaChatCompletion(ctx,modelName,conversationHistory, userProvidedSystemPrompt)
+        llamaChatCompletion(ctx,modelName,conversationHistory, userProvidedSystemPrompt, temperature)
         return ""
     }
 

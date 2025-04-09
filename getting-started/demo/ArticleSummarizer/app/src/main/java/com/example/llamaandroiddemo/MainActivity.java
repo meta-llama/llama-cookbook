@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements Runnable, Inferen
   private LinearLayout mAddMediaLayout;
   private static final int MAX_NUM_OF_IMAGES = 5;
   private static final int REQUEST_IMAGE_CAPTURE = 1;
-  private TextView mGenerationModeButton;
   private Uri cameraImageUri;
   private DemoSharedPreferences mDemoSharedPreferences;
   private SettingsFields mCurrentSettingsFields;
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements Runnable, Inferen
 
   private void askUserToSelectModel() {
     String askLoadModel =
-            "To get started, configure remote URL" +
+            "To get started, configure remote URL " +
             "from the top right corner";
     addSystemMessage(askLoadModel);
   }
@@ -508,6 +507,7 @@ public class MainActivity extends AppCompatActivity implements Runnable, Inferen
     systemPrompt += " Summarize and translate it into the following language: " + languageSelector.getSelectedLanguage();
     Log.d("updated system prompt with language selected",systemPrompt);
 
+    // User prompt is passed into the model as part of the getRecentSavedTextMessages
     result = exampleLlamaRemoteInference.inferenceStartWithoutAgent(
               modelName,
               temperature,
