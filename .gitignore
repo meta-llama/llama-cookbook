@@ -3,3 +3,4 @@ __pycache__
 .ipynb_checkpoints
 wandb/
 artifacts/
+node_modules/
