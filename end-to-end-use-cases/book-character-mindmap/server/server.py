@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -156,7 +157,8 @@ def inference():
         # Read file content directly from the uploaded file
         file_content = file.read().decode("utf-8")
 
-        with open("book.txt", "w") as f:
+        # Save the book in the current directory
+        with open(os.path.join(os.getcwd(), "book.txt"), "w") as f:
             f.write(file_content)
 
         # Calculate the number of input tokens
@@ -227,7 +229,8 @@ def chat():
         relationship_data = data.get("relationship_data")
         chat_history_data = data.get("chat_history_data")
 
-        with open("book.txt", "r") as f:
+        # Read the book.txt file from the current directory
+        with open(os.path.join(os.getcwd(), "book.txt"), "r") as f:
             file_content = f.read()
 
         if not search_query or not relationship_data:
