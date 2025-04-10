@@ -126,30 +126,17 @@ You are an expert search AI designed to help users find detailed information abo
 Use this format to assist users in finding the relationship information they need.
 """
 
-HEAVY_MODEL = True
-
-if HEAVY_MODEL:
-    # LLM_MODEL = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
-    LLM_MODEL = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
-    llm = LLM(
-        model=LLM_MODEL,
-        enforce_eager=False,
-        tensor_parallel_size=8,
-        max_model_len=500000,
-        override_generation_config={
-            "attn_temperature_tuning": True,
-        },
-    )
-    sampling_params = SamplingParams(temperature=0.5, top_p=0.95, max_tokens=10000)
-else:
-    LLM_MODEL = "meta-llama/Llama-3.2-3B-Instruct"
-    llm = LLM(
-        model=LLM_MODEL,
-        enforce_eager=False,
-        tensor_parallel_size=1,  # Reduce for smaller model
-        max_model_len=4096,  # Smaller context window for efficiency
-    )
-    sampling_params = SamplingParams(temperature=1, top_p=0.95, max_tokens=4096)
+LLM_MODEL = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+llm = LLM(
+    model=LLM_MODEL,
+    enforce_eager=False,
+    tensor_parallel_size=8,
+    max_model_len=500000,
+    override_generation_config={
+        "attn_temperature_tuning": True,
+    },
+)
+sampling_params = SamplingParams(temperature=0.5, top_p=0.95, max_tokens=10000)
 
 
 @app.route("/inference", methods=["POST"])
