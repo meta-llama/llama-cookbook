@@ -29,7 +29,6 @@ This repository covers the most popular community approaches, use-cases and the 
 - [src](https://github.com/meta-llama/llama-cookbook/tree/main/src/): Contains the src for the original llama-recipes library along with some FAQs for fine-tuning.
 
 ## FAQ:
-## FAQ:
 
 - **Q:** What happened to llama-recipes?
   **A:** We recently renamed llama-recipes to llama-cookbook.
