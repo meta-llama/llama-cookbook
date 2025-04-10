@@ -1,6 +1,6 @@
-# Book Character Mindmap With Llama4 Maverick
+# Book Character Mind Map With Llama4 Maverick
 
-![Book Character Mindmap](public/CharacterRelationship.png)
+![Book Character Mind Map](public/character_relationship.png)
 
 Book Mind is a web application that allows users to explore character relationships and storylines in books using AI-powered visualizations.
 This leverages **Llama 4 Maverick**'s impressive 1M token context windows to process entire books at once, enabling comprehensive analysis of complex narratives and character relationships across lengthy texts.
@@ -45,7 +45,7 @@ We also implemented a chat interface to interact with the book. Users can ask qu
 You are an expert search AI designed to help users find detailed information about character relationships from a book. Your task is to assist users in querying the relationship data extracted from the book.
 ```
 
-![Chat Interface](public/ChatInterface.png)
+![Chat Interface](public/chat_interface.png)
 
 ## Getting Started
 
