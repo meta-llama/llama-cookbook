@@ -136,6 +136,12 @@ graph TD
     C --> H[PPT Parser]
     C --> I[TXT Parser]
     D & E & F & G & H & I --> J[Extracted Text]
+
+    AAA[Taxonomy] --> BBB[Llama]
+    AAB[Target Domain] --> BBB[Llama]
+    AAC[Seed Examples] --> BBB[Llama]
+
+    BBB --> M[Data Generation]
     
     J --> K[Generate_QA]
     J --> KKK[Synthetic Reasoning]
