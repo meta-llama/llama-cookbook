@@ -53,7 +53,7 @@ def extract_references_with_llm(pdf_content):
     if len(text) > max_length:
         text = text[:max_length] + "..."
 
-    client = Together(api_key="4a9f7614927a3abd614a170fc5d4283b68e8685764c06dd98b1e1066651b9229")
+    client = Together(api_key="Your API key here")
 
     citations = client.chat.completions.create(
         model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
