@@ -219,7 +219,7 @@ def gradio_interface():
         history.append([user_message, ""])
         
 
-        client = Together(api_key="4a9f7614927a3abd614a170fc5d4283b68e8685764c06dd98b1e1066651b9229")
+        client = Together(api_key="Your API key here")
 
         # Prepare the system prompt and user message
 
