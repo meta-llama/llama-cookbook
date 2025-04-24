@@ -1,5 +1,5 @@
-## Building an Intelligent Browser Agent with Llama 3.2
-This project provides a comprehensive guide to creating an AI-powered browser agent capable of autonomously navigating and interacting with websites. By leveraging the capabilities of Llama 3.2 Vision, Playwright, and Together AI, this agent can perform tasks seamlessly while understanding both visual and textual content.
+## Building an Intelligent Browser Agent with Llama 4 Scout
+This project provides a comprehensive guide to creating an AI-powered browser agent capable of autonomously navigating and interacting with websites. By leveraging the capabilities of Llama 4 Scout, Playwright, and Together AI, this agent can perform tasks seamlessly while understanding both visual and textual content.
 ### Features
 - Visual Understanding: Utilizes screenshots for visual comprehension of web pages
 - Autonomous Navigation: Capable of navigating and interacting with web elements.
@@ -13,7 +13,7 @@ This project provides a comprehensive guide to creating an AI-powered browser ag
 - Environment setup instructions
 - Browser automation guides using Playwright
 - Structured prompting techniques for guiding the LLM in task execution
-- Content comprehension utilizing Llama 3.2 Vision
+- Content comprehension utilizing Llama 4 Scout
 - Creating a persistent and intelligent browser agent for real-world applications
 ### Demo
 For a detailed explanation and demo video, visit: [Blog Post and Demo Video](https://miguelg719.github.io/browser-use-blog/)
