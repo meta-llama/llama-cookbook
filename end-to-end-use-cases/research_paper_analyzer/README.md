@@ -27,3 +27,5 @@ python research-analyzer.py
 ```
 
 3. Provide a paper url such as https://arxiv.org/abs/2305.11135
+
+4. Press "Ingest", wait for paper to be processed and ask questions about it
