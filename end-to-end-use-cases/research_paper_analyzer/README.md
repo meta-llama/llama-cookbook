@@ -23,8 +23,10 @@ pip install -r requirements.txt
 2. Run the application:
 
 ```
-python research-analyzer.py
+python research_analyzer.py
 ```
+
+3. Open the gradio interface on localhost in the browser. 
 
 3. Provide a paper url such as https://arxiv.org/abs/2305.11135
 
