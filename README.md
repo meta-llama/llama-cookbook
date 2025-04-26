@@ -67,6 +67,9 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 <!-- markdown-link-check-disable -->
+See the License file for Meta Llama 4 [here](https://github.com/meta-llama/llama-models/blob/main/models/llama4/LICENSE) and Acceptable Use Policy [here](https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md)
+
+See the License file for Meta Llama 3.3 [here](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE) and Acceptable Use Policy [here](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/USE_POLICY.md)
 
 See the License file for Meta Llama 3.2 [here](https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/LICENSE) and Acceptable Use Policy [here](https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/USE_POLICY.md)
 
