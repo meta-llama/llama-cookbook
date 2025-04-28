@@ -57,3 +57,14 @@ This step-by-step tutorial shows how to use the [Messenger Platform](https://dev
 
 ### RAG Chatbot Example (running [locally](./customerservice_chatbots/RAG_chatbot/RAG_Chatbot_Example.ipynb)
 A complete example of how to build a Llama 3 chatbot hosted on your browser that can answer questions based on your own data using retrieval augmented generation (RAG).
+
+
+
+## [WhatsApp bot using LLama4 APIs](./whatsapp-llama4-bot/README.md)
+### Intelligent and Interactive WhatsApp Bot Using Llama4
+A step-by-step guide on how to build a WhatsApp bot that leverages the Llama4 APIs to provide intelligent and interactive responses. The bot supports text, image, and audio interactions, making it versatile for various use cases.
+
+
+- **Text Interaction**: Process text messages to generate accurate and contextually relevant responses.
+- **Image Reasoning**: Analyze images to provide insights, descriptions, or answers related to the content.
+- **Audio-to-Audio Interaction**: Transcribe audio messages to text, process them, and convert back to audio for seamless voice-based interaction.
