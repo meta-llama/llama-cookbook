@@ -16,26 +16,18 @@
 </p>
 <h2> Official Guide to building with Llama </h2>
 
-Checkout our latest model tutorial here: [Build with Llama 4 Scout](./getting-started/build_with_llama_4.ipynb)
+
 
 Welcome to the official repository for helping you get started with [inference](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/inference/), [fine-tuning](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/finetuning) and [end-to-end use-cases](https://github.com/meta-llama/llama-cookbook/tree/main/end-to-end-use-cases) of building with the Llama Model family.
 
 This repository covers the most popular community approaches, use-cases and the latest recipes for Llama Text and Vision models.
 
-> [!TIP]
-> Popular getting started links:
-> * [Build with Llama 4 Scout](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/build_with_llama_4.ipynb)
-> * [Multimodal Inference with Llama 3.2 Vision](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/inference/local_inference/README.md#multimodal-inference)
-> * [Inferencing using Llama Guard (Safety Model)](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/responsible_ai/llama_guard/)
+## Latest Llama 4 recipes
 
-> [!TIP]
-> Popular end to end recipes:
-> * [Email Agent](https://github.com/meta-llama/llama-cookbook/tree/main/end-to-end-use-cases/email_agent/)
-> * [NotebookLlama](https://github.com/meta-llama/llama-cookbook/tree/main/end-to-end-use-cases/NotebookLlama/)
-> * [Text to SQL](https://github.com/meta-llama/llama-cookbook/tree/main/end-to-end-use-cases/coding/text2sql/)
-
-
-> Note: We recently did a refactor of the repo, [archive-main](https://github.com/meta-llama/llama-cookbook/tree/archive-main) is a snapshot branch from before the refactor
+* Integrate [Llama API](https://bit.ly/llama-api-main) with [WhatsApp](./end-to-end-use-cases/whatsapp_llama_4_bot/README.md)
+* 5M long context using [Llama 4 Scout](./getting-started/build_with_llama_4.ipynb)
+* Analyze research papers with [Llama 4 Maverick](./end-to-end-use-cases/research_paper_analyzer/README.md)
+* Create a character mind map from a book using [Llama 4 Maverick](./end-to-end-use-cases/book-character-mindmap/README.md)
 
 ## Repository Structure:
 
@@ -44,13 +36,12 @@ This repository covers the most popular community approaches, use-cases and the 
 - [Getting Started](https://github.com/meta-llama/llama-cookbook/tree/main/getting-started/): Reference for inferencing, fine-tuning and RAG examples
 - [src](https://github.com/meta-llama/llama-cookbook/tree/main/src/): Contains the src for the original llama-recipes library along with some FAQs for fine-tuning.
 
+> Note: We recently did a refactor of the repo, [archive-main](https://github.com/meta-llama/llama-cookbook/tree/archive-main) is a snapshot branch from before the refactor
+
 ## FAQ:
 
 - **Q:** What happened to llama-recipes?
   **A:** We recently renamed llama-recipes to llama-cookbook.
-
-- **Q:** Prompt Template changes for Multi-Modality?
-  **A:** Llama 3.2 follows the same prompt template as Llama 3.1, with a new special token `<|image|>` representing the input image for the multimodal models. More details on the prompt templates for image reasoning, tool-calling, and code interpreter can be found [on the documentation website](https://www.llama.com/docs/overview).
 
 - **Q:** I have some questions for Fine-Tuning, is there a section to address these?
   **A:** Check out the Fine-Tuning FAQ [here](https://github.com/meta-llama/llama-cookbook/tree/main/src/docs/).
