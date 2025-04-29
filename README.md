@@ -24,6 +24,7 @@ This repository covers the most popular community approaches, use-cases and the 
 
 ## Latest Llama 4 recipes
 
+* [Get started](./getting-started/build_with_llama_api.ipynb) with the [Llama API](https://bit.ly/llama-api-main)
 * Integrate [Llama API](https://bit.ly/llama-api-main) with [WhatsApp](./end-to-end-use-cases/whatsapp_llama_4_bot/README.md)
 * 5M long context using [Llama 4 Scout](./getting-started/build_with_llama_4.ipynb)
 * Analyze research papers with [Llama 4 Maverick](./end-to-end-use-cases/research_paper_analyzer/README.md)
