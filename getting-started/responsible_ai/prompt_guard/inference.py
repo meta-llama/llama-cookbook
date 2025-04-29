@@ -1,13 +1,13 @@
+from typing import List, Tuple
+
 import torch
 from torch.nn.functional import softmax
-
-from transformers import (
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-)
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 """
-Utilities for loading the PromptGuard model and evaluating text for jailbreaks and indirect injections.
+Utilities for loading the PromptGuard model and evaluating text for jailbreaking techniques.
+
+NOTE: this code is for PromptGuard 2. For our older PromptGuard 1 model, see prompt_guard_1_inference.py
 
 Note that the underlying model has a maximum recommended input size of 512 tokens as a DeBERTa model.
 The final two functions in this file implement efficient parallel batched evaluation of the model on a list
@@ -15,123 +15,106 @@ of input strings of arbitrary length, with the final score for each input being 
 chunks of the input string.
 """
 
-
-def load_model_and_tokenizer(model_name='meta-llama/Prompt-Guard-86M'):
-    """
-    Load the PromptGuard model from Hugging Face or a local model.
-    
-    Args:
-        model_name (str): The name of the model to load. Default is 'meta-llama/Prompt-Guard-86M'.
-        
-    Returns:
-        transformers.PreTrainedModel: The loaded model.
-    """
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    return model, tokenizer
+MAX_TOKENS = 512
+DEFAULT_BATCH_SIZE = 16
+DEFAULT_TEMPERATURE = 1.0
+DEFAULT_DEVICE = "cpu"
+DEFAULT_MODEL_NAME = "meta-llama/Llama-Prompt-Guard-2-86M"
 
 
-def preprocess_text_for_promptguard(text: str, tokenizer) -> str:
+def load_model_and_tokenizer(
+    model_name: str = "meta-llama/Prompt-Guard-2-86M", device: str = DEFAULT_DEVICE
+) -> Tuple[AutoModelForSequenceClassification, AutoTokenizer, str]:
     """
-    Preprocess the text by removing spaces that break apart larger tokens.
-    This hotfixes a workaround to PromptGuard, where spaces can be inserted into a string
-    to allow the string to be classified as benign.
+    Load the PromptGuard model and tokenizer, and move the model to the specified device.
 
     Args:
-        text (str): The input text to preprocess.
-        tokenizer (transformers.PreTrainedTokenizer): The tokenizer for the model.
+        model_name (str): The name of the model to load.
+        device (str): The device to load the model on. If None, it will use CUDA if available, else CPU.
 
     Returns:
-        str: The preprocessed text.
+        tuple: The loaded model, tokenizer, and the device used.
     """
-
     try:
-        cleaned_text = ''
-        index_map = []
-        for i, char in enumerate(text):
-            if not char.isspace():
-                cleaned_text += char
-                index_map.append(i)
-        tokens = tokenizer.tokenize(cleaned_text)
-        result = []
-        last_end = 0
-        for token in tokens:
-            token_str = tokenizer.convert_tokens_to_string([token])
-            start = cleaned_text.index(token_str, last_end)
-            end = start + len(token_str)
-            original_start = index_map[start]
-            if original_start > 0 and text[original_start - 1].isspace():
-                result.append(' ')
-            result.append(token_str)
-            last_end = end
-        return ''.join(result)
-    except Exception:
-        return text
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        model = model.to(device)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+        return model, tokenizer, device
+    except Exception as e:
+        raise RuntimeError(f"Failed to load model and tokenizer: {str(e)}")
 
 
-def get_class_probabilities(model, tokenizer, text, temperature=1.0, device='cpu', preprocess=True):
+def get_class_scores(
+    model: AutoModelForSequenceClassification,
+    tokenizer: AutoTokenizer,
+    text: str,
+    temperature: float = DEFAULT_TEMPERATURE,
+) -> torch.Tensor:
     """
     Evaluate the model on the given text with temperature-adjusted softmax.
     Note, as this is a DeBERTa model, the input text should have a maximum length of 512.
-    
+
     Args:
+        model: The loaded model.
+        tokenizer: The loaded tokenizer.
         text (str): The input text to classify.
         temperature (float): The temperature for the softmax function. Default is 1.0.
-        device (str): The device to evaluate the model on.
-        
+
     Returns:
-        torch.Tensor: The probability of each class adjusted by the temperature.
+        torch.Tensor: The scores for each class adjusted by the temperature.
     """
-    if preprocess:
-        text = preprocess_text_for_promptguard(text, tokenizer)
+
+    # Get the device from the model
+    device = next(model.parameters()).device
+
     # Encode the text
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
-    inputs = inputs.to(device)
+    inputs = tokenizer(
+        text, return_tensors="pt", padding=True, truncation=True, max_length=MAX_TOKENS
+    )
+    inputs = {k: v.to(device) for k, v in inputs.items()}
     # Get logits from the model
     with torch.no_grad():
         logits = model(**inputs).logits
     # Apply temperature scaling
     scaled_logits = logits / temperature
-    # Apply softmax to get probabilities
-    probabilities = softmax(scaled_logits, dim=-1)
-    return probabilities
+    # Apply softmax to get scores
+    scores = softmax(scaled_logits, dim=-1)
+    return scores
 
 
-def get_jailbreak_score(model, tokenizer, text, temperature=1.0, device='cpu', preprocess=True):
+def get_jailbreak_score(
+    model: AutoModelForSequenceClassification,
+    tokenizer: AutoTokenizer,
+    text: str,
+    temperature: float = DEFAULT_TEMPERATURE,
+) -> float:
     """
     Evaluate the probability that a given string contains malicious jailbreak or prompt injection.
     Appropriate for filtering dialogue between a user and an LLM.
-    
+
     Args:
+        model: The loaded model.
+        tokenizer: The loaded tokenizer.
         text (str): The input text to evaluate.
         temperature (float): The temperature for the softmax function. Default is 1.0.
-        device (str): The device to evaluate the model on.
-        
+
     Returns:
         float: The probability of the text containing malicious content.
     """
-    probabilities = get_class_probabilities(model, tokenizer, text, temperature, device, preprocess)
-    return probabilities[0, 2].item()
+    probabilities = get_class_scores(model, tokenizer, text, temperature)
+    return probabilities[0, 1].item()
 
 
-def get_indirect_injection_score(model, tokenizer, text, temperature=1.0, device='cpu', preprocess=True):
-    """
-    Evaluate the probability that a given string contains any embedded instructions (malicious or benign).
-    Appropriate for filtering third party inputs (e.g. web searches, tool outputs) into an LLM.
-    
-    Args:
-        text (str): The input text to evaluate.
-        temperature (float): The temperature for the softmax function. Default is 1.0.
-        device (str): The device to evaluate the model on.
-        
-    Returns:
-        float: The combined probability of the text containing malicious or embedded instructions.
-    """
-    probabilities = get_class_probabilities(model, tokenizer, text, temperature, device, preprocess)
-    return (probabilities[0, 1] + probabilities[0, 2]).item()
-
-
-def process_text_batch(model, tokenizer, texts, temperature=1.0, device='cpu', preprocess=True):
+def process_text_batch(
+    model: AutoModelForSequenceClassification,
+    tokenizer: AutoTokenizer,
+    texts: List[str],
+    temperature: float = DEFAULT_TEMPERATURE,
+) -> torch.Tensor:
     """
     Process a batch of texts and return their class probabilities.
     Args:
@@ -139,15 +122,19 @@ def process_text_batch(model, tokenizer, texts, temperature=1.0, device='cpu', p
         tokenizer (transformers.PreTrainedTokenizer): The tokenizer for the model.
         texts (list[str]): A list of texts to process.
         temperature (float): The temperature for the softmax function.
-        device (str): The device to evaluate the model on.
-        
+
     Returns:
         torch.Tensor: A tensor containing the class probabilities for each text in the batch.
     """
-    if preprocess:
-        texts = [preprocess_text_for_promptguard(text, tokenizer) for text in texts]
-    inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True, max_length=512)
-    inputs = inputs.to(device)
+    # Get the device from the model
+    device = next(model.parameters()).device
+
+    # encode the texts
+    inputs = tokenizer(
+        texts, return_tensors="pt", padding=True, truncation=True, max_length=MAX_TOKENS
+    )
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+
     with torch.no_grad():
         logits = model(**inputs).logits
     scaled_logits = logits / temperature
@@ -155,40 +142,59 @@ def process_text_batch(model, tokenizer, texts, temperature=1.0, device='cpu', p
     return probabilities
 
 
-def get_scores_for_texts(model, tokenizer, texts, score_indices, temperature=1.0, device='cpu', max_batch_size=16, preprocess=True):
+def get_scores_for_texts(
+    model: AutoModelForSequenceClassification,
+    tokenizer: AutoTokenizer,
+    texts: List[str],
+    score_indices: List[int],
+    temperature: float = DEFAULT_TEMPERATURE,
+    max_batch_size: int = DEFAULT_BATCH_SIZE,
+) -> List[float]:
     """
     Compute scores for a list of texts, handling texts of arbitrary length by breaking them into chunks and processing in parallel.
+    The final score for each text is the maximum score across all chunks of the text.
+
     Args:
         model (transformers.PreTrainedModel): The loaded model.
         tokenizer (transformers.PreTrainedTokenizer): The tokenizer for the model.
         texts (list[str]): A list of texts to evaluate.
         score_indices (list[int]): Indices of scores to sum for final score calculation.
         temperature (float): The temperature for the softmax function.
-        device (str): The device to evaluate the model on.
         max_batch_size (int): The maximum number of text chunks to process in a single batch.
-        
+
     Returns:
         list[float]: A list of scores for each text.
     """
     all_chunks = []
     text_indices = []
     for index, text in enumerate(texts):
-        chunks = [text[i:i+512] for i in range(0, len(text), 512)]
+        # Tokenize the text and split into chunks of MAX_TOKENS
+        tokens = tokenizer(text, return_tensors="pt", truncation=False)["input_ids"][0]
+        chunks = [tokens[i : i + MAX_TOKENS] for i in range(0, len(tokens), MAX_TOKENS)]
         all_chunks.extend(chunks)
         text_indices.extend([index] * len(chunks))
-    all_scores = [0] * len(texts)
+    all_scores = [0.0] * len(texts)
     for i in range(0, len(all_chunks), max_batch_size):
-        batch_chunks = all_chunks[i:i+max_batch_size]
-        batch_indices = text_indices[i:i+max_batch_size]
-        probabilities = process_text_batch(model, tokenizer, batch_chunks, temperature, device, preprocess)
+        batch_chunks = all_chunks[i : i + max_batch_size]
+        batch_indices = text_indices[i : i + max_batch_size]
+        # Decode the token chunks back to text
+        batch_texts = [
+            tokenizer.decode(chunk, skip_special_tokens=True) for chunk in batch_chunks
+        ]
+        probabilities = process_text_batch(model, tokenizer, batch_texts, temperature)
         scores = probabilities[:, score_indices].sum(dim=1).tolist()
-        
         for idx, score in zip(batch_indices, scores):
             all_scores[idx] = max(all_scores[idx], score)
     return all_scores
 
 
-def get_jailbreak_scores_for_texts(model, tokenizer, texts, temperature=1.0, device='cpu', max_batch_size=16, preprocess=True):
+def get_jailbreak_scores_for_texts(
+    model: AutoModelForSequenceClassification,
+    tokenizer: AutoTokenizer,
+    texts: List[str],
+    temperature: float = DEFAULT_TEMPERATURE,
+    max_batch_size: int = DEFAULT_BATCH_SIZE,
+) -> List[float]:
     """
     Compute jailbreak scores for a list of texts.
     Args:
@@ -196,27 +202,11 @@ def get_jailbreak_scores_for_texts(model, tokenizer, texts, temperature=1.0, dev
         tokenizer (transformers.PreTrainedTokenizer): The tokenizer for the model.
         texts (list[str]): A list of texts to evaluate.
         temperature (float): The temperature for the softmax function.
-        device (str): The device to evaluate the model on.
         max_batch_size (int): The maximum number of text chunks to process in a single batch.
-        
+
     Returns:
         list[float]: A list of jailbreak scores for each text.
     """
-    return get_scores_for_texts(model, tokenizer, texts, [2], temperature, device, max_batch_size, preprocess)
-
-
-def get_indirect_injection_scores_for_texts(model, tokenizer, texts, temperature=1.0, device='cpu', max_batch_size=16, preprocess=True):
-    """
-    Compute indirect injection scores for a list of texts.
-    Args:
-        model (transformers.PreTrainedModel): The loaded model.
-        tokenizer (transformers.PreTrainedTokenizer): The tokenizer for the model.
-        texts (list[str]): A list of texts to evaluate.
-        temperature (float): The temperature for the softmax function.
-        device (str): The device to evaluate the model on.
-        max_batch_size (int): The maximum number of text chunks to process in a single batch.
-        
-    Returns:
-        list[float]: A list of indirect injection scores for each text.
-    """
-    return get_scores_for_texts(model, tokenizer, texts, [1, 2], temperature, device, max_batch_size, preprocess)
+    return get_scores_for_texts(
+        model, tokenizer, texts, [1], temperature, max_batch_size
+    )
