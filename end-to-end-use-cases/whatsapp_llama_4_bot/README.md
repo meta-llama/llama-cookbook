@@ -1,6 +1,6 @@
-# WhatsApp and Llama4 APIs ( build your own multi-modal chatbot)
+# WhatsApp and Llama 4 APIs : Build your own multi-modal chatbot
 
-Welcome to the WhatsApp Llama4 Bot ! This bot leverages the power of the Llama4 APIs to provide intelligent and interactive responses to users via WhatsApp. It supports text, image, and audio interactions, making it a versatile tool for various use cases.
+Welcome to the WhatsApp Llama4 Bot ! This bot leverages the power of the Llama 4 APIs to provide intelligent and interactive responses to users via WhatsApp. It supports text, image, and audio interactions, making it a versatile tool for various use cases.
 
 
 ## Key Features
