@@ -22,7 +22,7 @@
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Article Summarizer!"
+        android:text="Welcome to Document Summarizer!"
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -33,7 +33,7 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send any image article to summarize and translate into any supported languages"
+        android:text="Send any image document to summarize and translate into any supported languages"
         android:textAlignment="center"
         android:paddingBottom="16dp"/>
 
