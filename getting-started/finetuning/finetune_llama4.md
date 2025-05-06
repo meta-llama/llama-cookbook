@@ -12,8 +12,10 @@ cd torchtune
 git checkout 5d51c25cedfb6ba7b00e03cb2fef4f9cdb7baebd
 pip install -e .
 ```
+**Note**: This recipe has been tested working with H100 and A100. We have run into problems with H200 due to some Pytorch support issues.
 
 2. We also need Hugging Face access token (HF_TOKEN) for model download, please follow the instructions [here](https://huggingface.co/docs/hub/security-tokens) to get your own token. You will also need to gain model access to Llama4 models from [here](https://huggingface.co/collections/meta-llama/llama-4-67f0c30d9fe03840bc9d0164)
+
 
 ### Steps
 1. **Download Llama4 Weights**
