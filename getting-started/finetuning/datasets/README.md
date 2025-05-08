@@ -103,4 +103,4 @@ Below we list other datasets and their main use cases that can be used for fine 
 - WinoGender gender bias
 
 ### Useful Links
-More information on evaluation dataset can be found in [HELM](https://crfm.stanford.edu/helm/latest/)
+More information on evaluation dataset can be found in [HELM](https://crfm.stanford.edu/helm/classic/latest/)
