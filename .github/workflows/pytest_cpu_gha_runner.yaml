@@ -70,7 +70,5 @@ jobs:
         id: test_summary
         uses: test-summary/action@v2
         with:
-          paths: |
-            **/*.xml
-            !**/AndroidManifest.xml
+          paths: $GITHUB_WORKSPACE/result.xml
         if: always()
