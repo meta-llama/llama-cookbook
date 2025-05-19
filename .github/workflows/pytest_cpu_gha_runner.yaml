@@ -1,4 +1,4 @@
-name: "[GHA][CPU] llama-cookbook Pytest tests on CPU GitHub hosted runner."
+.github/workflows/pytest_cpu_gha_runner.yamlname: "[GHA][CPU] llama-cookbook Pytest tests on CPU GitHub hosted runner."
 on:
   pull_request:
     branches:
