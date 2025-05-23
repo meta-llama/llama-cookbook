@@ -1542,3 +1542,7 @@ AppUtils
 ArticleSummarizer
 ModelUtils
 Summarizer
+AGI
+DeepEval
+SDV
+sklearn

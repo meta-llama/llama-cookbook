@@ -11,10 +11,10 @@ from unittest.mock import patch
 @patch('builtins.input', return_value="N")
 def load_samsum(split, _):
     try:
-        ds = datasets.load_dataset("Samsung/samsum", split=split)
+        ds = datasets.load_dataset("knkarthick/samsum", split=split)
     except ValueError as e:
         if "trust_remote_code" in str(e):
-          raise ValueError("Loading Samsung/samsum requires you to execute the dataset script in that repo on your local machine. Make sure you have read the code there to avoid malicious use, then set HF_DATASETS_TRUST_REMOTE_CODE env variable to True.") from e
+          raise ValueError("Loading knkarthick/samsum requires you to execute the dataset script in that repo on your local machine. Make sure you have read the code there to avoid malicious use, then set HF_DATASETS_TRUST_REMOTE_CODE env variable to True.") from e
         else:
           raise e
     return ds

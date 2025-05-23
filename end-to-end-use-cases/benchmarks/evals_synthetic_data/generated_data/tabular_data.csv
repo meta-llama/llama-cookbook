@@ -1,0 +1,13 @@
+,start_date,end_date,salary,duration,student_id,high_perc,high_spec,mba_spec,second_perc,gender,degree_perc,placed,experience_years,employability_perc,mba_perc,work_experience,degree_type
+0,2020-01-10,,,3.0,3040587,66.62,Science,Mkt&Fin,75.01,M,75.76,True,1,85.98,58.37,True,Sci&Tech
+1,,2020-11-07,39320.0,,5940200,81.61,Commerce,Mkt&HR,73.03,M,67.27,True,1,91.44,65.12,False,Comm&Mgmt
+2,2020-02-21,2020-07-08,36408.0,3.0,13408830,62.71,Arts,Mkt&Fin,82.09,F,71.97,True,1,62.18,71.15,True,Comm&Mgmt
+3,2020-01-30,2020-09-29,36591.0,3.0,16186310,51.0,Commerce,Mkt&Fin,62.04,M,65.32,True,1,61.87,58.9,False,Comm&Mgmt
+4,2020-01-16,,33032.0,,2086931,67.04,Commerce,Mkt&Fin,53.53,M,51.08,True,1,58.65,56.32,False,Sci&Tech
+5,2020-07-20,,31536.0,3.0,6414765,80.3,Science,Mkt&HR,87.34,M,74.1,True,1,64.24,68.55,False,Sci&Tech
+6,2020-02-13,2020-11-26,32428.0,12.0,6180804,67.61,Commerce,Mkt&HR,49.94,M,72.79,True,1,86.51,69.26,False,Sci&Tech
+7,2020-01-02,2020-07-14,36317.0,6.0,14357765,63.09,Commerce,Mkt&Fin,86.17,M,83.25,True,1,71.89,75.9,False,Sci&Tech
+8,,2020-05-10,27104.0,3.0,9499396,77.42,Science,Mkt&HR,71.74,F,66.19,False,1,95.38,59.49,False,Sci&Tech
+9,2020-01-01,2020-04-15,,3.0,10945558,57.54,Science,Mkt&HR,57.63,F,72.51,True,1,86.4,60.99,True,Comm&Mgmt
+10,2020-01-01,2020-10-27,,6.0,5714925,82.43,Science,Mkt&Fin,68.14,M,76.55,True,1,95.86,67.78,False,Sci&Tech
+11,2020-01-01,2020-07-02,,3.0,12273151,58.25,Commerce,Mkt&Fin,65.04,M,61.35,True,1,65.73,55.15,True,Comm&Mgmt

@@ -23,7 +23,7 @@ DEFAULT_MODEL_NAME = "meta-llama/Llama-Prompt-Guard-2-86M"
 
 
 def load_model_and_tokenizer(
-    model_name: str = "meta-llama/Prompt-Guard-2-86M", device: str = DEFAULT_DEVICE
+    model_name: str = "meta-llama/Llama-Prompt-Guard-2-86M", device: str = DEFAULT_DEVICE
 ) -> Tuple[AutoModelForSequenceClassification, AutoTokenizer, str]:
     """
     Load the PromptGuard model and tokenizer, and move the model to the specified device.

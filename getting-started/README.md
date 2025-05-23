@@ -22,3 +22,4 @@ If you are new to developing with Meta Llama models, this is where you should st
 * The [inference](./inference/) folder contains scripts to deploy Llama for inference on server and mobile. See also [3p_integrations/vllm](../3p-integrations/vllm/) and [3p_integrations/tgi](../3p-integrations/tgi/) for hosting Llama on open-source model servers.
 * The [RAG](./RAG/) folder contains a simple Retrieval-Augmented Generation application using Llama.
 * The [finetuning](./finetuning/) folder contains resources to help you finetune Llama on your custom datasets, for both single- and multi-GPU setups. The scripts use the native llama-cookbook finetuning code found in [finetuning.py](../src/llama_cookbook/finetuning.py) which supports these features:
+* The [llama-tools](./llama-tools/) folder contains resources to help you use Llama tools, such as [llama-prompt-ops](../llama-tools/llama-prompt-ops_101.ipynb).
