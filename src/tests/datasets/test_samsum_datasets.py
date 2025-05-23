@@ -12,7 +12,7 @@ class Config:
     model_type: str = "llama"
 
 try:
-    load_dataset("Samsung/samsum")
+    load_dataset("knkarthick/samsum")
     SAMSUM_UNAVAILABLE = False
 except ValueError:
     SAMSUM_UNAVAILABLE = True
