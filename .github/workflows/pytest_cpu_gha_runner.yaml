@@ -70,5 +70,7 @@ jobs:
         id: test_summary
         uses: test-summary/action@v2
         with:
-          paths: $GITHUB_WORKSPACE/result.xml
-        if: always()
+          paths:  |
+            $GITHUB_WORKSPACE/result.xml
+            !**/AndroidManifest.xml
+        if: ${{ steps.pytest.outcome == 'true' }}
