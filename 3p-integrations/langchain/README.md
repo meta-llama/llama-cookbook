@@ -1,42 +1,50 @@
-# LangChain <> Llama3 Cookbooks
+# LangChain + Llama 3 Cookbooks
 
-### `Agents`
+## Understanding Workflows and Agents
 
-LLM agents use [planning, memory, and tools](https://lilianweng.github.io/posts/2023-06-23-agent/) to accomplish tasks. Here, we show how to build agents capable of [tool-calling](https://python.langchain.com/docs/integrations/chat/) using [LangGraph](https://python.langchain.com/docs/langgraph) with Llama 3. 
+Agentic systems can be implemented as either "workflows" or "agents":
 
-Agents can empower Llama 3 with important new capabilities. In particular, we will show how to give Llama 3 the ability to perform web search, as well as multi-modality: image generation (text-to-image), image analysis (image-to-text), and voice (text-to-speech) tools!
+* **Workflows**: Systems where LLMs and tools are orchestrated through predefined code paths
+* **Agents**: Systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks
 
-Tool-calling agents with LangGraph use two nodes: (1) a node with an LLM decides which tool to invoke based upon the user question. It outputs the tool name and arguments to use. (2) the tool name and arguments are passed to a tool node, which calls the tool itself with the specified arguments and returns the result back to the LLM.
+Learn more about this distinction in the [LangGraph documentation](https://langchain-ai.github.io/langgraph/tutorials/workflows/).
 
-![Screenshot 2024-05-30 at 10 48 58 AM](https://github.com/rlancemartin/llama-recipes/assets/122662504/a2c2ec40-2c7b-486e-9290-33b6da26c304)
+[LangGraph](https://langchain-ai.github.io/langgraph/concepts/high_level/) is a powerful library for building both workflows and agents, offering benefits such as:
+- Persistence
+- Streaming
+- Debugging support
+- Deployment capabilities
 
-Our first notebook, `langgraph-tool-calling-agent`, shows how to build our agent mentioned above using LangGraph.
+These notebooks demonstrate how to build effective agents and workflows with LangGraph using Llama models.
 
-See this [video overview](https://www.youtube.com/watch?v=j2OAeeujQ9M) for more detail on the design of this agent.
+![LangGraph Overview](https://github.com/rlancemartin/llama-recipes/assets/122662504/a2c2ec40-2c7b-486e-9290-33b6da26c304)
 
---- 
+## Notebooks in this Collection
 
-### `RAG Agent`
+### 1. LangGraph Tool Calling Agent
 
-Our second notebook, `langgraph-rag-agent`, shows how to apply LangGraph to build a custom Llama 3 powered RAG agent that uses ideas from 3 papers:
+In [`langgraph_tool_calling_agent.ipynb`](./langgraph_tool_calling_agent.ipynb), we demonstrate how to build an agent using LangGraph with tool calling capabilities. This implementation shows how to create flexible, dynamic agents that can select and use tools to complete tasks.
 
-* Corrective-RAG (CRAG) [paper](https://arxiv.org/pdf/2401.15884.pdf) uses self-grading on retrieved documents and web-search fallback if documents are not relevant.
-* Self-RAG [paper](https://arxiv.org/abs/2310.11511) adds self-grading on generations for hallucinations and for ability to answer the question.
-* Adaptive RAG [paper](https://arxiv.org/abs/2403.14403) routes queries between different RAG approaches based on their complexity.
+Watch the [video overview](https://www.youtube.com/watch?v=j2OAeeujQ9M) for a detailed explanation of this agent's design.
 
-We implement each approach as a control flow in LangGraph:
-- **Planning:** The sequence of RAG steps (e.g., retrieval, grading, and generation) that we want the agent to take.
-- **Memory:** All the RAG-related information (input question, retrieved documents, etc) that we want to pass between steps.
-- **Tool use:** All the tools needed for RAG (e.g., decide web search or vectorstore retrieval based on the question).
+### 2. LangGraph RAG Workflow
 
-We will build from CRAG (blue, below) to Self-RAG (green) and finally to Adaptive RAG (red):
+In [`langgraph_rag_workflow.ipynb`](./langgraph_rag_workflow.ipynb), we show how to build a custom Llama-powered RAG workflow that incorporates ideas from three research papers:
 
-![langgraph_rag_agent_](https://github.com/rlancemartin/llama-recipes/assets/122662504/ec4aa1cd-3c7e-4cd1-a1e7-7deddc4033a8)
+* **Corrective-RAG (CRAG)** [paper](https://arxiv.org/pdf/2401.15884.pdf): Uses self-grading on retrieved documents and web-search fallback when documents aren't relevant
+* **Self-RAG** [paper](https://arxiv.org/abs/2310.11511): Adds self-grading on generations to detect hallucinations and evaluate answer quality
+* **Adaptive RAG** [paper](https://arxiv.org/abs/2403.14403): Routes queries between different RAG approaches based on query complexity
 
---- 
- 
-### `Local LangGraph RAG Agent`
+We implement these approaches as control flows in LangGraph with three key components:
 
-Our third notebook, `langgraph-rag-agent-local`, shows how to apply LangGraph to build advanced RAG agents using Llama 3 that run locally and reliably.
+- **Planning:** The sequence of RAG steps (retrieval, grading, generation)
+- **Memory:** RAG-related information (questions, retrieved documents) passed between steps
+- **Tool use:** Tools for RAG operations (deciding between web search or vectorstore retrieval)
 
-See this [video overview](https://www.youtube.com/watch?v=sgnrL7yo1TE) for more detail on the design of this agent.
+The workflow progressively builds from CRAG (blue) to Self-RAG (green) to Adaptive RAG (red):
+
+![RAG Workflow Evolution](https://github.com/rlancemartin/llama-recipes/assets/122662504/ec4aa1cd-3c7e-4cd1-a1e7-7deddc4033a8)
+
+This implementation demonstrates how workflows can constrain control flow, enabling effective operation even with low-capacity local LLMs.
+
+Watch the [video overview](https://www.youtube.com/watch?v=sgnrL7yo1TE) for a detailed explanation of this workflow's design.
