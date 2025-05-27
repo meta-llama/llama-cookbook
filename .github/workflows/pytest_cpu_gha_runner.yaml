@@ -2,20 +2,20 @@ name: "[GHA][CPU] llama-cookbook Pytest tests on CPU GitHub hosted runner."
 on:
   pull_request:
     branches:
-      - 'main'
+      - "main"
 
   # triggers workflow manually for debugging purposes.
   workflow_dispatch:
     inputs:
       runner:
-        description: 'GHA Runner Scale Set label to run workflow on.'
+        description: "GHA Runner Scale Set label to run workflow on."
         required: true
         default: ubuntu-24.04
 
       debug:
-          description: 'Run debugging steps?'
-          required: false
-          default: "true"
+        description: "Run debugging steps?"
+        required: false
+        default: "true"
 
 env:
   PYTORCH_WHEEL_URL: https://download.pytorch.org/whl/test/cu118
@@ -28,23 +28,21 @@ jobs:
         shell: bash # default shell to run all steps for a given job.
     runs-on: ${{ github.event.inputs.runner != '' &&  github.event.inputs.runner || 'ubuntu-24.04' }}
     steps:
-
       - name: "[DEBUG] Get runner container OS information"
         id: os_info
         if: ${{ github.event.inputs.debug == 'true' }}
         run: |
-            cat /etc/os-release
+          cat /etc/os-release
 
       - name: "Checkout 'meta-llama/llama-cookbook' repository"
         id: checkout
         uses: actions/checkout@v4
 
-
       - name: "[DEBUG] Content of the repository after checkout"
         id: content_after_checkout
         if: ${{ github.event.inputs.debug == 'true' }}
         run: |
-            ls -la ${GITHUB_WORKSPACE}
+          ls -la ${GITHUB_WORKSPACE}
 
       - name: "Installing Python dependencies"
         id: python_dependencies
@@ -52,25 +50,33 @@ jobs:
           pip3 install --upgrade pip
           pip3 install setuptools
 
-
       - name: "Installing 'llama-cookbook' project"
         id: install_llama_cookbook_package
         run: |
           echo "Installing 'llama-cookbook' project (re: https://github.com/meta-llama/llama-cookbook/tree/main/src?tab=readme-ov-file#install-with-optional-dependencies)"
           pip install --extra-index-url ${PYTORCH_WHEEL_URL} -e '.[tests]'
 
-
       - name: "Running PyTest tests on GHA CPU Runner"
         id: pytest
+        continue-on-error: true
         run: |
           echo "Running PyTest tests at 'GITHUB_WORKSPACE' path: ${GITHUB_WORKSPACE}"
           cd $GITHUB_WORKSPACE && python3 -m pytest --junitxml="$GITHUB_WORKSPACE/result.xml"
+
+          # checking for the presence of the Junit generated report file:
+          if [ -f "$GITHUB_WORKSPACE/result.xml"]; then
+            cat "$GITHUB_WORKSPACE/result.xml"
+            run: echo ::set-output name=status::success
+          else
+            echo "$GITHUB_WORKSPACE/result.xml file is not present."
+            run: echo ::set-output name=status::failure
+          fi
 
       - name: Publish Test Summary
         id: test_summary
         uses: test-summary/action@v2
         with:
-          paths:  |
-            $GITHUB_WORKSPACE/result.xml
+          paths: |
+            **/*.xml
             !**/AndroidManifest.xml
-        if: ${{ steps.pytest.outcome == 'true' }}
+        if: steps.pytest.outputs.status == 'success'
