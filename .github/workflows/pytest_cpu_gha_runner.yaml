@@ -66,10 +66,10 @@ jobs:
           # checking for the presence of the Junit generated report file:
           if [ -f "$GITHUB_WORKSPACE/result.xml"]; then
             cat "$GITHUB_WORKSPACE/result.xml"
-            run: echo ::set-output name=status::success
+            echo "report_available=true" "$GITHUB_OUTPUT"
           else
             echo "$GITHUB_WORKSPACE/result.xml file is not present."
-            run: echo ::set-output name=status::failure
+            echo "report_available=false" "$GITHUB_OUTPUT"
           fi
 
       - name: Publish Test Summary
@@ -79,4 +79,4 @@ jobs:
           paths: |
             **/*.xml
             !**/AndroidManifest.xml
-        if: steps.pytest.outputs.status == 'success'
+        if: steps.pytest.outputs.report_available == 'true'
