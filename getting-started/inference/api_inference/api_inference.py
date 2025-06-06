@@ -77,7 +77,7 @@ def main() -> None:
     parser.add_argument(
         "--provider",
         type=str,
-        default="OpenAI",
+        default="Llama",
         choices=["Llama", "OpenAI"],
         help="API provider to use (default: Llama)",
     )

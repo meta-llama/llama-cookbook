@@ -99,10 +99,6 @@ Make sure you've either:
 - Passed the API key using the `--api-key` argument
 - Set the appropriate environment variable for your chosen provider (LLAMA_API_KEY)
 
-### Known Issues
-
-- The script uses `Optional[str]` from typing module.
-
 ## Advanced Usage
 
 You can modify the script to use different models or customize the Gradio interface as needed.
