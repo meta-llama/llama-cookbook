@@ -35,8 +35,10 @@ python api_inference.py [OPTIONS]
 
 ### Command-line Options
 
-- `--api-key`: Your Llama API key (optional)
-  - If not provided, the script will look for the `LLAMA_API_KEY` environment variable
+- `--api-key`: Your API key (optional)
+  - If not provided, the script will look for the appropriate environment variable based on the provider
+- `--provider`: API provider to use (optional, default: "Llama")
+  - Available options: "Llama", "OpenAI"
 
 ### Setting Up Your API Key
 
@@ -44,18 +46,25 @@ You can provide your API key in one of two ways:
 
 1. **Command-line argument**:
    ```bash
-   python api_inference.py --api-key YOUR_API_KEY
+   python api_inference.py --api-key YOUR_API_KEY --provider Llama
    ```
 
 2. **Environment variable**:
+   The environment variable name depends on the provider you choose:
    ```bash
-   # For bash/zsh
+   # For Llama (default provider)
    export LLAMA_API_KEY=YOUR_API_KEY
 
-   # For Windows Command Prompt
+   # For OpenAI
+   export OPENAI_API_KEY=YOUR_API_KEY
+
+
+   For Windows:
+   ```bash
+   # Command Prompt (example for Llama)
    set LLAMA_API_KEY=YOUR_API_KEY
 
-   # For PowerShell
+   # PowerShell (example for Llama)
    $env:LLAMA_API_KEY="YOUR_API_KEY"
    ```
 
@@ -63,7 +72,11 @@ You can provide your API key in one of two ways:
 
 1. Run the script:
    ```bash
+   # Using Llama (default provider)
    python api_inference.py --api-key YOUR_API_KEY
+
+   # Using a different provider
+   python api_inference.py --api-key YOUR_API_KEY --provider OpenAI
    ```
 
 2. The script will launch a Gradio web interface (typically at http://127.0.0.1:7860)
@@ -84,12 +97,11 @@ No API key provided and *_API_KEY environment variable not found
 
 Make sure you've either:
 - Passed the API key using the `--api-key` argument
-- Set the appropriate environment variable
+- Set the appropriate environment variable for your chosen provider (LLAMA_API_KEY)
 
 ### Known Issues
 
-- There appears to be a reference to `args.provider` in the code, but no provider argument is defined in the ArgumentParser.
-- The script uses `Optional[str]` but doesn't import it from typing.
+- The script uses `Optional[str]` from typing module.
 
 ## Advanced Usage
 
