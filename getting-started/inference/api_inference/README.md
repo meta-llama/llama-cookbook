@@ -57,7 +57,7 @@ You can provide your API key in one of two ways:
 
    # For OpenAI
    export OPENAI_API_KEY=YOUR_API_KEY
-
+   ```
 
    For Windows:
    ```bash
@@ -102,6 +102,14 @@ Make sure you've either:
 ## Advanced Usage
 
 You can modify the script to use different models or customize the Gradio interface as needed.
+
+## Implementation Notes
+
+- The script uses type hints for better code readability and IDE support:
+  ```python
+  api_key: Optional[str] = args.api_key
+  ```
+  This line uses the `Optional` type from the `typing` module to indicate that `api_key` can be either a string or `None`. The `Optional` type is imported from the `typing` module at the beginning of the script.
 
 ## License
 
