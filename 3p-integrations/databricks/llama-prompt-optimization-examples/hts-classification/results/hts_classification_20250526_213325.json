@@ -1,0 +1,30 @@
+{
+  "prompt": "You are a customs classification expert specializing in the Harmonized Tariff Schedule (HTS) codes for international trade. Your task is to accurately predict the HTS code for a given product description. Analyze the product description carefully and provide the most appropriate HTS code. Output only the HTS code without any additional explanation or context.",
+  "few_shots": [
+    {
+      "question": "Products of the United States when returned after having been exported, or any other products when returned within 3 years after having been exported, without having been advanced in value or improved in condition by any process of manufacture or other means while abroad Other: Articles provided for in chapter 87: Other",
+      "context": "",
+      "answer": "9801001074"
+    },
+    {
+      "question": "Combs, hair-slides and the like; hairpins, curling pins, curling grips, hair-curlers and the like, other than those of heading 8516, and parts thereof: Combs, hair-slides and the like: Other: Combs: Valued not over $4.50 per gross",
+      "context": "",
+      "answer": "9615192000"
+    },
+    {
+      "question": "Fishing rods, fish hooks and other line fishing tackle; fish landing nets, butterfly nets and similar nets; decoy \"birds\" (other than those of heading 9208 or 9705) and similar hunting or shooting equipment; parts and accessories thereof: Other: Other, including parts and accessories: Artificial baits and flies",
+      "context": "",
+      "answer": "9507907000"
+    },
+    {
+      "question": "Knives with cutting blades, serrated or not (including pruning knives), other than knives of heading 8208, and blades and other base metal parts thereof: Other: Handles of base metal: Other",
+      "context": "",
+      "answer": "8211959000"
+    },
+    {
+      "question": "Men's or boys' shirts: Of cotton: Other Dress shirts: With two or more colors in the warp and/or the filling: Boys' (340)",
+      "context": "",
+      "answer": "6205202021"
+    }
+  ]
+}
