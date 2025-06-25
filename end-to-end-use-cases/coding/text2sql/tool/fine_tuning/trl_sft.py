@@ -48,8 +48,8 @@ peft_config = LoraConfig(
 )
 
 args = TrainingArguments(
-    output_dir="llama31-8b-text2sql-epochs-3",  # directory to save and repository id
-    num_train_epochs=3,  # number of training epochs
+    output_dir="llama31-8b-text2sql-epochs-20",  # directory to save and repository id
+    num_train_epochs=20,  # number of training epochs
     per_device_train_batch_size=3,  # batch size per device during training
     gradient_accumulation_steps=2,  # number of steps before performing a backward/update pass
     gradient_checkpointing=True,  # use gradient checkpointing to save memory

@@ -13,6 +13,7 @@ import sqlparse
 
 import torch
 from datasets import Dataset, load_dataset
+from langchain_together import ChatTogether
 from peft import AutoPeftModelForCausalLM
 from tqdm import tqdm
 from transformers import (
@@ -211,7 +212,6 @@ def huggingface_finetuned(api_key, model):
         )
         tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-        # TODO: uncomment to see if it makes a difference
         tokenizer.padding_side = "right"  # to prevent warnings
 
         if tokenizer.pad_token is None:
@@ -229,7 +229,6 @@ def huggingface_finetuned(api_key, model):
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             device_map="auto",
-            # attn_implementation="flash_attention_2",
             torch_dtype=torch.bfloat16,
             quantization_config=bnb_config,
         )

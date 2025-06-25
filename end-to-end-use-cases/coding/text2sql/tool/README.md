@@ -22,6 +22,11 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 *Note:* To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
+Llama 3.3 70b: 54.69% -  Llama API: 54.11%; Together: 54.63%
+Llama-3.1-405B: Together: 55.80% - Together: 57.17%
+Llama 4 Scout: 43.94% - Llama API: 44.39%
+Llama 4 Maverick: 41.46% - Llama API: 44.00%
+
 ### Supported Models
 
 #### Together AI Models
@@ -99,7 +104,43 @@ This will create `train_text2sql_sft_dataset.json` and `test_text2sql_sft_datase
 
 First, you need to login to HuggingFace (via running `huggingface-cli login` and enter your [HF token](https://huggingface.co/settings/tokens)) and have been granted access to the [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) model.
 
-Then run `python trl_sft.py`
+Then run `python trl_sft.py`. After the fine-tuning completes, you'll see the fine-tuned model saved to `llama31-8b-text2sql-fine_tuning`.
+
+After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chat etc:
+
+```markdown
+![train loss](train_loss.png)
+
+
+## Evaluating the fine-tuned model
+
+First, modify `llama_eval.sh` to use the fine-tuned model:
+
+
+```markdown
+YOUR_API_KEY='finetuned'
+model='fine_tuning/llama31-8b-text2sql'
+
+
+Then run `sh llama_eval.sh` to evaluate the fine-tuned model. The accuracy on the first 500 examples of the BIRD DEV dataset is about 25.60%. This is a significant improvement over the original Llama 3.1 8B Instruct model, which has an accuracy of about 10.60% on the same examples - you can confirm this by comparing the fine-tuned model's accuracy above with the original model's accuracy by first modifying `llama_eval.sh` to use the original model:
+
+```markdown
+YOUR_API_KEY='huggingface'
+model='meta-llama/Llama-3.1-8B-Instruct'
+
+
+Then running `sh llama_eval.sh` to evaluate the original model.
+
+Note that this is using the 4-bit quantized Llama 3.1 8b model to reduce the memory footprint and improve the efficiency, as shown in the code nippet of llama_text2sql.py:
+
+```markdown
+  bnb_config = BitsAndBytesConfig(
+      load_in_4bit=True,
+      bnb_4bit_use_double_quant=True,
+      bnb_4bit_quant_type="nf4",
+      bnb_4bit_compute_dtype=torch.bfloat16,
+  )
+
 
 ### Creating a reasoning dataset from the TRAIN dataset
 (text2sql) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm$ python create_reasoning_dataset.py --input_json data/train/train.json --db_root_path data/train/train_databases
@@ -116,12 +157,3 @@ which uses HF meta-llama/Llama-3.1-8B-Instruct and train_dataset_filtered.json a
 ### Filtering the reasoning dataset to only include examples where the predicted SQL matches the ground truth SQL
 Done: created a text2sql_cot_dataset_train_filtered dataset with 6400 examples of the predicted SQL in reasoning matching the ground truth SQL:
 (text2sql) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm/src$ nohup python reasoning_ground_diff.py --input_json ../data/train/train.json --db_root_path ../data/train/train_databases
-
-
-## Fine-tuning
-
-## Evaluating the fine-tuned model
-
-(trl) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm$ python trl_sft_infer.py
-
-uses test_dataset_filtered.json
