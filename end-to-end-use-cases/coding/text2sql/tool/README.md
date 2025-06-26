@@ -22,10 +22,13 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 *Note:* To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
-Llama 3.3 70b: 54.69% -  Llama API: 54.11%; Together: 54.63%
-Llama-3.1-405B: Together: 55.80% - Together: 57.17%
-Llama 4 Scout: 43.94% - Llama API: 44.39%
-Llama 4 Maverick: 41.46% - Llama API: 44.00%
+| Model                  | Llama API Accuracy | Together Accuracy |
+|------------------------|--------------------|-------------------|
+| Llama 3.1 8b           | -                  | 35.66%            |
+| Llama 3.3 70b          | 54.11%             | 54.63%            |
+| Llama-3.1-405B         | -                  | 55.80%            |
+| Llama 4 Scout          | 44.39%             | 43.94%            |
+| Llama 4 Maverick       | 44.00%             | 41.46%            |
 
 ## Supported Models
 
@@ -69,6 +72,7 @@ sh download_train_unzip.sh
 cd fine_tuning
 python create_sft_dataset.py --input_json ../data/train/train.json --db_root_path ../data/train/train_databases
 ```
+
 This will create `train_text2sql_sft_dataset.json` and `test_text2sql_sft_dataset.json` using the TRAIN set. Each line in the json files is in the conversation format ready for fine-tuning:
 
 ```
@@ -95,7 +99,7 @@ YOUR_API_KEY='finetuned'
 model='fine_tuning/llama31-8b-text2sql'
 ```
 
-Then run `sh llama_eval.sh` to evaluate the fine-tuned model. The accuracy on the first 500 examples of the BIRD DEV dataset is about 25.60%. This is a significant improvement over the original Llama 3.1 8B Instruct model, which has an accuracy of about 10.60% on the same examples - you can confirm this by comparing the fine-tuned model's accuracy above with the original model's accuracy by first modifying `llama_eval.sh` to use the original model:
+Then run `sh llama_eval.sh` to evaluate the fine-tuned model. The accuracy on the BIRD DEV dataset is about 37.16%. This is a 165% improvement over the model before fine-tuning, which has an accuracy of about 14.02% on the same dataset - you can confirm this by comparing the fine-tuned model's accuracy above with the original model's accuracy by modifying `llama_eval.sh` to use the original model:
 
 ```
 YOUR_API_KEY='huggingface'
@@ -104,7 +108,7 @@ model='meta-llama/Llama-3.1-8B-Instruct'
 
 Then running `sh llama_eval.sh` to evaluate the original model.
 
-Note that this is using the 4-bit quantized Llama 3.1 8b model to reduce the memory footprint and improve the efficiency, as shown in the code nippet of llama_text2sql.py:
+*Note:* We are using the 4-bit quantized Llama 3.1 8b model to reduce the memory footprint and improve the efficiency (as shown in the code nippet of llama_text2sql.py below), hence the accuracy of the quantized version (14.02%) is quite lower than the accuracy of the original Llama 3.1 8b (35.66%).
 
 ```
   bnb_config = BitsAndBytesConfig(
