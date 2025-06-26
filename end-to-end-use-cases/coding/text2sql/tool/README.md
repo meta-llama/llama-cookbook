@@ -1,10 +1,24 @@
 # Text2SQL Evaluation and Fine-Tuning Tools for Llama Models
 
-This folder contains the scripts for evaluating Llama models on Text2SQL tasks, preparing supervised and reasoning datasets, fine-tuning Llama 3.1 8B with the datasets, and evaluating the fine-tuned model. The original dataset and scripts are from the BIRD-SQL [benchmark](https://bird-bench.github.io) and [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird), but we have significantly simplified and streamlined them for Llama models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), so you can quickly evaluate how well different Llama models perform Text2SQL tasks and how to fine-tune the models for better accuracy.
+## Overview
+
+This folder contains the scripts for evaluating Llama (original and fine-tuned) models on Text2SQL tasks using the popular [BIRD](https://bird-bench.github.io) dataset, generating fine-tuning datasets, and fine-tuning Llama 3.1 8B with the datasets.
+
+We have significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
+
+We have also provided end-to-end scripts for generating datasets and fine-tuning a quantized Llama 3.1 8B model to gain a 165% accuracy improvement over the original model.
 
 ## Quick Start on Evaluating Llama on Text2SQL
 
-First, `cd llama-cookbook/getting-started/llama-tools/text2sql` and run `pip install -r requirements.txt` to install all the required packages.
+First, run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation and fine-tuning:
+
+```
+git clone https://github.com/meta-llama/llama-cookbook
+cd llama-cookbook/end-to-end-use-cases/coding/text2sql/tool
+conda create -n llama-text2sql python=3.10
+conda activate llama-text2sql
+pip install -r requirements.txt
+```
 
 Then, follow the steps below to evaluate Llama 3 & 4 models on Text2SQL using the BIRD benchmark:
 
@@ -21,6 +35,10 @@ sh download_dev_unzip.sh
 After the script completes, you'll see the accuracy of the Llama model on the BIRD DEV text2sql. For example, the total accuracy is about 54.24% with `YOUR_API_KEY` set to your Llama API key and `model='Llama-3.3-70B-Instruct'`, or about 35.07% with `YOUR_API_KEY` set to your Together API key and `model=meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo`.
 
 *Note:* To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
+
+### Evaluation Results
+
+Below are the results of the Llama models we have evaluated on the BIRD DEV dataset:
 
 | Model                  | Llama API Accuracy | Together Accuracy |
 |------------------------|--------------------|-------------------|
