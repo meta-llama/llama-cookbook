@@ -108,7 +108,7 @@ Then run `python trl_sft.py`. After the fine-tuning completes, you'll see the fi
 
 After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chat etc:
 
-![](train_loss.png)
+![](fine_tuning/train_loss.png)
 
 ## Evaluating the fine-tuned model
 
