@@ -108,52 +108,39 @@ Then run `python trl_sft.py`. After the fine-tuning completes, you'll see the fi
 
 After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chat etc:
 
-```markdown
-![train loss](train_loss.png)
-
+![](train_loss.png)
 
 ## Evaluating the fine-tuned model
 
 First, modify `llama_eval.sh` to use the fine-tuned model:
 
-
-```markdown
+```
 YOUR_API_KEY='finetuned'
 model='fine_tuning/llama31-8b-text2sql'
-
+```
 
 Then run `sh llama_eval.sh` to evaluate the fine-tuned model. The accuracy on the first 500 examples of the BIRD DEV dataset is about 25.60%. This is a significant improvement over the original Llama 3.1 8B Instruct model, which has an accuracy of about 10.60% on the same examples - you can confirm this by comparing the fine-tuned model's accuracy above with the original model's accuracy by first modifying `llama_eval.sh` to use the original model:
 
-```markdown
+```
 YOUR_API_KEY='huggingface'
 model='meta-llama/Llama-3.1-8B-Instruct'
-
+```
 
 Then running `sh llama_eval.sh` to evaluate the original model.
 
 Note that this is using the 4-bit quantized Llama 3.1 8b model to reduce the memory footprint and improve the efficiency, as shown in the code nippet of llama_text2sql.py:
 
-```markdown
+```
   bnb_config = BitsAndBytesConfig(
       load_in_4bit=True,
       bnb_4bit_use_double_quant=True,
       bnb_4bit_quant_type="nf4",
       bnb_4bit_compute_dtype=torch.bfloat16,
   )
-
+```
 
 ### Creating a reasoning dataset from the TRAIN dataset
-(text2sql) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm$ python create_reasoning_dataset.py --input_json data/train/train.json --db_root_path data/train/train_databases
-
-(trl) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm$ python  convert_dataset.py
-to use ./src/text2sql_cot_dataset_train_filtered (6400) generate train_dataset_filtered.json (4480) and test_dataset_filtered.json (1920)
-
-Now running:
-(trl) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm$ CUDA_VISIBLE_DEVICES=1 nohup with-proxy python trl_sft.py
-which uses HF meta-llama/Llama-3.1-8B-Instruct and train_dataset_filtered.json and GPU 25GB:
-25707MiB / 97871MiB
-1%|▏         | 66/5121 [02:20<2:58:39,  2.12s/it]
-
-### Filtering the reasoning dataset to only include examples where the predicted SQL matches the ground truth SQL
-Done: created a text2sql_cot_dataset_train_filtered dataset with 6400 examples of the predicted SQL in reasoning matching the ground truth SQL:
-(text2sql) jeffxtang@devgpu005:~/repos/DAMO-ConvAI/bird/llm/src$ nohup python reasoning_ground_diff.py --input_json ../data/train/train.json --db_root_path ../data/train/train_databases
+In the fine_tuning folder, run:
+```
+python create_reasoning_dataset.py --input_json data/train/train.json --db_root_path data/train/train_databases
+```
