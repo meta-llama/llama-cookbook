@@ -173,19 +173,25 @@ def generate_combined_prompts_one(db_path, question, knowledge=None):
 
 
 def cloud_llama(api_key, model, prompt, max_tokens, temperature, stop):
+
+    SYSTEM_PROMPT = "You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, translate the following text question into a SQLite SQL select statement."
     try:
         if model.startswith("meta-llama/"):
             llm = ChatTogether(
                 model=model,
                 temperature=0,
             )
-            answer = llm.invoke(prompt).content
+            answer = llm.invoke(SYSTEM_PROMPT + "\n\n" + prompt).content
         else:
             client = LlamaAPIClient()
+            messages = [
+                {"content": SYSTEM_PROMPT, "role": "system"},
+                {"role": "user", "content": prompt},
+            ]
 
             response = client.chat.completions.create(
                 model=model,
-                messages=[{"role": "user", "content": prompt}],
+                messages=messages,
                 temperature=0,
             )
             answer = response.completion_message.content.text

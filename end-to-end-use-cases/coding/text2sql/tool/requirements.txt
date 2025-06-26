@@ -2,12 +2,10 @@ llama_api_client
 langchain-together
 sqlparse
 torch==2.4.1
-tensorboard 
+tensorboard
 liger-kernel==0.4.2
 setuptools
 deepspeed==0.15.4
-# openai
-# lm-eval[api]==0.4.5
 transformers==4.46.3
 datasets==3.6.0
 accelerate==1.1.1
