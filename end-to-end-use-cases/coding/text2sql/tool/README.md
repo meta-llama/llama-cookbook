@@ -27,16 +27,16 @@ Llama-3.1-405B: Together: 55.80% - Together: 57.17%
 Llama 4 Scout: 43.94% - Llama API: 44.39%
 Llama 4 Maverick: 41.46% - Llama API: 44.00%
 
-### Supported Models
+## Supported Models
 
-#### Together AI Models
+### Together AI Models
 - meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo
 - meta-llama/Llama-3.3-70B-Instruct-Turbo
 - meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
 - meta-llama/Llama-4-Scout-17B-16E-Instruct
 - other Llama models hosted on Together AI
 
-#### Llama API Models
+### Llama API Models
 - Llama-3.3-8B-Instruct
 - Llama-3.3-70B-Instruct
 - Llama-4-Maverick-17B-128E-Instruct-FP8
@@ -52,31 +52,6 @@ Llama 4 Maverick: 41.46% - Llama API: 44.00%
 3. **Result Comparison**: The results from executing the generated SQL are compared with the results from the ground truth SQL to determine correctness.
 
 4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
-
-## Data Format
-
-The evaluation data should be in JSON format with the following structure:
-
-```json
-[
-  {
-    "question": "Natural language question",
-    "db_id": "database_name",
-    "evidence": "External knowledge (optional)",
-    "SQL": "Ground truth SQL query",
-    "difficulty": "simple|moderate|challenging"
-  },
-  ...
-]
-```
-
-## Output
-
-The evaluation produces:
-- Generated SQL queries saved to the specified output directory
-- Accuracy scores printed to the console, broken down by difficulty level
-
-
 
 ## Preparing Fine-tuning Dataset
 
@@ -100,7 +75,7 @@ This will create `train_text2sql_sft_dataset.json` and `test_text2sql_sft_datase
 {"messages":[{"content":"You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, translate the following text question into a SQLite SQL select statement.","role":"system"},{"content":"-- DB Schema: <DB_SCHEMA>\n\n-- External Knowledge: <KNOWLEDGE_FROM_TRAIN>\n\n-- Question: <TEXT_QUESTION>","role":"user"},{"content":"<GOLD_SQL>","role":"assistant"}]}
 ```
 
-3. Supervised Fine-tuning
+## Supervised Fine-tuning
 
 First, you need to login to HuggingFace (via running `huggingface-cli login` and enter your [HF token](https://huggingface.co/settings/tokens)) and have been granted access to the [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) model.
 
@@ -109,6 +84,7 @@ Then run `python trl_sft.py`. After the fine-tuning completes, you'll see the fi
 After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chat etc:
 
 ![](fine_tuning/train_loss.png)
+
 
 ## Evaluating the fine-tuned model
 
@@ -139,8 +115,21 @@ Note that this is using the 4-bit quantized Llama 3.1 8b model to reduce the mem
   )
 ```
 
+
 ### Creating a reasoning dataset from the TRAIN dataset
 In the fine_tuning folder, run:
 ```
 python create_reasoning_dataset.py --input_json data/train/train.json --db_root_path data/train/train_databases
+```
+This will create `text2sql_cot_dataset` dataset in HuggingFace format, which is ready for fine-tuning with the reasoning prompt. Each line in the json file is in the conversation format ready for fine-tuning:
+
+```
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, generate the step-by-step reasoning and the final SQLite SQL select statement from the text question.",
+        },
+        {"role": "user", "content": prompt},
+        {"role": "assistant", "content": reasoning},
+    ]
 ```
