@@ -1,5 +1,5 @@
-llama_api_client
-langchain-together
+llama_api_client==0.1.1
+langchain-together==0.3.0
 sqlparse
 torch==2.4.1
 tensorboard
