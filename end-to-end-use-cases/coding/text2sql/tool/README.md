@@ -2,9 +2,9 @@
 
 ## Overview
 
-This folder contains the scripts for evaluating Llama (original and fine-tuned) models on Text2SQL tasks using the popular [BIRD](https://bird-bench.github.io) dataset, generating fine-tuning datasets, and fine-tuning Llama 3.1 8B with the datasets.
+This folder contains the scripts for evaluating Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset, generating fine-tuning datasets, and fine-tuning Llama 3.1 8B with the datasets.
 
-We have significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
+We have updated and significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model, so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
 
 We have also provided end-to-end scripts for generating datasets and fine-tuning a quantized Llama 3.1 8B model to gain a **165% accuracy improvement** over the original model.
 
@@ -21,7 +21,6 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 | Llama 4 Maverick       | 44.00%             | 41.46%            |
 
 Llama 3.1 8b quantized model: 14.02% (original) -> 37.16% (fine-tuned)
-
 
 ## Quick Start on Evaluating Llama on Text2SQL
 
@@ -57,7 +56,7 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 2. **SQL Execution**: `text2sql_eval.py` executes both the generated SQL and ground truth SQL against the corresponding databases, then continues with steps 3 and 4 below.
 
-3. **Result Comparison**: The results from executing the generated SQL are compared with the results from the ground truth SQL to determine correctness.
+3. **Result Comparison**: The results from executing the generated SQL are compared [source code](text2sql_eval.py#L30) with the results from the ground truth SQL to determine correctness.
 
 4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
 
@@ -77,7 +76,9 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 - Llama-4-Scout-17B-16E-Instruct-FP8
 - other Llama models hosted on Llama API
 
-## Preparing Fine-tuning Dataset
+## Fine-tuning with the BIRD TRAIN dataset (No Reasoning)
+
+We'll first use the BIRD TRAIN dataset to prepare for supervised fine-tuning with no reasoning info in the dataset.
 
 ### Using the TRAIN to prepare for supervised fine-tuning
 
@@ -100,7 +101,7 @@ This will create `train_text2sql_sft_dataset.json` and `test_text2sql_sft_datase
 {"messages":[{"content":"You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, translate the following text question into a SQLite SQL select statement.","role":"system"},{"content":"-- DB Schema: <DB_SCHEMA>\n\n-- External Knowledge: <KNOWLEDGE_FROM_TRAIN>\n\n-- Question: <TEXT_QUESTION>","role":"user"},{"content":"<GOLD_SQL>","role":"assistant"}]}
 ```
 
-## Supervised Fine-tuning
+### Supervised Fine-tuning
 
 First, you need to login to HuggingFace (via running `huggingface-cli login` and enter your [HF token](https://huggingface.co/settings/tokens)) and have been granted access to the [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) model.
 
@@ -111,7 +112,7 @@ After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can o
 ![](fine_tuning/train_loss.png)
 
 
-## Evaluating the fine-tuned model
+### Evaluating the fine-tuned model
 
 First, modify `llama_eval.sh` to use the fine-tuned model:
 
@@ -140,6 +141,9 @@ Then running `sh llama_eval.sh` to evaluate the original model.
   )
 ```
 
+## Fine-tuning with the BIRD TRAIN dataset (With Reasoning)
+
+Next we'll use the BIRD TRAIN dataset to prepare for supervised fine-tuning with reasoning info in the dataset. The goal is to see if we can improve the accuracy of the fine-tuned model by adding the reasoning info in the dataset.
 
 ### Creating a reasoning dataset from the TRAIN dataset
 
