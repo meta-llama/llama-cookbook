@@ -139,13 +139,24 @@ Then running `sh llama_eval.sh` to evaluate the original model.
 
 
 ### Creating a reasoning dataset from the TRAIN dataset
-In the fine_tuning folder, run:
+
+The script `create_reasoning_dataset.py` is used to create a reasoning dataset from the TRAIN dataset by asking Llama 3.3 70B to generate the reasoning for each text question and its corresponding gold SQL. The intent is to use the reasoning dataset to fine-tune the Llama model to improve the accuracy of the generated SQL.
+
+To run the script, use the following commands:
 ```
-python create_reasoning_dataset.py --input_json data/train/train.json --db_root_path data/train/train_databases
+cd fine_tuning
+python create_reasoning_dataset.py --input_json ../data/train/train.json --db_root_path ../data/train/train_databases
 ```
-This will create `text2sql_cot_dataset` dataset in HuggingFace format, which is ready for fine-tuning with the reasoning prompt. Each line in the json file is in the conversation format ready for fine-tuning:
+
+This will create `text2sql_cot_dataset` dataset in the conversation format ready for fine-tuning. Each example in the dataset is generated from the code snippet below:
 
 ```
+prompt = f"""
+-- DB Schema: {db_schema}
+-- External Knowledge: {external_knowledge}
+-- Text Question: {question}
+"""
+cot = {
     "messages": [
         {
             "role": "system",
@@ -154,4 +165,29 @@ This will create `text2sql_cot_dataset` dataset in HuggingFace format, which is 
         {"role": "user", "content": prompt},
         {"role": "assistant", "content": reasoning},
     ]
+}
 ```
+
+The prompt for Llama 3.3 70B to generate the `reasoning` above is:
+```
+You are a text to SQL query translator. Based on the DB Schema and External Knowledge, given the Text Question Input and its Gold SQL Output below, generate the step-by-step reasoning to infer the Gold SQL Output from the Text Question Input.
+
+-- DB Schema: {db_schema}
+-- External Knowledge: {external_knowledge}
+-- Text Question Input: {question}
+-- Gold SQL Output: {gold_SQL}
+
+Your response should be as follows:\n\n
+Let me think through this step by step:\n\n1. First, I need to consider...\n2. Then...\n3. Next...\n...\n\nFinally, the SQL statement for the text question is:
+```sql ...```\n
+
+"""
+```
+
+## Next Steps
+1. Fine-tune the model with the reasoning dataset and evaluate its accuracy.
+2. Add a Colab notebook for fine-tuning and evaluation.
+3. Try reinforcement fine-tuning to improve the accuracy further with reasoning.
+4. Use torchtune for full and non-quantized fine-tuning of Llama 3.3 70b and Llama 4 models.
+5. Introduce agent to try to improve the accuracy further.
+6. Expand the tool to support other databases.
