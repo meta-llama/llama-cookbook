@@ -6,7 +6,20 @@ This folder contains the scripts for evaluating Llama (original and fine-tuned) 
 
 We have significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
 
-We have also provided end-to-end scripts for generating datasets and fine-tuning a quantized Llama 3.1 8B model to gain a 165% accuracy improvement over the original model.
+We have also provided end-to-end scripts for generating datasets and fine-tuning a quantized Llama 3.1 8B model to gain a **165% accuracy improvement** over the original model.
+
+## Llama Text2SQL Evaluation Results
+
+Below are the results of the Llama models we have evaluated on the BIRD DEV dataset:
+
+| Model                  | Llama API Accuracy | Together Accuracy |
+|------------------------|--------------------|-------------------|
+| Llama 3.1 8b           | -                  | 35.66%            |
+| Llama 3.3 70b          | 54.11%             | 54.63%            |
+| Llama-3.1-405B         | -                  | 55.80%            |
+| Llama 4 Scout          | 44.39%             | 43.94%            |
+| Llama 4 Maverick       | 44.00%             | 41.46%            |
+
 
 ## Quick Start on Evaluating Llama on Text2SQL
 
@@ -36,17 +49,15 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 *Note:* To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
-### Evaluation Results
+## Evaluation Process
 
-Below are the results of the Llama models we have evaluated on the BIRD DEV dataset:
+1. **SQL Generation**: `llama_text2sql.py` sends natural language questions to the specified Llama model and collects the generated SQL queries.
 
-| Model                  | Llama API Accuracy | Together Accuracy |
-|------------------------|--------------------|-------------------|
-| Llama 3.1 8b           | -                  | 35.66%            |
-| Llama 3.3 70b          | 54.11%             | 54.63%            |
-| Llama-3.1-405B         | -                  | 55.80%            |
-| Llama 4 Scout          | 44.39%             | 43.94%            |
-| Llama 4 Maverick       | 44.00%             | 41.46%            |
+2. **SQL Execution**: `text2sql_eval.py` executes both the generated SQL and ground truth SQL against the corresponding databases, then continues with steps 3 and 4 below.
+
+3. **Result Comparison**: The results from executing the generated SQL are compared with the results from the ground truth SQL to determine correctness.
+
+4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
 
 ## Supported Models
 
@@ -63,16 +74,6 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 - Llama-4-Maverick-17B-128E-Instruct-FP8
 - Llama-4-Scout-17B-16E-Instruct-FP8
 - other Llama models hosted on Llama API
-
-## Evaluation Process
-
-1. **SQL Generation**: `llama_text2sql.py` sends natural language questions to the specified Llama model and collects the generated SQL queries.
-
-2. **SQL Execution**: `text2sql_eval.py` executes both the generated SQL and ground truth SQL against the corresponding databases, then continues with steps 3 and 4 below.
-
-3. **Result Comparison**: The results from executing the generated SQL are compared with the results from the ground truth SQL to determine correctness.
-
-4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
 
 ## Preparing Fine-tuning Dataset
 

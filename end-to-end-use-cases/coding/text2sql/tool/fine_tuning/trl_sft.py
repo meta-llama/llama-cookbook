@@ -11,9 +11,11 @@ from transformers import (
 )
 from trl import setup_chat_format, SFTTrainer
 
-dataset = load_dataset(
-    "json", data_files="train_text2sql_sft_dataset.json", split="train"
-)
+FT_DATASET = "train_text2sql_sft_dataset.json"
+# uncomment to use the reasoning dataset created by "create_reasoning_dataset.py"
+# FT_DATASET = "train_text2sql_cot_dataset.json"
+
+dataset = load_dataset("json", data_files=SFT_DATASET, split="train")
 
 model_id = "meta-llama/Llama-3.1-8B-Instruct"
 
@@ -48,8 +50,8 @@ peft_config = LoraConfig(
 )
 
 args = TrainingArguments(
-    output_dir="llama31-8b-text2sql-epochs-20",  # directory to save and repository id
-    num_train_epochs=20,  # number of training epochs
+    output_dir="llama31-8b-text2sql-fine-tuned",  # directory to save and repository id
+    num_train_epochs=3,  # number of training epochs
     per_device_train_batch_size=3,  # batch size per device during training
     gradient_accumulation_steps=2,  # number of steps before performing a backward/update pass
     gradient_checkpointing=True,  # use gradient checkpointing to save memory

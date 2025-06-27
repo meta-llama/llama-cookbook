@@ -8,7 +8,7 @@ import sqlite3
 from typing import Dict, List, Tuple
 
 import sqlparse
-from datasets import Dataset
+from datasets import Dataset, load_from_disk
 
 from langchain_together import ChatTogether
 from llama_api_client import LlamaAPIClient
@@ -139,6 +139,16 @@ def generate_schema_prompt(db_path, num_rows=None):
     return schema_prompt
 
 
+def create_conversation(sample):
+    return {
+        "messages": [
+            {"role": "system", "content": sample["messages"][0]["content"]},
+            {"role": "user", "content": sample["messages"][1]["content"]},
+            {"role": "assistant", "content": sample["messages"][2]["content"]},
+        ]
+    }
+
+
 def create_cot_dataset(input_json, db_root_path):
     cot_list = []
     diff = 0
@@ -174,8 +184,6 @@ def create_cot_dataset(input_json, db_root_path):
             .replace("{gold_SQL}", gold_SQL)
         )
         reasoning = llama(prompt_to_generate_reasoning)
-        # print(f"\n======\n{prompt_to_generate_reasoning=}\n\n")
-        # print(f"\n======\n{reasoning=}\n\n")
 
         pattern = re.compile(r"```sql\n*(.*?)```", re.DOTALL)
         matches = pattern.findall(reasoning)
@@ -212,6 +220,15 @@ def create_cot_dataset(input_json, db_root_path):
     dataset_dict = {key: [d[key] for d in cot_list] for key in cot_list[0]}
     hf_dataset = Dataset.from_dict(dataset_dict)
     hf_dataset.save_to_disk(f"text2sql_cot_dataset")
+
+    dataset = load_from_disk("text2sql_cot_dataset")
+    dataset = dataset.map(
+        create_conversation, remove_columns=dataset.features, batched=False
+    )
+    dataset = dataset.train_test_split(test_size=0.3)
+
+    dataset["train"].to_json("train_text2sql_cot_dataset.json", orient="records")
+    dataset["test"].to_json("test_text2sql_cot_dataset.json", orient="records")
 
 
 if __name__ == "__main__":
