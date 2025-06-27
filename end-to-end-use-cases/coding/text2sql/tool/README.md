@@ -56,7 +56,7 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 2. **SQL Execution**: `text2sql_eval.py` executes both the generated SQL and ground truth SQL against the corresponding databases, then continues with steps 3 and 4 below.
 
-3. **Result Comparison**: The results from executing the generated SQL are compared [source code](text2sql_eval.py#L30) with the results from the ground truth SQL to determine correctness.
+3. **Result Comparison**: The results from executing the generated SQL are compared ([source code](text2sql_eval.py#L30)) with the results from the ground truth SQL to determine correctness.
 
 4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
 
