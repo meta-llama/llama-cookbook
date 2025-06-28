@@ -199,6 +199,9 @@ Let me think through this step by step:\n\n1. First, I need to consider...\n2. T
 
 Uncomment the line `# FT_DATASET = "train_text2sql_cot_dataset.json"` in trl_sft.py to use the reasoning dataset for fine-tuning. Then run `python trl_sft.py`. After the fine-tuning completes, you'll see the fine-tuned model saved to `llama31-8b-text2sql-fine-tuned`, specified in `output_dir="llama31-8b-text2sql-fine-tuned"` of `TrainingArguments` in `trl_sft.py` - you may want to rename the `output_dir` folder to something else to avoid overwriting the previous fine-tuned model.
 
+The train loss chart will look like this:
+![](fine_tuning/train_loss_cot.png)
+
 ### Evaluating the fine-tuned model (With Reasoning)
 
 First, modify `llama_eval.sh` to use the fine-tuned model, which should match the `output_dir` in `TrainingArguments` in `trl_sft.py`:
