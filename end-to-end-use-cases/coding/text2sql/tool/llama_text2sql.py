@@ -14,6 +14,7 @@ import sqlparse
 import torch
 from datasets import Dataset, load_dataset
 from langchain_together import ChatTogether
+from llama_api_client import LlamaAPIClient
 from peft import AutoPeftModelForCausalLM
 from tqdm import tqdm
 from transformers import (
@@ -26,6 +27,8 @@ from transformers import (
 
 def local_llama(prompt, pipe):
     SYSTEM_PROMPT = "You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, translate the following text question into a SQLite SQL select statement."
+    # UNCOMMENT TO USE THE FINE_TUNED MODEL WITH REASONING DATASET
+    # SYSTEM_PROMPT = "You are a text to SQL query translator. Using the SQLite DB Schema and the External Knowledge, generate the step-by-step reasoning and the final SQLite SQL select statement from the text question."
 
     messages = [
         {"content": SYSTEM_PROMPT, "role": "system"},
@@ -51,10 +54,17 @@ def local_llama(prompt, pipe):
         pad_token_id=pipe.tokenizer.pad_token_id,
     )
 
-    generated_answer = outputs[0]["generated_text"][len(raw_prompt) :].strip()
+    answer = outputs[0]["generated_text"][len(raw_prompt) :].strip()
 
-    print(f"{generated_answer=}")
-    return generated_answer
+    pattern = re.compile(r"```sql\n*(.*?)```", re.DOTALL)
+    matches = pattern.findall(answer)
+    if matches != []:
+        result = matches[0]
+    else:
+        result = answer
+
+    print(f"{result=}")
+    return result
 
 
 def new_directory(path):
