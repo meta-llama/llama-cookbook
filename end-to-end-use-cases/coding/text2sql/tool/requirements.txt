@@ -1,10 +1,10 @@
 llama_api_client==0.1.1
 langchain-together==0.3.0
-sqlparse
+sqlparse==0.5.3
 torch==2.4.1
-tensorboard
+tensorboard==2.19.0
 liger-kernel==0.4.2
-setuptools
+setuptools==78.1.1
 deepspeed==0.15.4
 transformers==4.46.3
 datasets==3.6.0
@@ -14,4 +14,4 @@ trl==0.12.1
 peft==0.13.2
 lighteval==0.6.2
 hf-transfer==0.1.8
-func_timeout
+func_timeout==4.3.5

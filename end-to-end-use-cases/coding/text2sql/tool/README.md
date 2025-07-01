@@ -2,13 +2,17 @@
 
 ## Overview
 
-This folder contains scripts for evaluating Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset, and scripts for generating fine-tuning datasets and fine-tuning Llama 3.1 8B with the datasets.
+This folder contains scripts to:
+1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset;
+2. Generate fine-tuning datasets (with and without reasoning steps)and fine-tuning Llama 3.1 8B with the datasets, gaining a **165% (with no reasoning) and 209% (with reasoning) accuracy improvement** over the original model.
+
+Our end goal is to maximize the accuracy of Llama models on the Text2SQL task via fine-tuning, agent and other approaches. To do so we need to first evaluate the current state of the art Llama models on the task. In other words, "no eval, no success" AND "eval only is not success". Hence, we have created this tool to quickly evaluate Llama models on the Text2SQL task and, as a first step, to fine-tune Llama models to improve their accuracy on the task.
+
+## Llama Text2SQL Evaluation
 
 We have updated and significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model, so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
 
-We have also provided end-to-end scripts for generating datasets (with and without reasoning steps) and fine-tuning the quantized Llama 3.1 8B model to gain a **165% (with no reasoning) and 209% (with reasoning) accuracy improvement** over the original model.
-
-## Llama Text2SQL Evaluation Results
+### Evaluation Results
 
 Below are the results of the Llama models we have evaluated on the BIRD DEV dataset:
 
@@ -24,7 +28,7 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 - Fine-tuned with no reasoning dataset: 37.16%
 - Fine-tuned with reasoning dataset: 43.37%
 
-## Quick Start on Evaluating Llama on Text2SQL
+### Quick Start on Evaluating Llama on Text2SQL
 
 First, run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation and fine-tuning:
 
@@ -54,7 +58,7 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 *Note:* To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
-## Evaluation Process
+### Evaluation Process
 
 1. **SQL Generation**: `llama_text2sql.py` sends natural language questions to the specified Llama model and collects the generated SQL queries.
 
