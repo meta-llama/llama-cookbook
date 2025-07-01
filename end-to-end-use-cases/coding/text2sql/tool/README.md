@@ -68,16 +68,16 @@ To compare your evaluated accuracy of your selected Llama model with other resul
 
 4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
 
-## Supported Models
+### Supported Models for Evaluation
 
-### Together AI Models
+Llama models supported on Together AI:
 - meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo
 - meta-llama/Llama-3.3-70B-Instruct-Turbo
 - meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
 - meta-llama/Llama-4-Scout-17B-16E-Instruct
 - other Llama models hosted on Together AI
 
-### Llama API Models
+Llama models supported on Llama API:
 - Llama-3.3-8B-Instruct
 - Llama-3.3-70B-Instruct
 - Llama-4-Maverick-17B-128E-Instruct-FP8
