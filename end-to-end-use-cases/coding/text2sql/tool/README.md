@@ -3,14 +3,14 @@
 ## Overview
 
 This folder contains scripts to:
-1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset;
+1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset in **three simple steps**;
 2. Generate fine-tuning datasets (with and without reasoning steps)and fine-tuning Llama 3.1 8B with the datasets, gaining a **165% (with no reasoning) and 209% (with reasoning) accuracy improvement** over the original model.
 
 Our end goal is to maximize the accuracy of Llama models on the Text2SQL task via fine-tuning, agent and other approaches. To do so we need to first evaluate the current state of the art Llama models on the task. In other words, "no eval, no success" AND "eval only is not success". Hence, we have created this tool to quickly evaluate Llama models on the Text2SQL task and, as a first step, to fine-tune Llama models to improve their accuracy on the task.
 
 ## Llama Text2SQL Evaluation
 
-We have updated and significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model, so you can quickly evaluate in 1-2-3 steps how well different Llama models perform on the Text2SQL task.
+We have updated and significantly simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model.
 
 ### Evaluation Results
 
