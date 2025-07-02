@@ -1,16 +1,24 @@
-## Text2SQL: Eval and Fine-tuning Tools and Quick Start Notebook
+# Text2SQL: Evaluating and Fine-tuning Llama Models
 
-This folder contains the `tool` subfolder, which has e2e scripts for evaluating Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset, and e2e scripts for generating fine-tuning datasets and fine-tuning Llama 3.1 8B with the datasets.
+This folder contains scripts to:
 
-Before looking into the `tool` folder, you may start with the scripts and notebook in this folder to get familiar with how to interact with a database using natural language inputs bu asking Llama to convert natural language queries into SQL queries.
+1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset in **3 simple steps**;
 
-For detailed instructions on setting up the environment, creating a database, and executing natural language queries using the Text2SQL interface, please refer to the [quickstart.ipynb](quickstart.ipynb) notebook.
+2. Generate fine-tuning datasets (both with and without CoT reasoning) and fine-tuning Llama 3.1 8B with the datasets, gaining a **165% (with no reasoning) and 209% (with reasoning) accuracy improvement** over the original model.
 
-### Structure:
+Our end goal is to maximize the accuracy of Llama models on the Text2SQL task. To do so we need to first evaluate the current state of the art Llama models on the task, then apply fine-tuning, agent and other approaches to evaluate and improve Llama's performance.
 
-- tool: A folder containing scripts for evaluating and fine-tuning Llama models on the Text2SQL task.
-- quickstart.ipynb: A Quick Demo of Text2SQL Using Llama 3.3. This Jupyter Notebook includes examples of how to use the interface to execute natural language queries on the sample data. It uses Llama 3.3 to answer questions about a SQLite database using LangChain and the Llama cloud provider Together.ai.
-- nba.txt: A text file containing NBA roster information, which is used as sample data for demonstration purposes.
-- txt2csv.py: A script that converts text data into a CSV format. This script is used to preprocess the input data before it is fed into csv2db.py.
-- csv2db.py: A script that imports data from a CSV file into a SQLite database. This script is used to populate the database with sample data.
-- nba_roster.db: A SQLite database file created from the nba.txt data, used to test the Text2SQL interface.
+## Structure:
+
+- data: contains the scripts to download the BIRD TRAIN and DEV datasets;
+- eval: contains the scripts to evaluate Llama models (original and fine-tuned) on the BIRD dataset;
+- fine-tune: contains the scripts to generate non-CoT and CoT datasets based on the BIRD TRAIN set and to fine-tune Llama models using the datasets;
+- quickstart: contains a notebook to ask Llama 3.3 to convert natural language queries into SQL queries.
+
+## Next Steps
+
+1. Try GRPO RFT to further improve the accuracy.
+2. Fine-tune Llama 3.3 70b and Llama 4 models.
+3. Use torchtune.
+4. Try agentic workflow.
+5. Expand the eval to support other enterprise databases.
