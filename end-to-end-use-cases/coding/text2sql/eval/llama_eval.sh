@@ -1,6 +1,6 @@
-eval_path='./data/dev_20240627/dev.json'
-db_root_path='./data/dev_20240627/dev_databases/'
-ground_truth_path='./data/'
+eval_path='../data/dev_20240627/dev.json'
+db_root_path='../data/dev_20240627/dev_databases/'
+ground_truth_path='../data/'
 
 # Llama models on Together
 #YOUR_API_KEY='YOUR_TOGETHER_API_KEY'
@@ -24,7 +24,7 @@ model='Llama-3.3-8B-Instruct'
 
 # Fine-tuned Llama models locally
 #YOUR_API_KEY='finetuned'
-#model='fine_tuning/llama31-8b-text2sql-fine-tuned'
+#model='../fine_tuning/llama31-8b-text2sql-fine-tuned'
 
 data_output_path="./output/$model/"
 
