@@ -10,6 +10,7 @@ class train_config:
     tokenizer_name: str=None
     enable_fsdp: bool=False # shards model parameters, optimizer states and gradients across DDP ranks
     low_cpu_fsdp: bool=False # saves cpu memory by loading pretrained model on rank0 only
+    dequantize: bool=False # dequantize model to uniform dtype for FSDP compatibility
     run_validation: bool=True
     batch_size_training: int=4
     batching_strategy: str="packing" #alternative: padding

@@ -194,6 +194,30 @@ def main(**kwargs):
         )
         model.resize_token_embeddings(len(tokenizer))
 
+# Handle dequantization for FSDP compatibility
+    if train_config.enable_fsdp and train_config.dequantize:
+        # Check if model has quantized weights
+        has_quantized_weights = any(
+            p.dtype in [torch.int8, torch.uint8] 
+            for p in model.parameters()
+        )
+        
+        if has_quantized_weights:
+            print("Detected quantized model with FSDP enabled.")
+            print("Converting model to bfloat16 for FSDP compatibility...")
+            print("Note: This will increase memory usage as the model is being dequantized.")
+            
+            # Convert all parameters to bfloat16
+            for param in model.parameters():
+                param.data = param.data.to(torch.bfloat16)
+            
+            # Also convert buffers (like LayerNorm weights)
+            for buffer_name, buffer in model.named_buffers():
+                buffer.data = buffer.data.to(torch.bfloat16)
+            
+            print("✓ Model converted to uniform bfloat16 dtype")
+
+
     print_model_size(model, train_config, rank if train_config.enable_fsdp else 0)
 
     # Convert the model to bfloat16 if fsdp and pure_bf16 is enabled
