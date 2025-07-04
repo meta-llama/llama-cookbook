@@ -64,6 +64,10 @@ from transformers.models.mllama.modeling_mllama import (
     MllamaVisionEncoderLayer,
 )
 
+from llama_cookbook.utils.activation_checkpointing import apply_activation_checkpointing
+from llama_cookbook.utils.memory_utils import print_memory_stats, clear_memory
+
+
 
 def setup_wandb(train_config, fsdp_config, **kwargs):
     try:
@@ -177,6 +181,27 @@ def main(**kwargs):
         raise ValueError(
             f"Model type {config.model_type} is not supported. Please use llama or mllama model."
         )
+
+
+# Apply single GPU activation checkpointing if enabled and not using FSDP
+    if train_config.enable_activation_checkpointing and not train_config.enable_fsdp:
+        print("\n==== Applying Activation Checkpointing for Single GPU ====")
+        
+        # Print memory before applying checkpointing
+        if train_config.enable_memory_monitoring:
+            print_memory_stats("Before activation checkpointing", detailed=True)
+        
+        # Use the simplified API
+        model = apply_activation_checkpointing(
+            model,
+            use_reentrant=train_config.activation_checkpointing_use_reentrant
+        )
+        
+        # Print memory after applying checkpointing
+        if train_config.enable_memory_monitoring:
+            print_memory_stats("After activation checkpointing", detailed=True)
+            clear_memory()
+
     # Load the tokenizer and add special tokens
     tokenizer = AutoTokenizer.from_pretrained(
         train_config.model_name
