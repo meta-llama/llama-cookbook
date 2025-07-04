@@ -49,3 +49,9 @@ class train_config:
     flop_counter_start: int = 3 # The step to start profiling, default is 3, which means after 3 steps of warmup stage, the profiler will start to count flops.
     use_profiler: bool = False # Enable pytorch profiler, can not be used with flop counter at the same time.
     profiler_dir: str = "PATH/to/save/profiler/results" # will be used if using profiler
+    # Single GPU activation checkpointing
+    enable_activation_checkpointing: bool = False
+    activation_checkpointing_use_reentrant: bool = False  
+    # Memory monitoring
+    enable_memory_monitoring: bool = False
+    memory_monitoring_interval: int = 100  
