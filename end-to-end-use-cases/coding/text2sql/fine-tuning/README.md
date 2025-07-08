@@ -1,6 +1,8 @@
-# Llama Text2SQL Fine-tuning
+# Enhancing Text-to-SQL with CoT: A Fine-Tuning Approach with Llama
 
-This folder contains the scripts to generate datasets from the BIRD TRAIN set with and without CoT, and to supervised fine-tune (SFT), as the first step, the Llama 3.1 8B model: accuracy improvement of **165% on the fine-tuned model with no reasoning and 209% with reasoning** over the original model.
+This folder contains scripts to generate datasets from the BIRD TRAIN set with and, for comparison, without CoT (Chain-of-Thought) and scripts to supervised fine-tune (SFT), as the first step, the Llama 3.1 8B model. We observed a **165% improvement on the fine-tuned model without CoT (accuracy 37.16%) and 209% with CoT (accuracy 43.37%) ** over the original model (accuracy 14.02%).
+
+Note: In this document, we will use "CoT" and "reasoning" interchangeably, although generally, reasoning encompasses a broader concept than CoT.
 
 ## SFT with the BIRD TRAIN dataset (No Reasoning)
 
