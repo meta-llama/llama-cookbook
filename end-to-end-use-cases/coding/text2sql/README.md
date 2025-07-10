@@ -1,10 +1,10 @@
-# Text2SQL: Evaluating and Fine-tuning Llama Models
+# Text2SQL: Evaluating and Fine-tuning Llama Models with CoT
 
 This folder contains scripts to:
 
 1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset in **3 simple steps**;
 
-2. Generate fine-tuning datasets (both with and without CoT reasoning) and fine-tuning Llama 3.1 8B with the datasets, gaining a **165% (with no reasoning) and 209% (with reasoning) accuracy improvement** over the original model.
+2. Generate two fine-tuning datasets (with and without CoT) and fine-tuning Llama 3.1 8B with the datasets, gaining a **165% improvement on the fine-tuned model without CoT (accuracy 37.16%) and 209% with CoT (accuracy 43.37%)** over the original model (accuracy 14.02%).
 
 Our end goal is to maximize the accuracy of Llama models on the Text2SQL task. To do so we need to first evaluate the current state of the art Llama models on the task, then apply fine-tuning, agent and other approaches to evaluate and improve Llama's performance.
 
