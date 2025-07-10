@@ -223,16 +223,33 @@ def cloud_llama(api_key, model, prompt, max_tokens, temperature, stop):
 def huggingface_finetuned(api_key, model):
     if api_key == "finetuned":
         model_id = model
-        model = AutoPeftModelForCausalLM.from_pretrained(
-            model_id, device_map="auto", torch_dtype=torch.float16
-        )
-        tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+        # Check if this is a PEFT model by looking for adapter_config.json
+        import os
+
+        is_peft_model = os.path.exists(os.path.join(model_id, "adapter_config.json"))
+
+        if is_peft_model:
+            # Use AutoPeftModelForCausalLM for PEFT fine-tuned models
+            print(f"Loading PEFT model from {model_id}")
+            model = AutoPeftModelForCausalLM.from_pretrained(
+                model_id, device_map="auto", torch_dtype=torch.float16
+            )
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+        else:
+            # Use AutoModelForCausalLM for FFT (Full Fine-Tuning) models
+            print(f"Loading FFT model from {model_id}")
+            model = AutoModelForCausalLM.from_pretrained(
+                model_id, device_map="auto", torch_dtype=torch.float16
+            )
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+            # For FFT models, handle pad token if it was added during training
+            if tokenizer.pad_token is None:
+                tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+                model.resize_token_embeddings(len(tokenizer))
 
         tokenizer.padding_side = "right"  # to prevent warnings
-
-        if tokenizer.pad_token is None:
-            tokenizer.add_special_tokens({"pad_token": "[PAD]"})
-            model.resize_token_embeddings(len(tokenizer))
 
     elif api_key == "huggingface":
         model_id = model
@@ -246,7 +263,7 @@ def huggingface_finetuned(api_key, model):
             model_id,
             device_map="auto",
             torch_dtype=torch.bfloat16,
-            quantization_config=bnb_config,
+            quantization_config=bnb_config,  # None
         )
         tokenizer = AutoTokenizer.from_pretrained(model_id)
 
