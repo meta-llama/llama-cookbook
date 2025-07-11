@@ -14,9 +14,9 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 | Llama 4 Scout          | 44.39%             | 43.94%            |
 | Llama 4 Maverick       | 44.00%             | 41.46%            |
 
-- Llama 3.1 8b quantized model: 14.02% (original)
-- Fine-tuned with no reasoning dataset: 37.16%
-- Fine-tuned with reasoning dataset: 43.37%
+- Llama 3.1 8b on Hugging Face: quantized 14.02%, non-quantized 39.47%
+- Fine-tuned with no CoT dataset: 39.31%
+- Fine-tuned with CoT dataset: 43.35%
 
 ## Quick Start
 

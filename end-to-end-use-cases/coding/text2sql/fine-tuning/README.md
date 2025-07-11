@@ -1,12 +1,28 @@
 # Enhancing Text-to-SQL with CoT: A Fine-Tuning Approach with Llama
 
-CoT stands for Chain of Thought and we will use "CoT" and "reasoning" interchangeably here, although generally, reasoning encompasses a broader concept than CoT.
-
 This folder contains scripts to:
 
 * generate a dataset from the BIRD TRAIN set (with no CoT info) for supervised fine-tuning (SFT);
 * generate a dataset from the BIRD TRAIN set (with CoT info by Llama 3.3 70B) for SFT;
 * SFT the Llama 3.1 8B model with the generated datasets with different fine-tuning combinations: with or without CoT, using quantization or not,  full fine-tuning (FFT) or parameter-efficient fine-tuning (PEFT).
+
+**Note:** CoT stands for Chain of Thought and we will use "CoT" and "reasoning" interchangeably here, although generally, reasoning encompasses a broader concept than CoT.
+
+## Eval Results of the Fine-tuned Models
+
+The eval results of SFT Llama 3.1 8B with different options are summarized in the table below:
+
+| Fine-tuning Combination     | Accuracy |
+|-----------------------------|----------|
+| Non-Quantized, CoT, FFT     | xx.xx%   |
+| Non-Quantized, CoT, PEFT    | 43.35%   |
+| Quantized, CoT, PEFT        | 42.89%   |
+| Non-Quantized, No CoT, PEFT | 39.31%   |
+| Quantized, No CoT, PEFT     | 39.31%   |
+| Non-Quantized, No CoT, FFT  | 33.70%   |
+| Quantized, CoT, FFT         | N/A      |
+| Quantized, No CoT, FFT      | N/A      |
+
 
 ## SFT with the BIRD TRAIN dataset (No Reasoning)
 
