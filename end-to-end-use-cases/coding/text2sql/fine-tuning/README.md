@@ -10,7 +10,7 @@ This folder contains scripts to:
 
 ## Eval Results of the Fine-tuned Models
 
-The eval results of SFT Llama 3.1 8B with different options are summarized in the table below:
+The eval results of SFT Llama 3.1 8B with different options (epochs is 3) are summarized in the table below:
 
 | Fine-tuning Combination     | Accuracy |
 |-----------------------------|----------|
@@ -22,7 +22,6 @@ The eval results of SFT Llama 3.1 8B with different options are summarized in th
 | Non-Quantized, No CoT, FFT  | 33.70%   |
 | Quantized, CoT, FFT         | N/A      |
 | Quantized, No CoT, FFT      | N/A      |
-
 
 ## SFT with the BIRD TRAIN dataset (No Reasoning)
 
