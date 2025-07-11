@@ -14,11 +14,11 @@ The eval results of SFT Llama 3.1 8B with different options are summarized in th
 
 | Fine-tuning Combination     | Accuracy |
 |-----------------------------|----------|
-| Non-Quantized, CoT, FFT     | xx.xx%   |
 | Non-Quantized, CoT, PEFT    | 43.35%   |
 | Quantized, CoT, PEFT        | 42.89%   |
 | Non-Quantized, No CoT, PEFT | 39.31%   |
 | Quantized, No CoT, PEFT     | 39.31%   |
+| Non-Quantized, CoT, FFT     | 38.46%   |
 | Non-Quantized, No CoT, FFT  | 33.70%   |
 | Quantized, CoT, FFT         | N/A      |
 | Quantized, No CoT, FFT      | N/A      |
