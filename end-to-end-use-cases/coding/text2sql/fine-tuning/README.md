@@ -71,7 +71,7 @@ lama31-8b-text2sql-peft-nonquantized-nocot
 llama31-8b-text2sql-peft-quantized-nocot
 ```
 
-After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chat etc:
+After running `tensorboard --logdir ./llama31-8b-text2sql-fine_tuning` you can open `http://localhost:6006` to see the train loss chart like this:
 
 ![](train_loss.png)
 
@@ -164,7 +164,7 @@ lama31-8b-text2sql-peft-nonquantized-cot
 llama31-8b-text2sql-peft-quantized-cot
 ```
 
-The train loss chart will look like this:
+The train loss chart should look like this:
 ![](train_loss_cot.png)
 
 ### Evaluating the fine-tuned model (With Reasoning)
