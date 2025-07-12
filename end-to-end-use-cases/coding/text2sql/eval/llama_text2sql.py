@@ -309,7 +309,7 @@ def collect_response_from_llama(
                 api_key=api_key,
                 model=model,
                 prompt=cur_prompt,
-                max_tokens=4096,
+                max_tokens=10240,
                 temperature=0,
                 stop=["--", "\n\n", ";", "#"],
             )
