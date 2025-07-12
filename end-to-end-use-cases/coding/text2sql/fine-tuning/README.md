@@ -10,18 +10,24 @@ This folder contains scripts to:
 
 ## Eval Results of the Fine-tuned Models
 
-The eval results of SFT Llama 3.1 8B with different options (epochs is 3) are summarized in the table below:
+The eval results of SFT Llama 3.1 8B with different options (epochs is 3) are summarized below:
 
 | Fine-tuning Combination     | Accuracy |
 |-----------------------------|----------|
 | Non-Quantized, CoT, PEFT    | 43.35%   |
 | Quantized, CoT, PEFT        | 42.89%   |
+| Non-Quantized, CoT, FFT     | 42.44%   |
 | Non-Quantized, No CoT, PEFT | 39.31%   |
 | Quantized, No CoT, PEFT     | 39.31%   |
-| Non-Quantized, CoT, FFT     | 38.46%   |
-| Non-Quantized, No CoT, FFT  | 33.70%   |
+| Non-Quantized, No CoT, FFT  | 36.31%   |
 | Quantized, CoT, FFT         | N/A      |
 | Quantized, No CoT, FFT      | N/A      |
+
+The table above shows that:
+
+1. The CoT FFT/PEFT model (with or without quantization) outperforms the no CoT FFT/PEFT model (with or without quantization) by 3.5% to 6.1%.
+
+2. The non-quantized PEFT model (CoT or not) is slightly better than the non-quantized FFT model.
 
 ## SFT with the BIRD TRAIN dataset (No Reasoning)
 
