@@ -10,18 +10,18 @@ This folder contains scripts to:
 
 ## Eval Results of the Fine-tuned Models
 
-The eval results of SFT Llama 3.1 8B with different options (epochs is 3) are summarized below:
+The eval results of SFT Llama 3.1 8B with different options (epochs is 3, with an additional 10 for the two FFT models) are summarized below:
 
-| Fine-tuning Combination     | Accuracy |
-|-----------------------------|----------|
-| Non-Quantized, CoT, PEFT    | 43.35%   |
-| Quantized, CoT, PEFT        | 42.89%   |
-| Non-Quantized, CoT, FFT     | 42.44%   |
-| Non-Quantized, No CoT, PEFT | 39.31%   |
-| Quantized, No CoT, PEFT     | 39.31%   |
-| Non-Quantized, No CoT, FFT  | 36.31%   |
-| Quantized, CoT, FFT         | N/A      |
-| Quantized, No CoT, FFT      | N/A      |
+| Fine-tuning Combination     | Accuracy                      |
+|-----------------------------|-------------------------------|
+| Non-Quantized, CoT, PEFT    | 43.35%                        |
+| Quantized, CoT, PEFT        | 42.89%                        |
+| Non-Quantized, CoT, FFT     | 42.44% (43.87% for 10 epochs) |
+| Non-Quantized, No CoT, PEFT | 39.31%                        |
+| Quantized, No CoT, PEFT     | 39.31%                        |
+| Non-Quantized, No CoT, FFT  | 36.31% (38.27% for 10 epochs) |
+| Quantized, CoT, FFT         | N/A                           |
+| Quantized, No CoT, FFT      | N/A                           |
 
 The table above shows that:
 
