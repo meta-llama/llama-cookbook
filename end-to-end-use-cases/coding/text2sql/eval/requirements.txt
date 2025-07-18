@@ -15,3 +15,5 @@ peft==0.13.2
 lighteval==0.6.2
 hf-transfer==0.1.8
 func_timeout==4.3.5
+vllm==0.9.2
+flashinfer-python==0.2.7.post1
