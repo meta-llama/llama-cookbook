@@ -1,19 +1,27 @@
-# Text2SQL: Evaluating and Fine-tuning Llama Models with CoT
+# Improving Llama Text2SQL performance with CoT Fine-tuning
 
-This folder contains scripts to:
+This recipe is step by step guide to improve Llama performance on Text2SQL measured with the popular [BIRD](https://bird-bench.github.io) benchmark. We generate synthetic Chain of Thought(CoT) dataset and fine-tune Llama models on it.
 
-1. Evaluate Llama (original and fine-tuned) models on the Text2SQL task using the popular [BIRD](https://bird-bench.github.io) dataset.
+Results: [graph_placeholder]
 
-2. Generate two supervised fine-tuning (SFT) datasets (with and without CoT) and fine-tuning Llama 3.1 8B with the datasets, using different SFT options: with or without CoT, using quantization or not, full fine-tuning (FFT) or parameter-efficient fine-tuning (PEFT). The non-quantized PEFT CoT SFT has the most performance gains: from 39.47% of the original Llama 3.1 8B model to 43.35%. (Note: the results are based on 3 epochs of SFT.)
+We followed following steps:
 
-Our end goal is to maximize the accuracy of Llama models on the Text2SQL task. To do so we need to first evaluate the current state of the art Llama models on the task, then apply fine-tuning, agent and other approaches to evaluate and improve Llama's performance.
+1. Pre-processing the BIRD TRAIN datset by converting SQL statements into conversation format
+
+2. We use the conversations from step 1, add CoT to these existing conversations using Llama-3.3-70B
+
+3. Fine-tuning Llama-3.1-8B on the dataset from step 2
+
+4. We provide scripts to simplify running the [BIRD](https://bird-bench.github.io) benchmark on the fine-tuned models and compare it with out of the model.
 
 ## Structure:
 
-- data: contains scripts to download the BIRD TRAIN and DEV datasets;
-- eval: contains scripts to evaluate Llama models (original and fine-tuned) on the BIRD dataset;
-- fine-tune: contains scripts to generate non-CoT and CoT datasets based on the BIRD TRAIN set and to supervised fine-tune Llama models using the datasets, with different SFT options (quantization or not, full fine-tuning or parameter-efficient fine-tuning);
-- quickstart: contains a notebook to ask Llama 3.3 to convert natural language queries into SQL queries.
+- quickstart folder: contains a notebook to ask Llama 3.3 to convert natural language queries into SQL queries.
+- data folder: contains scripts to download the BIRD TRAIN and DEV datasets;
+- fine-tune folder: contains scripts to generate non-CoT and CoT datasets based on the BIRD TRAIN set and to supervised fine-tune Llama models using the datasets, with different SFT options (quantization or not, full fine-tuning or parameter-efficient fine-tuning);
+- eval folder: contains scripts to evaluate Llama models (original and fine-tuned) on the BIRD dataset;
+
+We also experimented with supervised fine-tuning (SFT) without CoT which resulted in slightly lower accuracy.
 
 ## Next Steps
 
