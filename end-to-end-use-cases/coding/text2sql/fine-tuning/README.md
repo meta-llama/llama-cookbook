@@ -110,4 +110,6 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve fine_tuning/llama31-8b-text2sql-
 ```
  to speed up the eval.
 
-6. Run `sh llama_eval.sh`.
+4. Run `sh llama_eval.sh`.
+
+**Note:** If your fine-tuned model is PEFT based, you may need to run `python merge_peft.py` after modifying its `peft_model_path` and `output_dir` and set the merged folder path after `vllm serve`.
