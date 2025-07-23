@@ -1,6 +1,6 @@
 # Llama Text2SQL Evaluation
 
-We have updated and simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) to 3 simple steps for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model.
+We have updated and simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) to 3 simple steps for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com), as well as the Llama 3.1 on Hugging Face and its fine-tuned models.
 
 ## Evaluation Results
 
@@ -71,7 +71,7 @@ or if you have multiple GPUs, do something like:
 CUDA_VISIBLE_DEVICES=0,1,2,3 vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 4 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
 
-4. Run `sh llama_eval.sh`.
+then run `sh llama_eval.sh`.
    
 ## Evaluation Process
 
