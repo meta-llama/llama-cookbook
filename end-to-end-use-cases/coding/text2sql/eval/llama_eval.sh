@@ -2,14 +2,6 @@ eval_path='../data/dev_20240627/dev.json'
 db_root_path='../data/dev_20240627/dev_databases/'
 ground_truth_path='../data/'
 
-# Llama models on Together
-#YOUR_API_KEY='YOUR_TOGETHER_API_KEY'
-#model='meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
-#model='meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
-#model='meta-llama/Llama-3.3-70B-Instruct-Turbo'
-#model='meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8'
-#model='meta-llama/Llama-4-Scout-17B-16E-Instruct'
-
 # Llama models on Llama API
 YOUR_API_KEY='YOUR_LLAMA_API_KEY'
 model='Llama-3.3-8B-Instruct'
@@ -17,14 +9,13 @@ model='Llama-3.3-8B-Instruct'
 #model='Llama-4-Maverick-17B-128E-Instruct-FP8'
 #model='Llama-4-Scout-17B-16E-Instruct-FP8'
 
-# Llama model on Hugging Face Hub
-# https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+# Llama model on Hugging Face Hub https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
 # YOUR_API_KEY='huggingface'
 # model='meta-llama/Llama-3.1-8B-Instruct'
 
 # Fine-tuned Llama models locally
-#YOUR_API_KEY='finetuned'
-#model='../fine_tuning/llama31-8b-text2sql-fine-tuned'
+# YOUR_API_KEY='finetuned'
+# model='../fine-tuning/final_test/llama31-8b-text2sql-peft-quantized-cot_merged'
 
 data_output_path="./output/$model/"
 
