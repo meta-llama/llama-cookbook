@@ -1,19 +1,12 @@
 import argparse
 import json
 import os
-import pdb
-import pickle
 import re
 import sqlite3
-from typing import Dict, List, Tuple
 
-import sqlparse
 from datasets import Dataset, load_from_disk
-
 from langchain_together import ChatTogether
 from llama_api_client import LlamaAPIClient
-from tqdm import tqdm
-
 
 if (
     os.environ.get("LLAMA_API_KEY", "") == ""
@@ -159,7 +152,7 @@ def create_cot_dataset(input_json, db_root_path):
         question = item["question"]
         external_knowledge = item["evidence"]
         gold_SQL = item["SQL"].strip()
-        db_path = db_root_path + "/" + item["db_id"] + "/" + item["db_id"] + ".sqlite"
+        db_path = db_root_path + "/" + db_id + "/" + db_id + ".sqlite"
         # print(f"{db_path=}")
         db_schema = generate_schema_prompt(db_path)
 
@@ -219,7 +212,7 @@ def create_cot_dataset(input_json, db_root_path):
     print(f"{diff=}, total: {len(input_json)}")
     dataset_dict = {key: [d[key] for d in cot_list] for key in cot_list[0]}
     hf_dataset = Dataset.from_dict(dataset_dict)
-    hf_dataset.save_to_disk(f"text2sql_cot_dataset")
+    hf_dataset.save_to_disk("text2sql_cot_dataset")
 
     dataset = load_from_disk("text2sql_cot_dataset")
     dataset = dataset.map(

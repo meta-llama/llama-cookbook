@@ -1,15 +1,9 @@
 import argparse
 import json
 import os
-import pdb
-import pickle
-import re
 import sqlite3
-from typing import Dict, List, Tuple
 
-import sqlparse
 from datasets import Dataset
-
 from tqdm import tqdm
 
 
@@ -124,7 +118,7 @@ def create_sft_dataset(input_json, db_root_path):
         question = item["question"]
         external_knowledge = item["evidence"]
         SQL = item["SQL"]
-        db_path = db_root_path + "/" + item["db_id"] + "/" + item["db_id"] + ".sqlite"
+        db_path = db_root_path + "/" + db_id + "/" + db_id + ".sqlite"
         print(f"{db_path=}")
         prompt = generate_combined_prompts_one(
             db_path,

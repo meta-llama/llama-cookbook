@@ -1,18 +1,11 @@
 import argparse
-import fnmatch
 import json
 import os
-import pdb
-import pickle
 import re
 import sqlite3
-from typing import Dict, List, Tuple
-
-import pandas as pd
-import sqlparse
+from typing import Dict
 
 import torch
-from datasets import Dataset, load_dataset
 from langchain_together import ChatTogether
 from llama_api_client import LlamaAPIClient
 from peft import AutoPeftModelForCausalLM
@@ -284,7 +277,6 @@ def collect_response_from_llama(
     :param question_list: []
     :return: dict of responses
     """
-    responses_dict = {}
     response_list = []
 
     if api_key in ["huggingface", "finetuned"]:
@@ -318,7 +310,7 @@ def collect_response_from_llama(
                 temperature=0,
                 stop=["--", "\n\n", ";", "#"],
             )
-        if type(plain_result) == str:
+        if isinstance(plain_result, str):
             sql = plain_result
         else:
             sql = "SELECT" + plain_result["choices"][0]["text"]
@@ -387,7 +379,7 @@ if __name__ == "__main__":
     args_parser.add_argument("--data_output_path", type=str)
     args = args_parser.parse_args()
 
-    if not args.api_key in ["huggingface", "finetuned"]:
+    if args.api_key not in ["huggingface", "finetuned"]:
         if args.model.startswith("meta-llama/"):  # Llama model on together
 
             os.environ["TOGETHER_API_KEY"] = args.api_key
