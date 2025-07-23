@@ -76,7 +76,9 @@ Let me think through this step by step:\n\n1. First, I need to consider...\n2. T
 Run one of the commands below:
 
 ```
+python trl_sft.py --quantized false --peft false --cot true
 python trl_sft.py --quantized false --peft true --cot true
+python trl_sft.py --quantized true --peft true --cot true
 ```
 
 After the fine-tuning completes, you'll see the fine-tuned model saved in one of the following folders, as specified in `output_dir` of `SFTConfig` in `trl_sft.py`:
@@ -84,6 +86,7 @@ After the fine-tuning completes, you'll see the fine-tuned model saved in one of
 ```
 llama31-8b-text2sql-fft-nonquantized-cot
 llama31-8b-text2sql-peft-nonquantized-cot
+llama31-8b-text2sql-peft-quantized-cot
 ```
 
 The train loss chart should look like this:
