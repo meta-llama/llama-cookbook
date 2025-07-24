@@ -5,6 +5,7 @@ import sqlite3
 import sys
 
 from func_timeout import func_timeout, FunctionTimedOut
+from tqdm import tqdm
 
 
 def load_json(dir):
@@ -17,7 +18,7 @@ def result_callback(result):
     exec_result.append(result)
 
 
-def execute_sql(predicted_sql, ground_truth, db_path):
+def execute_sql(predicted_sql, ground_truth, db_path, debug=False):
     conn = sqlite3.connect(db_path)
     # Connect to the database
     cursor = conn.cursor()
@@ -28,7 +29,7 @@ def execute_sql(predicted_sql, ground_truth, db_path):
     res = 0
     if set(predicted_res) == set(ground_truth_res):
         res = 1
-    else:
+    elif debug:
         print(
             f"\n\n==== INCORRECT SQL GENERATED ====\n{predicted_sql=}\n{predicted_res=}\n{ground_truth=}\n{ground_truth_res=}\n======\n\n"
         )
@@ -36,10 +37,14 @@ def execute_sql(predicted_sql, ground_truth, db_path):
     return res
 
 
-def execute_model(predicted_sql, ground_truth, db_place, idx, meta_time_out):
+def execute_model(
+    predicted_sql, ground_truth, db_place, idx, meta_time_out, debug=False
+):
     try:
         res = func_timeout(
-            meta_time_out, execute_sql, args=(predicted_sql, ground_truth, db_place)
+            meta_time_out,
+            execute_sql,
+            args=(predicted_sql, ground_truth, db_place, debug),
         )
     except KeyboardInterrupt:
         sys.exit(0)
@@ -79,18 +84,34 @@ def package_sqls(sql_path, db_root_path, mode="gpt", data_mode="dev"):
     return clean_sqls, db_path_list
 
 
-def run_sqls_parallel(sqls, db_places, num_cpus=1, meta_time_out=30.0):
+def run_sqls_parallel(sqls, db_places, num_cpus=1, meta_time_out=30.0, debug=False):
     pool = mp.Pool(processes=num_cpus)
-    for i, sql_pair in enumerate(sqls):
 
+    # Create a progress bar if not in debug mode
+    if not debug:
+        pbar = tqdm(total=len(sqls), desc="Evaluating SQL queries")
+
+    for i, sql_pair in enumerate(sqls):
         predicted_sql, ground_truth = sql_pair
         pool.apply_async(
             execute_model,
-            args=(predicted_sql, ground_truth, db_places[i], i, meta_time_out),
-            callback=result_callback,
+            args=(predicted_sql, ground_truth, db_places[i], i, meta_time_out, debug),
+            callback=lambda result: result_callback_with_progress(
+                result, not debug, pbar
+            ),
         )
     pool.close()
     pool.join()
+
+    # Close the progress bar if not in debug mode
+    if not debug:
+        pbar.close()
+
+
+def result_callback_with_progress(result, use_progress, pbar=None):
+    exec_result.append(result)
+    if use_progress and pbar:
+        pbar.update(1)
 
 
 def sort_results(list_of_dicts):
@@ -137,14 +158,19 @@ def compute_acc_by_diff(exec_results, diff_json_path):
     )
 
 
-def print_data(score_lists, count_lists):
+def print_data(score_lists, count_lists, debug=False):
     levels = ["simple", "moderate", "challenging", "total"]
-    print("{:20} {:20} {:20} {:20} {:20}".format("", *levels))
-    print("{:20} {:<20} {:<20} {:<20} {:<20}".format("count", *count_lists))
 
-    print(
-        "======================================    ACCURACY    ====================================="
-    )
+    if debug:
+        print("{:20} {:20} {:20} {:20} {:20}".format("", *levels))
+        print("{:20} {:<20} {:<20} {:<20} {:<20}".format("count", *count_lists))
+        print(
+            "======================================    ACCURACY    ====================================="
+        )
+    else:
+        print("\nEvaluation Results:")
+        print("-" * 40)
+
     print(
         "{:20} {:<20.2f} {:<20.2f} {:<20.2f} {:<20.2f}".format("accuracy", *score_lists)
     )
@@ -164,8 +190,18 @@ if __name__ == "__main__":
     args_parser.add_argument("--mode_predict", type=str, default="gpt")
     args_parser.add_argument("--difficulty", type=str, default="simple")
     args_parser.add_argument("--diff_json_path", type=str, default="")
+    args_parser.add_argument(
+        "--debug", action="store_true", help="Enable debug mode with detailed prints"
+    )
     args = args_parser.parse_args()
     exec_result = []
+
+    if args.debug:
+        print("Debug mode enabled - showing detailed output")
+
+    # Show loading progress if not in debug mode
+    if not args.debug:
+        print("Loading SQL queries and database paths...")
 
     pred_queries, db_paths = package_sqls(
         args.predicted_sql_path,
@@ -179,20 +215,29 @@ if __name__ == "__main__":
     )
 
     query_pairs = list(zip(pred_queries, gt_queries))
+
+    if args.debug:
+        print(f"Executing {len(query_pairs)} SQL query pairs...")
+
     run_sqls_parallel(
         query_pairs,
         db_places=db_paths,
         num_cpus=args.num_cpus,
         meta_time_out=args.meta_time_out,
+        debug=args.debug,
     )
     exec_result = sort_results(exec_result)
 
-    print("Evaluating statistics...")
+    if args.debug:
+        print("Evaluating statistics...")
+
     simple_acc, moderate_acc, challenging_acc, acc, count_lists = compute_acc_by_diff(
         exec_result, args.diff_json_path
     )
     score_lists = [simple_acc, moderate_acc, challenging_acc, acc]
-    print_data(score_lists, count_lists)
-    print(
-        "==========================================================================================="
-    )
+    print_data(score_lists, count_lists, debug=args.debug)
+
+    if args.debug:
+        print(
+            "==========================================================================================="
+        )
