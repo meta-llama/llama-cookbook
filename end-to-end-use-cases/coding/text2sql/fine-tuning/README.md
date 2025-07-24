@@ -76,7 +76,9 @@ Let me think through this step by step:\n\n1. First, I need to consider...\n2. T
 Run one of the commands below:
 
 ```
+python trl_sft.py --quantized false --peft false --cot true
 python trl_sft.py --quantized false --peft true --cot true
+python trl_sft.py --quantized true --peft true --cot true
 ```
 
 After the fine-tuning completes, you'll see the fine-tuned model saved in one of the following folders, as specified in `output_dir` of `SFTConfig` in `trl_sft.py`:
@@ -84,20 +86,33 @@ After the fine-tuning completes, you'll see the fine-tuned model saved in one of
 ```
 llama31-8b-text2sql-fft-nonquantized-cot
 llama31-8b-text2sql-peft-nonquantized-cot
+llama31-8b-text2sql-peft-quantized-cot
 ```
 
 The train loss chart should look like this:
 ![](train_loss_cot.png)
 
-### Evaluating the fine-tuned model (With Reasoning)
+### Evaluating the fine-tuned model
 
-First, set the `model` value in `llama_eval.sh` to be one of the fine-tuned model folders above, e.g.
+1. Set the `model` value in `llama_eval.sh` to be one of the fine-tuned model folders above, e.g.
 
 ```
 YOUR_API_KEY='finetuned'
 model='fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot'
 ```
 
-Then uncomment the line `SYSTEM_PROMPT` [here](https://github.com/meta-llama/llama-cookbook/blob/text2sql/end-to-end-use-cases/coding/text2sql/eval/llama_text2sql.py#L31) in `llama_text2sql.py` to use it with the reasoning dataset fine-tuned model.
+2. Uncomment the line `SYSTEM_PROMPT` [here](https://github.com/meta-llama/llama-cookbook/blob/text2sql/end-to-end-use-cases/coding/text2sql/eval/llama_text2sql.py#L17) in `llama_text2sql.py` to use it with the reasoning dataset fine-tuned model.
 
-Now run `sh llama_eval.sh`, which will take longer because the reasoning is needed to generate the SQL. The accuracy this time is 43.37%, compared with 37.16% without reasoning. This is another 16% improvement over the model with fine-tuning without reasoning.
+3. Start the vllm server by running
+```
+vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
+```
+If you have multiple GPUs you can run something like 
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64
+```
+ to speed up the eval.
+
+4. Run `sh llama_eval.sh`.
+
+**Note:** If your fine-tuned model is PEFT based, you may need to run `python merge_peft.py` after modifying its `peft_model_path` and `output_dir` and set the merged folder path after `vllm serve`.

@@ -1,6 +1,6 @@
 # Llama Text2SQL Evaluation
 
-We have updated and simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) to 3 simple steps for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com) or [Together.ai](https://together.ai), as well as the fine-tuned Llama 3.1 model.
+We have updated and simplified the original eval scripts from the BIRD [repo](https://github.com/AlibabaResearch/DAMO-ConvAI/tree/main/bird) to 3 simple steps for Llama 3 & 4 models hosted via Meta's [Llama API](https://llama.developer.meta.com), as well as Llama 3.1 8B on Hugging Face and its fine-tuned models.
 
 ## Evaluation Results
 
@@ -13,9 +13,9 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 | Llama 4 Scout          | 44.39%             |
 | Llama 4 Maverick       | 44.00%             |
 
-- Since Llama API does not have Llama 3.1 8b model, we use Hugging Face weights to run locally.
+- Since Llama API does not have Llama 3.1 8b model, we use Hugging Face weights and vllm to run locally.
 
-## Quick Start
+## Quick Start with Llama Models via Llama API
 
 First, run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation and fine-tuning:
 
@@ -46,12 +46,39 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
+## Evaluation with Llama Models on Hugging Face or Fine-tuned 
+
+We use vllm OpenAI compatible server to run Llama 3.1 8B on Hugging Face (steps below) or its fine-tuned models (steps [here](../fine-tuning/#evaluating-the-fine-tuned-model) for eval:
+
+1. Uncomment the last two lines in requirements.txt then run `pip install -r requirements.txt`:
+```
+# vllm==0.9.2
+# openai==1.90.0
+```
+
+2. Uncomment in `llama_eval.sh`:
+```
+YOUR_API_KEY='huggingface'
+model='meta-llama/Llama-3.1-8B-Instruct'
+```
+
+3. Start the vllm server:
+```   
+vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
+```
+or if you have multiple GPUs, do something like:
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3 vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 4 --max-num-batched-tokens 8192 --max-num-seqs 64
+```
+
+then run `sh llama_eval.sh`.
+   
 ## Evaluation Process
 
 1. **SQL Generation**: `llama_text2sql.py` sends natural language questions to the specified Llama model and collects the generated SQL queries.
 
 2. **SQL Execution**: `text2sql_eval.py` executes both the generated SQL and ground truth SQL against the corresponding databases, then continues with steps 3 and 4 below.
 
-3. **Result Comparison**: The results from executing the generated SQL are compared ([source code](text2sql_eval.py#L30)) with the results from the ground truth SQL to determine correctness.
+3. **Result Comparison**: The results from executing the generated SQL are compared ([source code](text2sql_eval.py#L29)) with the results from the ground truth SQL to determine correctness.
 
 4. **Accuracy Calculation**: Accuracy scores are calculated overall and broken down by difficulty levels (simple, moderate, challenging).
