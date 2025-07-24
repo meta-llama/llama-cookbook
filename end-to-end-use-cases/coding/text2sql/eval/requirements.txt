@@ -1,5 +1,6 @@
 llama_api_client==0.1.2
 func_timeout==4.3.5
+tqdm==4.67.1
 
 # uncomment to run vllm for eval with Llama 3.1 8B on HF and its fine-tuned models
 # vllm==0.9.2
