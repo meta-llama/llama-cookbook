@@ -101,18 +101,16 @@ YOUR_API_KEY='finetuned'
 model='fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot'
 ```
 
-2. Uncomment the line `SYSTEM_PROMPT` [here](https://github.com/meta-llama/llama-cookbook/blob/text2sql/end-to-end-use-cases/coding/text2sql/eval/llama_text2sql.py#L17) in `llama_text2sql.py` to use it with the reasoning dataset fine-tuned model.
-
-3. Start the vllm server by running
+2. Start the vllm server by running
 ```
 vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
-If you have multiple GPUs you can run something like 
+If you have multiple GPUs you can run something like
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
  to speed up the eval.
 
-4. Run `sh llama_eval.sh`.
+3. Run `sh llama_eval.sh`.
 
 **Note:** If your fine-tuned model is PEFT based, you may need to run `python merge_peft.py` after modifying its `peft_model_path` and `output_dir` and set the merged folder path after `vllm serve`.
