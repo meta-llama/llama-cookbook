@@ -20,10 +20,11 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 First, run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation and fine-tuning:
 
 ```
-git clone https://github.com/meta-llama/llama-cookbook
-cd llama-cookbook/end-to-end-use-cases/coding/text2sql
 conda create -n llama-text2sql python=3.10
 conda activate llama-text2sql
+git clone https://github.com/meta-llama/llama-cookbook
+git checkout text2sql # to be removed after the PR merge
+cd llama-cookbook/end-to-end-use-cases/coding/text2sql/eval
 pip install -r requirements.txt
 ```
 
@@ -31,7 +32,7 @@ Then, follow the steps below to evaluate Llama 3 & 4 models on Text2SQL using th
 
 1. Get the DEV dataset:
 ```
-cd data
+cd ../data
 sh download_dev_unzip.sh
 cd ../eval
 ```
@@ -46,7 +47,7 @@ After the script completes, you'll see the accuracy of the Llama model on the BI
 
 To compare your evaluated accuracy of your selected Llama model with other results in the BIRD Dev leaderboard, click [here](https://bird-bench.github.io/).
 
-## Evaluation with Llama Models on Hugging Face or Fine-tuned 
+## Evaluation with Llama Models on Hugging Face or Fine-tuned
 
 We use vllm OpenAI compatible server to run Llama 3.1 8B on Hugging Face (steps below) or its fine-tuned models (steps [here](../fine-tuning/#evaluating-the-fine-tuned-model) for eval:
 
@@ -63,7 +64,7 @@ model='meta-llama/Llama-3.1-8B-Instruct'
 ```
 
 3. Start the vllm server:
-```   
+```
 vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
 or if you have multiple GPUs, do something like:
@@ -72,7 +73,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 vllm serve meta-llama/Llama-3.1-8B-Instruct --tenso
 ```
 
 then run `sh llama_eval.sh`.
-   
+
 ## Evaluation Process
 
 1. **SQL Generation**: `llama_text2sql.py` sends natural language questions to the specified Llama model and collects the generated SQL queries.

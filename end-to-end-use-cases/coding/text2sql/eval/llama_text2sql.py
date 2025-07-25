@@ -311,13 +311,13 @@ def batch_collect_response_from_llama(
             )
         prompts.append(cur_prompt)
 
-    print(f"Generated {len(prompts)} prompts for batch processing")
+    print(f"Generated {len(prompts)} prompts for Llama processing")
 
-    # Process prompts in parallel
     if api_key in [
         "huggingface",
         "finetuned",
-    ]:  # running vllm on multiple GPUs to see best performance
+    ]:
+        # Process prompts in parallel; running vllm on multiple GPUs for best eval performance
         results = local_llama(
             client=client,
             api_key=api_key,
@@ -414,14 +414,13 @@ if __name__ == "__main__":
         os.environ["LLAMA_API_KEY"] = args.api_key
 
         try:
+            # test if the Llama API key is valid
             client = LlamaAPIClient()
-
-            response = client.chat.completions.create(
+            client.chat.completions.create(
                 model=args.model,
                 messages=[{"role": "user", "content": "125*125 is?"}],
                 temperature=0,
             )
-            answer = response.completion_message.content.text
         except Exception as exception:
             print(f"{exception=}")
             exit(1)
@@ -433,7 +432,6 @@ if __name__ == "__main__":
     )
     assert len(question_list) == len(db_path_list) == len(knowledge_list)
 
-    print(f"Using batch processing with batch_size={args.batch_size}")
     if args.use_knowledge == "True":
         responses = batch_collect_response_from_llama(
             db_path_list=db_path_list,
