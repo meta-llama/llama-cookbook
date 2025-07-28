@@ -17,7 +17,9 @@ Below are the results of the Llama models we have evaluated on the BIRD DEV data
 
 ## Quick Start with Llama Models via Llama API
 
-First, run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation and fine-tuning:
+Follow the steps below to evaluate Llama 3 & 4 models on Text2SQL using the BIRD benchmark:
+
+1. Run the commands below to create a new Conda environment and install all the required packages for Text2SQL evaluation:
 
 ```
 conda create -n llama-text2sql python=3.10
@@ -28,18 +30,16 @@ cd llama-cookbook/end-to-end-use-cases/coding/text2sql/eval
 pip install -r requirements.txt
 ```
 
-Then, follow the steps below to evaluate Llama 3 & 4 models on Text2SQL using the BIRD benchmark:
-
-1. Get the DEV dataset:
+2. Get the DEV dataset:
 ```
 cd ../data
 sh download_dev_unzip.sh
 cd ../eval
 ```
 
-2. Open `llama_eval.sh` and set `YOUR_API_KEY` to your [Llama API](https://llama.developer.meta.com/) key then uncomment a line that starts with `model=` to specify the Llama model to use for the text2sql eval.
+3. Open `llama_eval.sh` and set `YOUR_API_KEY` to your [Llama API](https://llama.developer.meta.com/) key then uncomment a line that starts with `model=` to specify the Llama model to use for the text2sql eval.
 
-3. Run the evaluation script `sh llama_eval.sh`, which will use the BIRD DEV dataset (1534 examples in total) with external knowledge turned on to run the Llama model on each text question and compare the generated SQL with the gold SQL.
+4. Run the evaluation script `sh llama_eval.sh`, which will use the BIRD DEV dataset (1534 examples in total) with external knowledge turned on to run the Llama model on each text question and compare the generated SQL with the gold SQL.
 
 If your API key or model name is incorrect, the script will exit with an authentication or model not supported error.
 
