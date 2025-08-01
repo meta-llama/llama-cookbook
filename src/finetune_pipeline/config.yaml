@@ -1,0 +1,20 @@
+# Configuration for data loading and formatting
+
+# Data source configuration
+data_path: "your/dataset/path"  # Path to the dataset (either a Hugging Face dataset ID or a local path)
+is_local: true                  # Whether the data is stored locally
+
+# Formatter configuration
+formatter_type: "torchtune"     # Type of formatter to use ('torchtune', 'vllm', or 'openai')
+
+# Column mapping configuration
+# Maps custom column names to standard field names
+column_mapping:
+  input: "question"             # Field containing the input text
+  output: "answer"              # Field containing the output text
+  image: "image_path"           # Field containing the image path (optional)
+
+# Additional arguments to pass to the load_dataset function
+dataset_kwargs:
+  split: "train"                # Dataset split to load
+  # Add any other dataset-specific arguments here
