@@ -67,9 +67,9 @@ model='meta-llama/Llama-3.1-8B-Instruct'
 ```
 vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
-or if you have multiple GPUs, do something like:
+or if you want to speed up the inference and eval and have multiple GPUs, you can set `--tensor-parallel-size` to the number of your available GPUs, e.g.:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 4 --max-num-batched-tokens 8192 --max-num-seqs 64
+vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
 
 then run `sh llama_eval.sh`.
