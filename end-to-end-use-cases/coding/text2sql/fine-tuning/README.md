@@ -81,13 +81,11 @@ model='fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot'
 ```
 vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 1 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
-If you have multiple GPUs you can run something like
+or if you want to speed up the inference and eval and have multiple GPUs, you can set `--tensor-parallel-size` to the number of your available GPUs, e.g.:
 
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64
+vllm serve fine_tuning/llama31-8b-text2sql-fft-nonquantized-cot --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64
 ```
-
-to speed up the eval.
 
 3. If you haven't downloaded the DEV dataset, download it and unzip it first:
 
