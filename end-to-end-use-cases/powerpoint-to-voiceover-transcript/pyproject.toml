@@ -1,0 +1,16 @@
+[project]
+name = "pptx-to-transcript"
+version = "0.1.0"
+description = "Convert PowerPoint presentations to transcripts with AI-powered analysis"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.3.1",
+    "pillow>=11.3.0",
+    "python-pptx>=1.0.2",
+    "pymupdf>=1.24.0",
+    "numpy>=2.3.2",
+    "python-dotenv>=1.0.0",
+    "tqdm>=4.66.0",
+    "llama-api-client>=0.1.0",
+    "pyyaml>=6.0.0",
+]
