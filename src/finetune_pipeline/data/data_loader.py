@@ -135,6 +135,70 @@ def get_formatter(formatter_type: str) -> Formatter:
     return formatter_map[formatter_type.lower()]()
 
 
+def convert_to_conversations(data, column_mapping: Optional[Dict] = None):
+    """
+    Convert data to a list of Conversation objects.
+
+    Args:
+        data: Data to convert
+        column_mapping: Optional mapping of column names
+
+    Returns:
+        list: List of Conversation objects
+    """
+    # Import here to avoid circular imports
+    from .formatter import Conversation
+
+    # Default column mapping if none provided
+    if column_mapping is None:
+        column_mapping = {"input": "input", "output": "output", "image": "image"}
+
+    # Validate column mapping
+    required_fields = ["input", "output"]
+    for field in required_fields:
+        if field not in column_mapping:
+            raise ValueError(f"Column mapping must include '{field}' field")
+
+    conversations = []
+    for item in data:
+        # Extract fields from the dataset item using the column mapping
+        image_field = column_mapping.get("image")
+        input_field = column_mapping.get("input")
+        output_field = column_mapping.get("output")
+
+        image = item.get(image_field, None) if image_field else None
+        input_text = item.get(input_field, "")
+        output_label = item.get(output_field, "")
+
+        # Create a new conversation
+        conversation = Conversation()
+
+        # Create user content and user message
+        user_content = [
+            {"type": "text", "text": input_text},
+        ]
+        # Add image to user content
+        if image is not None:
+            user_content.append({"type": "image", "image_url": {"url": image}})
+
+        user_message = {"role": "user", "content": user_content}
+
+        # Create assistant message with text content
+        assistant_content = [
+            {"type": "text", "text": output_label},
+        ]
+        assistant_message = {"role": "assistant", "content": assistant_content}
+
+        # Add messages to the conversation
+        conversation.add_message(user_message)
+        conversation.add_message(assistant_message)
+
+        # Add the conversation to the list
+        conversations.append(conversation)
+
+    return conversations
+
+
 def format_data(data, formatter_type: str, column_mapping: Optional[Dict] = None):
     """
     Format the data using the specified formatter.
@@ -147,12 +211,11 @@ def format_data(data, formatter_type: str, column_mapping: Optional[Dict] = None
     Returns:
         Formatted data in the specified format
     """
+    # First convert the data to conversations
+    conversations = convert_to_conversations(data, column_mapping)
+
+    # Then get the formatter and format the conversations
     formatter = get_formatter(formatter_type)
-
-    # Read the data and convert to conversations
-    conversations = formatter.read_data(data, column_mapping)
-
-    # Format the conversations
     formatted_data = formatter.format_data(conversations)
 
     return formatted_data
