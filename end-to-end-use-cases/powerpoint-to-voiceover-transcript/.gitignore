@@ -73,6 +73,7 @@ cover/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+pptx_to_vo_workflow.ipynb
 
 # IPython
 profile_default/

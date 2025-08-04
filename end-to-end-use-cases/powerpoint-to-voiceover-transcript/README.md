@@ -1,14 +1,15 @@
 # PowerPoint to Voiceover Transcript
 
-A production-ready tool that converts PowerPoint presentations into AI-generated voiceover transcripts using Meta's Llama vision models. Designed for creating professional narration content from slide decks.
+A Llama 4 powered solution that converts PowerPoint presentations into text-to-speech ready voiceover transcripts. Designed for creating professional narration content from slide decks.
 
 ## Overview
 
-This system extracts speaker notes and visual content from PowerPoint files, then uses advanced AI vision models to generate natural-sounding transcripts optimized for human voiceover or text-to-speech systems. The generated transcripts include proper pronunciation of technical terms, numbers, and model names.
+This system extracts speaker notes and visual content from PowerPoint files, then uses the Llama 4 Maverick model to generate natural-sounding transcripts optimized for human voiceover or text-to-speech systems. The generated transcripts include proper pronunciation of technical terms, numbers, and model names.
 
 ### Key Features
 
-- **AI-Powered Analysis**: Uses Llama vision models to understand slide content and context
+- **AI-Powered Analysis**: Uses Llama 4 Maverick to understand slide content and context
+- **Narrative Continuity**: Advanced workflow maintains context across slides for smooth transitions
 - **Speech Optimization**: Converts numbers, decimals, and technical terms to spoken form
 - **Flexible Processing**: Supports both individual slides and batch processing
 - **Cross-Platform**: Works on Windows, macOS, and Linux
@@ -82,10 +83,17 @@ This system extracts speaker notes and visual content from PowerPoint files, the
 
 ### Basic Usage
 
-Run the main workflow notebook:
+#### Narrative Continuity Workflow
+For presentations requiring smooth narrative flow and consistent terminology:
 ```bash
-jupyter notebook pptx_to_vo_transcript.ipynb
+jupyter notebook narrative_continuity_workflow.ipynb
 ```
+
+This workflow uses previous slide transcripts as context to maintain narrative continuity and ensure smooth transitions between slides. Features include:
+- **Context-aware processing**: Uses 5 previous slides as context by default
+- **Consistent terminology**: Maintains terminology consistency throughout the presentation
+- **Smooth transitions**: Generates natural flow between slides
+- **Enhanced output**: Includes narrative context analysis and relationship mapping
 
 Or use the Python API:
 ```python
@@ -107,23 +115,24 @@ transcripts.to_csv("transcripts.csv", index=False)
 
 ```
 powerpoint-to-voiceover-transcript/
-├── README.md                     # This file
-├── config.yaml                   # Main configuration
-├── pyproject.toml                # Dependencies and project metadata
-├── uv.lock                       # uv dependency lock file
-├── pptx_to_vo_transcript.ipynb   # Main workflow notebook
-├── .env.example                  # Environment template
-├── input/                        # Place your PPTX files here
+├── README.md                          # This file
+├── config.yaml                        # Main configuration
+├── pyproject.toml                     # Dependencies and project metadata
+├── uv.lock                            # uv dependency lock file
+├── narrative_continuity_workflow.ipynb # Enhanced narrative-aware workflow
+├── .env.example                       # Environment template
+├── input/                             # Place your PPTX files here
 └── src/
     ├── config/
-    │   └── settings.py           # Configuration management
+    │   └── settings.py                # Configuration management
     ├── core/
-    │   ├── file_utils.py         # File system utilities
-    │   ├── image_processing.py   # Image encoding for API
-    │   ├── llama_client.py       # Llama API integration
-    │   └── pptx_processor.py     # PPTX extraction and conversion
+    │   ├── file_utils.py              # File system utilities
+    │   ├── image_processing.py        # Image encoding for API
+    │   ├── llama_client.py            # Llama API integration
+    │   └── pptx_processor.py          # PPTX extraction and conversion
     └── processors/
-        └── transcript_generator.py # AI transcript generation
+        ├── transcript_generator.py    # Standard AI transcript generation
+        └── narrative_transcript_generator.py # Narrative-aware processing
 ```
 
 ## Configuration
@@ -165,6 +174,13 @@ Main class for generating AI transcripts.
 - `process_slides_dataframe(df, output_dir)` - Process all slides
 - `process_single_slide(image_path, speaker_notes)` - Process one slide
 
+#### `NarrativeTranscriptProcessor(context_window_size=5)`
+Enhanced class for narrative-aware transcript generation.
+
+**Methods:**
+- `process_slides_dataframe_with_narrative(df, output_dir)` - Process with context
+- `process_single_slide_with_context(image_path, speaker_notes, context)` - Process with previous slides
+
 ### Speech Optimization
 
 The AI automatically converts technical content for natural speech:
@@ -192,12 +208,14 @@ See `pyproject.toml` for complete dependency list.
 
 ## Output
 
-The system generates:
+### Narrative Continuity Workflow Output
+Enhanced output includes:
 
-1. **Slide Images**: High-resolution PNG/JPEG files
-2. **Notes DataFrame**: Structured data with slide metadata
-3. **AI Transcripts**: Speech-optimized voiceover content
-4. **CSV Export**: Complete results for further processing
+1. **Narrative-Aware Transcripts**: Context-aware voiceover content with smooth transitions
+2. **Context Analysis**: Information about how previous slides influenced each transcript
+3. **Narrative Summary**: Overall analysis of presentation flow and consistency
+4. **Multiple Formats**: CSV, JSON exports with context information
+5. **Context Files**: Detailed narrative context data for each slide
 
 ## Troubleshooting
 
@@ -219,7 +237,8 @@ The system generates:
 - Make sure you have Python 3.12+ installed
 - Try `uv python install 3.12` to install Python via uv
 
+**"Context window too large"**
+- Reduce `context_window_size` parameter in narrative workflow
+- Default is 5 slides, try 3 for shorter presentations
 
 ---
-
-## **Ready to convert your presentations to professional voiceover content!** 🎙️
