@@ -59,9 +59,6 @@ def read_config(config_path: str) -> Dict:
                     "The 'pyyaml' package is required to load YAML files. "
                     "Please install it with 'pip install pyyaml'."
                 )
-            # Only use yaml if it's available (HAS_YAML is True here)
-            import yaml  # This import will succeed because we've already checked HAS_YAML
-
             config = yaml.safe_load(f)
         else:
             raise ValueError(

@@ -1,4 +1,4 @@
-# Configuration for data loading and formatting
+# Configuration for data loading, formatting, and fine-tuning
 
 # Data source configuration
 data_path: "your/dataset/path"  # Path to the dataset (either a Hugging Face dataset ID or a local path)
@@ -18,3 +18,12 @@ column_mapping:
 dataset_kwargs:
   split: "train"                # Dataset split to load
   # Add any other dataset-specific arguments here
+
+# Training configuration
+finetuning:
+  strategy: "lora"               # Training strategy ('fft' or 'lora')
+  num_epochs: 1                 # Number of training epochs
+  batch_size: 1                 # Batch size per device for training
+  torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
+  num_processes_per_node: 8             # TorchTune-specific configuration
+  distributed: true             # Whether to use distributed training
