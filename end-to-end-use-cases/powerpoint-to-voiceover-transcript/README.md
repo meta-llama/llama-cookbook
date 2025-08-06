@@ -9,9 +9,10 @@ This system extracts speaker notes and visual content from PowerPoint files, the
 ### Key Features
 
 - **AI-Powered Analysis**: Uses Llama 4 Maverick to understand slide content and context
-- **Narrative Continuity**: Advanced workflow maintains context across slides for smooth transitions
+- **Unified Processing**: Single processor handles both standard and narrative-aware modes
+- **Narrative Continuity**: Optional context-aware processing maintains smooth transitions
 - **Speech Optimization**: Converts numbers, decimals, and technical terms to spoken form
-- **Flexible Processing**: Supports both individual slides and batch processing
+- **Flexible Configuration**: Toggle between processing modes with simple flags
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 - **Production Ready**: Comprehensive error handling, progress tracking, and retry logic
 
@@ -98,13 +99,13 @@ This workflow uses previous slide transcripts as context to maintain narrative c
 Or use the Python API:
 ```python
 from src.core.pptx_processor import pptx_to_images_and_notes
-from src.processors.transcript_generator import TranscriptProcessor
+from src.processors.unified_transcript_generator import UnifiedTranscriptProcessor
 
 # Convert PPTX and extract notes
 result = pptx_to_images_and_notes("presentation.pptx", "output/")
 
 # Generate transcripts
-processor = TranscriptProcessor()
+processor = UnifiedTranscriptProcessor()
 transcripts = processor.process_slides_dataframe(result['notes_df'], "output/")
 
 # Save results
@@ -119,7 +120,7 @@ powerpoint-to-voiceover-transcript/
 ├── config.yaml                        # Main configuration
 ├── pyproject.toml                     # Dependencies and project metadata
 ├── uv.lock                            # uv dependency lock file
-├── narrative_continuity_workflow.ipynb # Enhanced narrative-aware workflow
+├── narrative_continuity_workflow.ipynb # Narrative-aware workflow
 ├── .env.example                       # Environment template
 ├── input/                             # Place your PPTX files here
 └── src/
@@ -131,8 +132,7 @@ powerpoint-to-voiceover-transcript/
     │   ├── llama_client.py            # Llama API integration
     │   └── pptx_processor.py          # PPTX extraction and conversion
     └── processors/
-        ├── transcript_generator.py    # Standard AI transcript generation
-        └── narrative_transcript_generator.py # Narrative-aware processing
+        └── unified_transcript_generator.py # Unified processor (standard + narrative)
 ```
 
 ## Configuration
@@ -167,19 +167,36 @@ Converts PowerPoint to images and extracts speaker notes.
 
 **Returns:** Dictionary with `image_files`, `notes_df`, and `output_dir`
 
-#### `TranscriptProcessor()`
-Main class for generating AI transcripts.
+#### `UnifiedTranscriptProcessor(use_narrative=True, context_window_size=5)`
+Main class for generating AI transcripts with configurable processing modes.
+
+**Parameters:**
+- `use_narrative` (bool): Enable narrative continuity mode (default: True)
+- `context_window_size` (int): Number of previous slides to use as context (default: 5)
 
 **Methods:**
-- `process_slides_dataframe(df, output_dir)` - Process all slides
-- `process_single_slide(image_path, speaker_notes)` - Process one slide
+- `process_slides_dataframe(df, output_dir, save_context=True)` - Process all slides
+- `process_single_slide(image_path, speaker_notes, slide_number, slide_title)` - Process one slide
 
-#### `NarrativeTranscriptProcessor(context_window_size=5)`
-Enhanced class for narrative-aware transcript generation.
+### Processing Modes
 
-**Methods:**
-- `process_slides_dataframe_with_narrative(df, output_dir)` - Process with context
-- `process_single_slide_with_context(image_path, speaker_notes, context)` - Process with previous slides
+#### Standard Mode (`use_narrative=False`)
+- **Best for**: Simple presentations, quick processing, independent slides
+- **Features**: Fast execution, no context dependencies
+- **Use cases**: Training materials, product demos, standalone slides
+
+#### Narrative Mode (`use_narrative=True`)
+- **Best for**: Story-driven presentations, complex topics, educational content
+- **Features**: Context awareness, smooth transitions, terminology consistency
+- **Use cases**: Conference talks, educational courses, marketing presentations
+
+### Legacy Functions (Backward Compatibility)
+
+#### `process_slides(df, output_dir, use_narrative=False)`
+Convenience function for standard processing.
+
+#### `process_slides_with_narrative(df, output_dir, context_window_size=5)`
+Convenience function for narrative processing.
 
 ### Speech Optimization
 
