@@ -23,7 +23,7 @@ paths:
 
 # Current Project Settings
 current_project:
-  pptx_file: "input/your_powerpoint_file_name_here" # Powerpoint file name (without the ppt/pptx extension)
+  pptx_file: "input/All About Llamas" # Powerpoint file name (without the ppt/pptx extension)
   extension: ".pptx"
   output_dir: "output/"
 
