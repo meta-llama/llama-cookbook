@@ -7,10 +7,10 @@
 *.env
 
 # PowerPoint files
-*.pptx
-*.ppt
-*.potx
-*.pot
+# *.pptx
+# *.ppt
+# *.potx
+# *.pot
 
 # Output directories and generated files
 output/
