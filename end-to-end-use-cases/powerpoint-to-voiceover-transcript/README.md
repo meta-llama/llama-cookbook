@@ -218,13 +218,6 @@ display_slide_preview(image_files, num_slides=6, max_cols=3)
 #### `display_slide_preview(image_files, num_slides=6, max_cols=3, figsize_per_image=(4, 3))`
 Display a preview of the first N slide images with automatic grid layout.
 
-### Legacy Functions (Backward Compatibility)
-
-#### `process_slides(df, output_dir, use_narrative=False)`
-Convenience function for standard processing.
-
-#### `process_slides_with_narrative(df, output_dir, context_window_size=5)`
-Convenience function for narrative processing.
 
 ### Speech Optimization
 
@@ -234,6 +227,8 @@ The AI automatically converts technical content for natural speech:
 - **Model names**: `LLaMA-3.2` → "LLaMA three dot two"
 - **Abbreviations**: `LLM` → "L L M"
 - **Large numbers**: `70B` → "seventy billion"
+
+Add your own rules in the system prompt.
 
 ## Requirements
 
