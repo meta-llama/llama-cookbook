@@ -13,7 +13,6 @@
 # *.pot
 
 # Output directories and generated files
-output/
 slide_images/
 cache/
 logs/
@@ -149,21 +148,21 @@ cython_debug/
 ehthumbs.db
 Thumbs.db
 
-# Image files (generated from slides)
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
-*.tiff
-*.svg
+# # Image files (generated from slides)
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.bmp
+# *.tiff
+# *.svg
 
-# PDF files (intermediate conversion files)
-*.pdf
+# # PDF files (intermediate conversion files)
+# *.pdf
 
-# CSV and JSON output files
-*.csv
-*.json
+# # CSV and JSON output files
+# *.csv
+# *.json
 
 # Backup files
 *.bak
