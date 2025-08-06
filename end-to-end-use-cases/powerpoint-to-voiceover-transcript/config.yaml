@@ -86,6 +86,7 @@ system_prompt: |
      - Is suitable for a 1.5–3 minute spoken video.
 
   4. Ensure the transcript:
+     - Does not contain the title of the slide.
      - Flows logically, even if slide layout is fragmented.
      - Expands acronyms or technical terms on first use (e.g., "LLM" becomes "Large Language Model, or LLM").
      - Maintains a neutral, respectful, and professional tone appropriate for stakeholders.

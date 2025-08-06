@@ -12,6 +12,7 @@ This system extracts speaker notes and visual content from PowerPoint files, the
 - **Unified Processing**: Single processor handles both standard and narrative-aware modes
 - **Narrative Continuity**: Optional context-aware processing maintains smooth transitions
 - **Speech Optimization**: Converts numbers, decimals, and technical terms to spoken form
+- **Visualization Tools**: Built-in utilities for displaying slide images in Jupyter notebooks
 - **Flexible Configuration**: Toggle between processing modes with simple flags
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 - **Production Ready**: Comprehensive error handling, progress tracking, and retry logic
@@ -123,6 +124,7 @@ powerpoint-to-voiceover-transcript/
 ├── narrative_continuity_workflow.ipynb # Narrative-aware workflow
 ├── .env.example                       # Environment template
 ├── input/                             # Place your PPTX files here
+├── output/                            # Generated images and transcripts
 └── src/
     ├── config/
     │   └── settings.py                # Configuration management
@@ -131,8 +133,10 @@ powerpoint-to-voiceover-transcript/
     │   ├── image_processing.py        # Image encoding for API
     │   ├── llama_client.py            # Llama API integration
     │   └── pptx_processor.py          # PPTX extraction and conversion
-    └── processors/
-        └── unified_transcript_generator.py # Unified processor (standard + narrative)
+    ├── processors/
+    │   └── unified_transcript_generator.py # Unified processor (standard + narrative)
+    └── utils/
+        └── visualization.py           # Slide image display utilities
 ```
 
 ## Configuration
@@ -190,6 +194,30 @@ Main class for generating AI transcripts with configurable processing modes.
 - **Features**: Context awareness, smooth transitions, terminology consistency
 - **Use cases**: Conference talks, educational courses, marketing presentations
 
+### Visualization Utilities
+
+#### `display_slide_grid(image_files, max_cols=3, figsize_per_image=(4, 3))`
+Display slide images in a grid layout for Jupyter notebooks.
+
+**Parameters:**
+- `image_files` (List): List of image file paths
+- `max_cols` (int): Maximum columns in grid (default: 3)
+- `figsize_per_image` (Tuple): Size of each image as (width, height) (default: (4, 3))
+
+**Example:**
+```python
+from src.utils.visualization import display_slide_grid, display_slide_preview
+
+# Display first 6 slides in a 3-column grid
+display_slide_grid(image_files[:6], max_cols=3, figsize_per_image=(4, 3))
+
+# Or use the convenience function
+display_slide_preview(image_files, num_slides=6, max_cols=3)
+```
+
+#### `display_slide_preview(image_files, num_slides=6, max_cols=3, figsize_per_image=(4, 3))`
+Display a preview of the first N slide images with automatic grid layout.
+
 ### Legacy Functions (Backward Compatibility)
 
 #### `process_slides(df, output_dir, use_narrative=False)`
@@ -220,6 +248,7 @@ The AI automatically converts technical content for natural speech:
 - `llama-api-client>=0.1.0` - AI model access
 - `pillow>=11.3.0` - Image processing
 - `pyyaml>=6.0.0` - Configuration management
+- `matplotlib>=3.5.0` - Visualization utilities
 
 See `pyproject.toml` for complete dependency list.
 
@@ -233,6 +262,7 @@ Enhanced output includes:
 3. **Narrative Summary**: Overall analysis of presentation flow and consistency
 4. **Multiple Formats**: CSV, JSON exports with context information
 5. **Context Files**: Detailed narrative context data for each slide
+6. **Visual Preview**: Grid display of slide images for verification
 
 ## Troubleshooting
 
@@ -257,5 +287,10 @@ Enhanced output includes:
 **"Context window too large"**
 - Reduce `context_window_size` parameter in narrative workflow
 - Default is 5 slides, try 3 for shorter presentations
+
+**"Images not displaying in notebook"**
+- Ensure matplotlib is installed: `pip install matplotlib`
+- Check that image files exist in the output directory
+- Try restarting the Jupyter kernel
 
 ---

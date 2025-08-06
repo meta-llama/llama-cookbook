@@ -13,4 +13,5 @@ dependencies = [
     "tqdm>=4.66.0",
     "llama-api-client>=0.1.0",
     "pyyaml>=6.0.0",
+    "matplotlib>=3.10.5",
 ]

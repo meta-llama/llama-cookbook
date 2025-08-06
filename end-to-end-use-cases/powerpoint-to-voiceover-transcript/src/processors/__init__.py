@@ -1,5 +1,13 @@
 """Processing modules for PPTX to Transcript."""
 
-from .transcript_generator import process_slides, TranscriptProcessor
+from .unified_transcript_generator import (
+    UnifiedTranscriptProcessor,
+    process_slides,
+    process_slides_with_narrative
+)
 
-__all__ = ["process_slides", "TranscriptProcessor"]
+__all__ = [
+    "UnifiedTranscriptProcessor",
+    "process_slides",
+    "process_slides_with_narrative"
+]

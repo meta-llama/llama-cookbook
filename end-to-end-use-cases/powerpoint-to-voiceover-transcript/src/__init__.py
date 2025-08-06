@@ -11,12 +11,18 @@ __version__ = "0.1.0"
 __author__ = "Yuce Dincer"
 
 from .core.pptx_processor import extract_pptx_notes, pptx_to_images_and_notes
-from .processors.transcript_generator import process_slides
+from .processors.unified_transcript_generator import (
+    UnifiedTranscriptProcessor,
+    process_slides,
+    process_slides_with_narrative
+)
 from .config.settings import load_config
 
 __all__ = [
     "extract_pptx_notes",
     "pptx_to_images_and_notes",
+    "UnifiedTranscriptProcessor",
     "process_slides",
+    "process_slides_with_narrative",
     "load_config"
 ]
