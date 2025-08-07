@@ -101,9 +101,7 @@ def start_vllm_server(
     max_model_len: int = 4096,
     max_num_seqs: int = 256,
     quantization: Optional[str] = None,
-    dtype: str = "auto",
     gpu_memory_utilization: float = 0.9,
-    trust_remote_code: bool = False,
     enforce_eager: bool = False,
     additional_args: Optional[Dict] = None,
 ) -> None:
@@ -145,26 +143,13 @@ def start_vllm_server(
     cmd.extend(["--max-model-len", str(max_model_len)])
     cmd.extend(["--max-num-seqs", str(max_num_seqs)])
     cmd.extend(["--gpu-memory-utilization", str(gpu_memory_utilization)])
-    cmd.extend(["--dtype", dtype])
 
     # Add optional parameters
     if quantization:
         cmd.extend(["--quantization", quantization])
 
-    if trust_remote_code:
-        cmd.append("--trust-remote-code")
-
     if enforce_eager:
         cmd.append("--enforce-eager")
-
-    # Add additional arguments
-    if additional_args:
-        for key, value in additional_args.items():
-            if isinstance(value, bool):
-                if value:
-                    cmd.append(f"--{key}")
-            else:
-                cmd.extend([f"--{key}", str(value)])
 
     # Log the command
     logger.info(f"Starting vLLM server with command: {' '.join(cmd)}")
@@ -222,18 +207,6 @@ def main():
         type=str,
         choices=["awq", "gptq", "squeezellm"],
         help="Quantization method to use",
-    )
-    model_group.add_argument(
-        "--dtype",
-        type=str,
-        default="auto",
-        choices=["half", "float", "bfloat16", "auto"],
-        help="Data type for model weights",
-    )
-    model_group.add_argument(
-        "--trust-remote-code",
-        action="store_true",
-        help="Trust remote code when loading the model",
     )
 
     # Server options
@@ -344,11 +317,6 @@ def main():
             else inference_config.get("max_num_seqs", args.max_num_seqs)
         ),
         "quantization": args.quantization or inference_config.get("quantization"),
-        "dtype": (
-            args.dtype
-            if args.dtype != parser.get_default("dtype")
-            else inference_config.get("dtype", args.dtype)
-        ),
         "gpu_memory_utilization": (
             args.gpu_memory_utilization
             if args.gpu_memory_utilization
@@ -357,8 +325,6 @@ def main():
                 "gpu_memory_utilization", args.gpu_memory_utilization
             )
         ),
-        "trust_remote_code": args.trust_remote_code
-        or inference_config.get("trust_remote_code", False),
         "enforce_eager": args.enforce_eager
         or inference_config.get("enforce_eager", False),
     }

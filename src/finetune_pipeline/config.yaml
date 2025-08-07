@@ -21,21 +21,19 @@ formatter:
 
 # Training configuration
 finetuning:
-  strategy: "fft"               # Training strategy ('fft' or 'lora')
+  strategy: "lora"               # Training strategy ('fft' or 'lora')
   num_epochs: 1                 # Number of training epochs
   batch_size: 1                 # Batch size per device for training
   torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
-  num_processes_per_node: 1             # TorchTune-specific configuration
-  distributed: false             # Whether to use distributed training
+  num_processes_per_node: 8             # TorchTune-specific configuration
+  distributed: true             # Whether to use distributed training
 
 
 # vLLM Inference configuration
 inference:
   # Model configuration
-  model_path: "your/model/path" # Path to the model checkpoint
+  model_path: "/home/ubuntu/yash-workspace/medgemma-4b-it" # Path to the model checkpoint
   quantization: null            # Quantization method (awq, gptq, squeezellm)
-  dtype: "auto"                 # Data type for model weights (half, float, bfloat16, auto)
-  trust_remote_code: false      # Trust remote code when loading the model
 
   # Server configuration
   port: 8000                    # Port to run the server on
@@ -43,8 +41,8 @@ inference:
 
   # Performance configuration
   tensor_parallel_size: 1       # Number of GPUs to use for tensor parallelism
-  max_model_len: 1024           # Maximum sequence length
-  max_num_seqs: 16              # Maximum number of sequences
+  max_model_len: 32           # Maximum sequence length
+  max_num_seqs: 1              # Maximum number of sequences
   gpu_memory_utilization: 0.9   # Fraction of GPU memory to use
   enforce_eager: false          # Enforce eager execution
 
