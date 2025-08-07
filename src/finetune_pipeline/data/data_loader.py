@@ -5,7 +5,7 @@ Data loader module for loading and formatting data from Hugging Face.
 import json
 import os
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Any, Dict, List, Optional, Union
 
 # Try to import yaml, but don't fail if it's not available
 try:
@@ -196,6 +196,77 @@ def convert_to_conversations(data, column_mapping: Optional[Dict] = None):
     return conversations
 
 
+def save_formatted_data(
+    formatted_data: List[Any], output_dir: str, formatter_type: str
+) -> str:
+    """
+    Save formatted data to a JSON file.
+
+    Args:
+        formatted_data: The formatted data to save
+        output_dir: Directory to save the data
+        formatter_type: Type of formatter used ('torchtune', 'vllm', or 'openai')
+
+    Returns:
+        Path to the saved file
+    """
+    # Create the output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Define the output file path
+    formatted_data_path = os.path.join(
+        output_dir, f"{formatter_type}_formatted_data.json"
+    )
+
+    # Save the formatted data
+    with open(formatted_data_path, "w") as f:
+        # Handle different data types
+        if isinstance(formatted_data, list) and all(
+            isinstance(item, dict) for item in formatted_data
+        ):
+            json.dump(formatted_data, f, indent=2)
+        elif isinstance(formatted_data, list) and all(
+            isinstance(item, str) for item in formatted_data
+        ):
+            json.dump(formatted_data, f, indent=2)
+        else:
+            # For other types, convert to a simple list of strings
+            json.dump([str(item) for item in formatted_data], f, indent=2)
+
+    print(f"Saved formatted data to {formatted_data_path}")
+    return formatted_data_path
+
+
+def save_conversation_data(conversation_data: List, output_dir: str) -> str:
+    """
+    Save conversation data to a JSON file.
+
+    Args:
+        conversation_data: List of Conversation objects
+        output_dir: Directory to save the data
+
+    Returns:
+        Path to the saved file
+    """
+    # Create the output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Define the output file path
+    conversation_data_path = os.path.join(output_dir, "conversation_data.json")
+
+    # Convert Conversation objects to a serializable format
+    serializable_conversations = []
+    for conv in conversation_data:
+        serializable_conversations.append({"messages": conv.messages})
+
+    # Save the conversation data
+    with open(conversation_data_path, "w") as f:
+        json.dump(serializable_conversations, f, indent=2)
+
+    print(f"Saved conversation data to {conversation_data_path}")
+    return conversation_data_path
+
+
 def format_data(data, formatter_type: str, column_mapping: Optional[Dict] = None):
     """
     Format the data using the specified formatter.
@@ -206,7 +277,7 @@ def format_data(data, formatter_type: str, column_mapping: Optional[Dict] = None
         column_mapping: Optional mapping of column names
 
     Returns:
-        Formatted data in the specified format
+        Tuple containing formatted data and conversation data
     """
     # First convert the data to conversations
     conversations = convert_to_conversations(data, column_mapping)
@@ -215,39 +286,41 @@ def format_data(data, formatter_type: str, column_mapping: Optional[Dict] = None
     formatter = get_formatter(formatter_type)
     formatted_data = formatter.format_data(conversations)
 
-    return formatted_data
+    return formatted_data, conversations
 
 
-def load_and_format_data(config_path: str):
+def load_and_format_data(formatter_config: Dict):
     """
     Load and format data based on the configuration.
 
     Args:
-        config_path: Path to the configuration file
+        formatter_config: Dictionary containing formatter configuration parameters
 
     Returns:
         Formatted data in the specified format
     """
-    # Read the configuration
-    config = read_config(config_path)
 
     # Extract parameters from config
-    data_path = config.get("data_path")
+    data_path = formatter_config.get("data_path")
     if not data_path:
-        raise ValueError("data_path must be specified in the config file")
+        raise ValueError(
+            "data_path must be specified in the formatter section of the config file"
+        )
 
-    is_local = config.get("is_local", False)
-    formatter_type = config.get("formatter_type", "torchtune")
-    column_mapping = config.get("column_mapping")
-    dataset_kwargs = config.get("dataset_kwargs", {})
+    is_local = formatter_config.get("is_local", False)
+    formatter_type = formatter_config.get("type", "torchtune")
+    column_mapping = formatter_config.get("column_mapping")
+    dataset_kwargs = formatter_config.get("dataset_kwargs", {})
 
     # Load the data
     data = load_data(data_path, is_local, **dataset_kwargs)
 
     # Format the data
-    formatted_data = format_data(data, formatter_type, column_mapping)
+    formatted_data, conversation_data = format_data(
+        data, formatter_type, column_mapping
+    )
 
-    return formatted_data
+    return formatted_data, conversation_data
 
 
 if __name__ == "__main__":
@@ -265,5 +338,17 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    formatted_data = load_and_format_data(args.config)
+    # Read the configuration
+    config = read_config(args.config)
+    formatter_config = config.get("formatter", {})
+    output_dir = config.get("output_dir")
+
+    # Load and format the data
+    formatted_data, conversation_data = load_and_format_data(formatter_config)
     print(f"Loaded and formatted data: {len(formatted_data)} samples")
+
+    # Save the data if output_dir is provided
+    if output_dir:
+        formatter_type = formatter_config.get("type", "torchtune")
+        save_formatted_data(formatted_data, output_dir, formatter_type)
+        save_conversation_data(conversation_data, output_dir)
