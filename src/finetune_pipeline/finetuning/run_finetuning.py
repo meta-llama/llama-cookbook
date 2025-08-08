@@ -63,7 +63,7 @@ def read_config(config_path: str) -> Dict:
     return config
 
 
-def run_torch_tune(config_path: str, args=None):
+def run_torch_tune(training_config: Dict, args=None):
     """
     Run torch tune command with parameters from config file.
 
@@ -71,11 +71,11 @@ def run_torch_tune(config_path: str, args=None):
         config_path: Path to the configuration file
         args: Command line arguments that may include additional kwargs to pass to the command
     """
-    # Read the configuration
-    config = read_config(config_path)
+    # # Read the configuration
+    # config = read_config(config_path)
 
     # Extract parameters from config
-    training_config = config.get("finetuning", {})
+    # training_config = config.get("finetuning", {})
 
     # Initialize base_cmd to avoid "possibly unbound" error
     base_cmd = []

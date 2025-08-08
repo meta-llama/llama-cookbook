@@ -11,6 +11,8 @@ def custom_sft_dataset(
     model_transform: Transform,
     dataset_path: str = "/tmp/train.json",
     train_on_input: bool = False,
+    split: str = "train",
+
 ) -> SFTDataset:
     """
     Creates a custom SFT dataset for fine-tuning.
@@ -18,6 +20,7 @@ def custom_sft_dataset(
     Args:
         dataset_path: Path to the formatted data JSON file
         train_on_input: Whether to train on input tokens
+        split: Dataset split to use
 
     Returns:
         SFTDataset: A dataset ready for fine-tuning with TorchTune
@@ -27,9 +30,8 @@ def custom_sft_dataset(
     ds = SFTDataset(
         source="json",
         data_files=dataset_path,
-        split="train",
+        split=split,
         message_transform=openaitomessage,
         model_transform=model_transform,
     )
     return ds
-

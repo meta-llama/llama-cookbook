@@ -82,7 +82,7 @@ formatter:
   column_mapping:
     input: "query"             # Field containing the input text
     output: "response"              # Field containing the output text
-    image: "images"           # Field containing the image path (optional)
+    image: null           # Field containing the image path (optional)
 
   # Additional arguments to pass to the load_dataset function
   dataset_kwargs:
@@ -101,7 +101,7 @@ finetuning:
 # vLLM Inference configuration
 inference:
   # Model configuration
-  model_path: "your/model/path" # Path to the model checkpoint
+  model_path: "/home/ubuntu/yash-workspace/medgemma-4b-it" # Path to the model checkpoint
   quantization: null            # Quantization method (awq, gptq, squeezellm)
   dtype: "auto"                 # Data type for model weights (half, float, bfloat16, auto)
   trust_remote_code: false      # Trust remote code when loading the model
@@ -112,12 +112,12 @@ inference:
 
   # Performance configuration
   tensor_parallel_size: 1       # Number of GPUs to use for tensor parallelism
-  max_model_len: 1024           # Maximum sequence length
-  max_num_seqs: 16              # Maximum number of sequences
+  max_model_len: 32           # Maximum sequence length
+  max_num_seqs: 1              # Maximum number of sequences
   gpu_memory_utilization: 0.9   # Fraction of GPU memory to use
   enforce_eager: false          # Enforce eager execution
 
-  eval_data: "your/eval/dataset/path" # Path to the evaluation dataset (optional)
+  data: "your/eval/dataset/path" # Path to the inference dataset (optional)
 
   # Additional vLLM parameters (optional)
   # swap_space: 4               # Size of CPU swap space in GiB

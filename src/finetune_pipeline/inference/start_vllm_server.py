@@ -156,7 +156,8 @@ def start_vllm_server(
 
     # Run the command
     try:
-        subprocess.run(cmd, check=True)
+        result = subprocess.run(cmd, check=True)
+        return result
     except subprocess.CalledProcessError as e:
         logger.error(f"Failed to start vLLM server: {e}")
         sys.exit(1)
