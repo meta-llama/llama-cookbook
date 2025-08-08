@@ -70,7 +70,41 @@ class VLLMClient:
             self.logger.error(f"Error sending request to vLLM server: {e}")
             raise
 
-def run_inference_on_eval_data(
+
+def vllm_call_batch(llm, image_paths: List[str], structured):
+    messages_batch = []
+    for img_path in image_paths:
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": f"file:///{img_path}"}},
+                    {
+                        "type": "text",
+                        "text": generate_prompt(structured),
+                    },
+                ],
+            }
+        ]
+        messages_batch.append(messages)
+
+    # Using greedy decoding
+    if structured:
+        sampling_params = SamplingParams(
+            temperature=0,
+            top_p=1,
+            max_tokens=8192,
+            guided_decoding=guided_decoding_params,
+        )
+    else:
+        sampling_params = SamplingParams(
+            temperature=0,
+            top_p=1,
+            max_tokens=8192,
+        )
+    return llm.chat(messages_batch, sampling_params, use_tqdm=True)
+
+def run_vllm_batch_inference_on_dataset(
     eval_data_path: str,
     server_url: str = "http://localhost:8000/v1",
     is_local: bool = False,

@@ -1,23 +1,92 @@
+# # Configuration for data loading, formatting, and fine-tuning
+
+
+# output_dir: "/tmp/finetune_pipeline/outputs/"  # Directory to store output files
+
+# data:
+#   data_path: "dz-osamu/IU-Xray"  # Path to the dataset to format (either a Hugging Face dataset ID or a local path)
+#   is_local: false                  # Whether the data is stored locally
+#   # Maps custom column names to standard field names
+#   column_mapping:
+#     input: "query"             # Field containing the input text
+#     output: "response"              # Field containing the output text
+#     image: "image"           # Field containing the image path (optional)
+#   # Additional arguments to pass to the load_dataset function
+#   # dataset_kwargs:
+#   #   split: "train"                # Dataset split to load
+#   #   # Add any other dataset-specific arguments here
+
+
+# # Formatter configuration
+# formatter:
+#   type: "vllm"  # Type of formatter to use ('torchtune', 'vllm', or 'openai')
+
+
+# # # Something like this in the torchtune config
+# # dataset:
+# #   _component_: torchtune.datasets.CustomSFTDataset
+# #   packed: False
+# #   split: train
+# # seed: null
+# # shuffle: True
+
+
+# # Training configuration
+# finetuning:
+#   strategy: "lora"               # Training strategy ('fft' or 'lora')
+#   num_epochs: 1                 # Number of training epochs
+#   batch_size: 1                 # Batch size per device for training
+#   torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
+#   num_processes_per_node: 8             # TorchTune-specific configuration
+#   distributed: true             # Whether to use distributed training
+
+
+# # vLLM Inference configuration
+# inference:
+#   # Model configuration
+#   model_path: "/home/ubuntu/yash-workspace/medgemma-4b-it" # Path to the model checkpoint
+#   quantization: null            # Quantization method (awq, gptq, squeezellm)
+
+#   # Server configuration
+#   port: 8000                    # Port to run the server on
+#   host: "0.0.0.0"               # Host to run the server on
+
+#   # Performance configuration
+#   tensor_parallel_size: 1       # Number of GPUs to use for tensor parallelism
+#   max_model_len: 32           # Maximum sequence length
+#   max_num_seqs: 1              # Maximum number of sequences
+#   gpu_memory_utilization: 0.9   # Fraction of GPU memory to use
+#   enforce_eager: false          # Enforce eager execution
+
+#   eval_data: "your/eval/dataset/path" # Path to the evaluation dataset (optional)
+
+#   # Additional vLLM parameters (optional)
+#   # swap_space: 4               # Size of CPU swap space in GiB
+#   # block_size: 16              # Size of blocks used in the KV cache
+#   # disable_log_stats: true     # Disable logging of stats
+#   # disable_log_requests: false # Disable logging of requests
+
+
+
 # Configuration for data loading, formatting, and fine-tuning
 
 
-output_dir: "/tmp/finetune_pipeline/outputs/"  # Directory to store output files
+output_dir: "/home/ubuntu/yash-workspace/outputs"  # Directory to store output files
 
 # Formatter configuration
 formatter:
-  type: "vllm"  # Type of formatter to use ('torchtune', 'vllm', or 'openai')
+  type: "torchtune"  # Type of formatter to use ('torchtune', 'vllm', or 'openai')
   data_path: "dz-osamu/IU-Xray"  # Path to the dataset to format (either a Hugging Face dataset ID or a local path)
   is_local: false                  # Whether the data is stored locally
   # Maps custom column names to standard field names
   column_mapping:
     input: "query"             # Field containing the input text
     output: "response"              # Field containing the output text
-    image: null           # Field containing the image path (optional)
+    image: "images"           # Field containing the image path (optional)
 
   # Additional arguments to pass to the load_dataset function
   dataset_kwargs:
     split: "train"                # Dataset split to load
-    # Add any other dataset-specific arguments here
 
 # Training configuration
 finetuning:
@@ -25,15 +94,17 @@ finetuning:
   num_epochs: 1                 # Number of training epochs
   batch_size: 1                 # Batch size per device for training
   torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
-  num_processes_per_node: 8             # TorchTune-specific configuration
-  distributed: true             # Whether to use distributed training
+  num_processes_per_node: 1             # TorchTune-specific configuration
+  distributed: false             # Whether to use distributed training
 
 
 # vLLM Inference configuration
 inference:
   # Model configuration
-  model_path: "/home/ubuntu/yash-workspace/medgemma-4b-it" # Path to the model checkpoint
+  model_path: "your/model/path" # Path to the model checkpoint
   quantization: null            # Quantization method (awq, gptq, squeezellm)
+  dtype: "auto"                 # Data type for model weights (half, float, bfloat16, auto)
+  trust_remote_code: false      # Trust remote code when loading the model
 
   # Server configuration
   port: 8000                    # Port to run the server on
@@ -41,8 +112,8 @@ inference:
 
   # Performance configuration
   tensor_parallel_size: 1       # Number of GPUs to use for tensor parallelism
-  max_model_len: 32           # Maximum sequence length
-  max_num_seqs: 1              # Maximum number of sequences
+  max_model_len: 1024           # Maximum sequence length
+  max_num_seqs: 16              # Maximum number of sequences
   gpu_memory_utilization: 0.9   # Fraction of GPU memory to use
   enforce_eager: false          # Enforce eager execution
 
@@ -53,3 +124,4 @@ inference:
   # block_size: 16              # Size of blocks used in the KV cache
   # disable_log_stats: true     # Disable logging of stats
   # disable_log_requests: false # Disable logging of requests
+
