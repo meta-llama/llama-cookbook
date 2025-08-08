@@ -93,9 +93,9 @@ finetuning:
   strategy: "lora"               # Training strategy ('fft' or 'lora')
   num_epochs: 1                 # Number of training epochs
   batch_size: 1                 # Batch size per device for training
-  torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
+  torchtune_config: "llama3_1/8B_lora"             # TorchTune-specific configuration
   num_processes_per_node: 1             # TorchTune-specific configuration
-  distributed: false             # Whether to use distributed training
+  distributed: true             # Whether to use distributed training
 
 
 # vLLM Inference configuration
