@@ -132,11 +132,11 @@ def run_torch_tune(training_config: Dict, args=None):
         )
 
     # Add any additional kwargs if provided
-    if args and args.kwargs:
-        # Split the kwargs string by spaces to get individual key=value pairs
-        kwargs_list = args.kwargs.split()
-        base_cmd.extend(kwargs_list)
-        logger.info(f"Added additional kwargs: {kwargs_list}")
+    # if args and args.kwargs:
+    #     # Split the kwargs string by spaces to get individual key=value pairs
+    #     kwargs_list = args.kwargs.split()
+    #     base_cmd.extend(kwargs_list)
+    #     logger.info(f"Added additional kwargs: {kwargs_list}")
 
     # Log the command
     logger.info(f"Running command: {' '.join(base_cmd)}")
@@ -169,7 +169,10 @@ def main():
     )
     args = parser.parse_args()
 
-    run_torch_tune(args.config, args=args)
+    config = read_config(args.config)
+    finetuning_config = config.get("finetuning", {})
+
+    run_torch_tune(finetuning_config, args=args)
 
 
 if __name__ == "__main__":
