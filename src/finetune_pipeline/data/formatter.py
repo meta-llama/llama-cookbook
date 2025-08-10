@@ -209,8 +209,10 @@ class vLLMFormatter(Formatter):
         """
         formatted_messages = []
         for message in conversation.messages:
-            formatted_messages.append(self.format_message(message))
-        return "\n".join(formatted_messages)
+            role = message["role"]
+            if role == "user":
+                formatted_messages.append(self.format_message(message))
+        return {"messages": formatted_messages}
 
     def format_message(self, message):
         """
@@ -222,19 +224,7 @@ class vLLMFormatter(Formatter):
         Returns:
             str: Formatted message in vLLM format
         """
-        role = message["role"]
-        content = message["content"]
-
-        # Handle different content types
-        if isinstance(content, str):
-            return f"{role}: {content}"
-        else:
-            # For multimodal content, extract text parts
-            text_parts = []
-            for item in content:
-                if item["type"] == "text" and "text" in item:
-                    text_parts.append(item["text"])
-            return f"{role}: {' '.join(text_parts)}"
+        return message
 
 
 class OpenAIFormatter(Formatter):
