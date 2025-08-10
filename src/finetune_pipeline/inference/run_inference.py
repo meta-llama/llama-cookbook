@@ -215,8 +215,8 @@ def main():
     inference_data_path = inference_config.get("inference_data", None)
     if inference_data_path is None:
         raise ValueError("Inference data path must be specified in config")
-    output_dir = inference_config.get("output_dir")
-    output_path = f"{output_dir}/inference_results.json"
+    output_dir = config.get("output_dir", "/tmp/finetune-pipeline/")
+    results_path = f"{output_dir}/inference_results.json"
 
     # Performance parameters
     gpu_memory_utilization = inference_config.get("gpu_memory_utilization", 0.95)
@@ -252,7 +252,7 @@ def main():
         column_mapping,
     )
 
-    save_inference_results(results, output_path)
+    save_inference_results(results, results_path)
 
 
 if __name__ == "__main__":
