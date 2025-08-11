@@ -86,14 +86,14 @@ formatter:
 
   # Additional arguments to pass to the load_dataset function
   dataset_kwargs:
-    split: "validation"                # Dataset split to load
+    split: "train"                # Dataset split to load
 
 # Training configuration
 finetuning:
   model_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct" # Path to the model checkpoint
   tokenizer_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct/original/tokenizer.model" # Path to the tokenizer
-  output_dir: ${output_dir}/model_outputs  # Directory to store checkpoints
-  log_dir: ${output_dir}/logs  # Directory to store logs
+  output_dir: /home/yashkhare/workspace/finetuning-pipeline/model_outputs  # Directory to store checkpoints
+  log_dir: /home/yashkhare/workspace/finetuning-pipeline/logs  # Directory to store logs
   strategy: "lora"               # Training strategy ('fft' or 'lora')
   num_epochs: 1                 # Number of training epochs
   batch_size: 4                 # Batch size per device for training
@@ -105,7 +105,7 @@ finetuning:
 # vLLM Inference configuration
 inference:
   # Model configuration
-  model_path: "/home/yashkhare/workspace/medgemma-4b-it" # Path to the model checkpoint
+  model_path: "/home/yashkhare/workspace/finetuning-pipeline/model_outputs/epoch_0" # Path to the model checkpoint
   quantization: null            # Quantization method (awq, gptq, squeezellm)
   dtype: "auto"                 # Data type for model weights (half, float, bfloat16, auto)
   trust_remote_code: false      # Trust remote code when loading the model
@@ -121,7 +121,13 @@ inference:
   gpu_memory_utilization: 0.95   # Fraction of GPU memory to use
   enforce_eager: false          # Enforce eager execution
 
-  inference_data: "dz-osamu/IU-Xray" # Path to the inference dataset (optional)
+  inference_data_kwargs:
+    data_path: "dz-osamu/IU-Xray"     # Path to the inference dataset
+    split: "validation"               # Dataset split to load
+    formatter_type: "vllm"            # Type of formatter to use ('torchtune', 'vllm', or 'openai')
+    format_data: true                # Whether to format the inference dataset
+    max_samples: null                 # Maximum number of samples to load (null for all)
+    is_local: false                   # Whether the data is stored locally
 
   # Additional vLLM parameters (optional)
   # swap_space: 4               # Size of CPU swap space in GiB

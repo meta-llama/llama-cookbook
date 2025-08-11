@@ -38,8 +38,8 @@ from finetune_pipeline.finetuning.run_finetuning import run_torch_tune
 
 from finetune_pipeline.inference.run_inference import (
     run_vllm_batch_inference_on_dataset,
+    save_inference_results,
 )
-from finetune_pipeline.inference.save_inference_results import save_inference_results
 from finetune_pipeline.inference.start_vllm_server import start_vllm_server
 
 
@@ -118,7 +118,7 @@ def run_finetuning(config_path: str, formatted_data_paths: List[str]) -> str:
     # Run the fine-tuning
     try:
         logger.info(f"Starting fine-tuning with data from {train_data_path}")
-        run_torch_tune(finetuning_config, args=args)
+        run_torch_tune(config, args=args)
 
         # Get the path to the latest chekpoint of the fine-tuned model
         model_output_dir = finetuning_config.get("output_dir", config.get("output_dir"))
@@ -201,8 +201,7 @@ def run_inference(
 
     Args:
         config_path: Path to the configuration file
-        server_url: URL of the vLLM server
-        formatted_data_paths: Paths to the formatted data
+        formatted_data_paths: Paths to the formatted data (for compatibility)
 
     Returns:
         Path to the inference results
@@ -217,21 +216,19 @@ def run_inference(
     # Model parameters
     if model_path == "":
         model_path = inference_config.get("model_path", None)
-        if model_path is None:
-            raise ValueError("model_path must be specified in the config")
+    if model_path is None:
+        raise ValueError("model_path must be specified in the config")
 
-    # Get data path from parameters or config
-    inference_data_path = inference_config.get("inference_data", None)
-    if inference_data_path is None:
-        raise ValueError("Inference data path must be specified in config")
-    output_path = f"{output_dir}/inference_results.json"
+    # Get inference data configuration
+    inference_data_kwargs = inference_config.get("inference_data_kwargs", {})
+    if not inference_data_kwargs or not inference_data_kwargs.get("data_path"):
+        raise ValueError(
+            "inference_data_kwargs with data_path must be specified in config"
+        )
 
     # Performance parameters
     gpu_memory_utilization = inference_config.get("gpu_memory_utilization", 0.95)
     max_model_len = inference_config.get("max_model_len", 512)
-    tensor_parallel_size = inference_config.get("tensor_parallel_size", 1)
-    dtype = inference_config.get("dtype", "auto")
-    trust_remote_code = inference_config.get("trust_remote_code", False)
 
     # Generation parameters
     max_tokens = inference_config.get("max_tokens", 100)
@@ -240,27 +237,34 @@ def run_inference(
     seed = inference_config.get("seed")
     structured = inference_config.get("structured", False)
 
-    # Data parameters
-    is_local = formatter_config.get("is_local", False)
-    dataset_kwargs = formatter_config.get("dataset_kwargs", {})
-    column_mapping = formatter_config.get("column_mapping", {})
+    # Load inference data using the new function
+    try:
+        logger.info("Loading inference data...")
+        from finetune_pipeline.inference.run_inference import load_inference_data
+
+        inference_data = load_inference_data(
+            inference_data_kwargs=inference_data_kwargs,
+            formatter_config=formatter_config,
+        )
+        logger.info(f"Loaded {len(inference_data)} samples for inference")
+
+    except Exception as e:
+        logger.error(f"Failed to load inference data: {e}")
+        raise
 
     # Run inference
     try:
-        logger.info(f"Running inference on {inference_data_path}")
+        logger.info(f"Running inference with model: {model_path}")
         results = run_vllm_batch_inference_on_dataset(
-            inference_data_path,
-            model_path,
-            is_local,
-            temperature,
-            top_p,
-            max_tokens,
-            seed,
-            structured,
-            gpu_memory_utilization,
-            max_model_len,
-            dataset_kwargs,
-            column_mapping,
+            inference_data=inference_data,
+            model_path=model_path,
+            temperature=temperature,
+            top_p=top_p,
+            max_tokens=max_tokens,
+            seed=seed,
+            structured=structured,
+            gpu_memory_utilization=gpu_memory_utilization,
+            max_model_len=max_model_len,
         )
 
         # Save the results
@@ -361,7 +365,22 @@ def run_pipeline(
         output_dir = config.get("output_dir", "/tmp/finetune-pipeline/")
         model_path = os.path.join(output_dir, "finetuned_model")
 
-    # # Step 3: Start vLLM Server
+    # Step 3: Inference
+    if not skip_inference:
+        try:
+            results_path = run_inference(config_path, formatted_data_paths, model_path)
+            logger.info(
+                f"Pipeline completed successfully. Results saved to {results_path}"
+            )
+        except Exception as e:
+            logger.error(f"Pipeline failed at inference step: {e}")
+            sys.exit(1)
+    else:
+        logger.info("Skipping inference step")
+
+    logger.info("Pipeline execution complete")
+
+    # # Step 4: Start vLLM Server
     # server_url = ""
     # server_process = None
     # if not skip_server:
@@ -378,21 +397,6 @@ def run_pipeline(
     #     host = inference_config.get("host", "0.0.0.0")
     #     port = inference_config.get("port", 8000)
     #     server_url = f"http://{host}:{port}/v1"
-
-    # Step 3: Inference
-    if not skip_inference:
-        try:
-            results_path = run_inference(config_path, formatted_data_paths, model_path)
-            logger.info(
-                f"Pipeline completed successfully. Results saved to {results_path}"
-            )
-        except Exception as e:
-            logger.error(f"Pipeline failed at inference step: {e}")
-            sys.exit(1)
-    else:
-        logger.info("Skipping inference step")
-
-    logger.info("Pipeline execution complete")
 
 
 def main():

@@ -417,8 +417,8 @@ if __name__ == "__main__":
     config = read_config(args.config)
     formatter_config = config.get("formatter", {})
     output_dir = config.get("output_dir", "/tmp/finetune-pipeline/data/")
-
+    output_data_dir = os.path.join(output_dir, "data")
     # Load and format the data
     formatted_data_paths, conversation_data_paths = load_and_format_data(
-        formatter_config, output_dir
+        formatter_config, output_data_dir
     )

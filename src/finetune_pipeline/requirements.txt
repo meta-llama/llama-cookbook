@@ -1,0 +1,7 @@
+datasets==4.0.0
+PyYAML==6.0.2
+PyYAML==6.0.2
+Requests==2.32.4
+torchtune==0.0.0
+tqdm==4.67.1
+vllm==0.10.0
