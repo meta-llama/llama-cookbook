@@ -5,6 +5,7 @@ Reads parameters from a config file and runs the torch tune command.
 """
 
 import argparse
+import json
 import logging
 import subprocess
 import sys
@@ -63,67 +64,64 @@ def read_config(config_path: str) -> Dict:
     return config
 
 
-def run_torch_tune(training_config: Dict, args=None):
+def run_torch_tune(config: Dict, args=None):
     """
     Run torch tune command with parameters from config file.
 
     Args:
-        config_path: Path to the configuration file
+        config: Full configuration dictionary
         args: Command line arguments that may include additional kwargs to pass to the command
     """
-    # # Read the configuration
-    # config = read_config(config_path)
 
-    # Extract parameters from config
-    # training_config = config.get("finetuning", {})
+    finetuning_config = config.get("finetuning", {})
 
     # Initialize base_cmd to avoid "possibly unbound" error
     base_cmd = []
 
     # Determine the command based on configuration
-    if training_config.get("distributed"):
-        if training_config.get("strategy") == "lora":
+    if finetuning_config.get("distributed"):
+        if finetuning_config.get("strategy") == "lora":
             base_cmd = [
                 "tune",
                 "run",
                 "--nproc_per_node",
-                str(training_config.get("num_processes_per_node", 1)),
+                str(finetuning_config.get("num_processes_per_node", 1)),
                 "lora_finetune_distributed",
                 "--config",
-                training_config.get("torchtune_config"),
+                finetuning_config.get("torchtune_config"),
             ]
-        elif training_config.get("strategy") == "fft":
+        elif finetuning_config.get("strategy") == "fft":
             base_cmd = [
                 "tune",
                 "run",
                 "--nproc_per_node",
-                str(training_config.get("num_processes_per_node", 1)),
+                str(finetuning_config.get("num_processes_per_node", 1)),
                 "full_finetune_distributed",
                 "--config",
-                training_config.get("torchtune_config"),
+                finetuning_config.get("torchtune_config"),
             ]
         else:
-            raise ValueError(f"Invalid strategy: {training_config.get('strategy')}")
+            raise ValueError(f"Invalid strategy: {finetuning_config.get('strategy')}")
 
     else:
-        if training_config.get("strategy") == "lora":
+        if finetuning_config.get("strategy") == "lora":
             base_cmd = [
                 "tune",
                 "run",
                 "lora_finetune_single_device",
                 "--config",
-                training_config.get("torchtune_config"),
+                finetuning_config.get("torchtune_config"),
             ]
-        elif training_config.get("strategy") == "fft":
+        elif finetuning_config.get("strategy") == "fft":
             base_cmd = [
                 "tune",
                 "run",
                 "full_finetune_single_device",
                 "--config",
-                training_config.get("torchtune_config"),
+                finetuning_config.get("torchtune_config"),
             ]
         else:
-            raise ValueError(f"Invalid strategy: {training_config.get('strategy')}")
+            raise ValueError(f"Invalid strategy: {finetuning_config.get('strategy')}")
 
     # Check if we have a valid command
     if not base_cmd:
@@ -131,12 +129,54 @@ def run_torch_tune(training_config: Dict, args=None):
             "Could not determine the appropriate command based on the configuration"
         )
 
+    # Add configuration-based arguments
+    config_args = []
+
+    # Add output_dir
+    output_dir = config.get("output_dir")
+    if output_dir:
+        config_args.extend(["output_dir=" + output_dir])
+
+    # Add epochs
+    num_epochs = finetuning_config.get("num_epochs", 1)
+    if num_epochs:
+        config_args.extend(["epochs=" + str(num_epochs)])
+
+    # Add batch_size
+    batch_size = finetuning_config.get("batch_size", 1)
+    if batch_size:
+        config_args.extend(["batch_size=" + str(batch_size)])
+
+    # Add checkpointer.checkpoint_dir (use output_dir if checkpoint_dir not specified) (Model Path)
+    model_path = finetuning_config.get("model_path")
+    if model_path:
+        config_args.extend(["checkpointer.checkpoint_dir=" + model_path])
+
+    # Add checkpointer.output_dir (use config output_dir if output_dir not specified) (Model Output Path)
+    model_output_dir = finetuning_config.get("output_dir", config.get("output_dir"))
+    if model_output_dir:
+        config_args.extend(["checkpointer.output_dir=" + model_output_dir])
+
+    # Add tokenizer.path from training config
+    if finetuning_config.get("tokenizer_path"):
+        config_args.extend(["tokenizer.path=" + finetuning_config["tokenizer_path"]])
+
+    # Add log_dir (use config output_dir if log_dir not specified)
+    log_dir = finetuning_config.get("log_dir", config.get("output_dir"))
+    if log_dir:
+        config_args.extend(["metric_logger.log_dir=" + log_dir])
+
+    # Add the config arguments to base_cmd
+    if config_args:
+        base_cmd.extend(config_args)
+        logger.info(f"Added config arguments: {config_args}")
+
     # Add any additional kwargs if provided
-    # if args and args.kwargs:
-    #     # Split the kwargs string by spaces to get individual key=value pairs
-    #     kwargs_list = args.kwargs.split()
-    #     base_cmd.extend(kwargs_list)
-    #     logger.info(f"Added additional kwargs: {kwargs_list}")
+    if args and args.kwargs:
+        # Split the kwargs string by spaces to get individual key=value pairs
+        kwargs_list = args.kwargs.split()
+        base_cmd.extend(kwargs_list)
+        logger.info(f"Added additional kwargs: {kwargs_list}")
 
     # Log the command
     logger.info(f"Running command: {' '.join(base_cmd)}")
@@ -170,9 +210,9 @@ def main():
     args = parser.parse_args()
 
     config = read_config(args.config)
-    finetuning_config = config.get("finetuning", {})
+    # finetuning_config = config.get("finetuning", {})
 
-    run_torch_tune(finetuning_config, args=args)
+    run_torch_tune(config, args=args)
 
 
 if __name__ == "__main__":

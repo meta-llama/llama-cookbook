@@ -93,7 +93,6 @@ def run_finetuning(config_path: str, formatted_data_paths: List[str]) -> str:
     # Read the configuration
     config = read_config(config_path)
     finetuning_config = config.get("finetuning", {})
-    output_dir = config.get("output_dir", "/tmp/finetune-pipeline/")
 
     # Get the path to the formatted data for the train split
     train_data_path = None
@@ -121,11 +120,14 @@ def run_finetuning(config_path: str, formatted_data_paths: List[str]) -> str:
         logger.info(f"Starting fine-tuning with data from {train_data_path}")
         run_torch_tune(finetuning_config, args=args)
 
-        # Get the path to the fine-tuned model
-        # This is a simplification; in reality, you'd need to extract the actual path from the fine-tuning output
-        model_path = os.path.join(output_dir, "finetuned_model")
-        logger.info(f"Fine-tuning complete. Model saved to {model_path}")
-        return model_path
+        # Get the path to the latest chekpoint of the fine-tuned model
+        model_output_dir = finetuning_config.get("output_dir", config.get("output_dir"))
+        epochs = finetuning_config.get("epochs", 1)
+        checkpoint_path = os.path.join(model_output_dir, f"epochs_{epochs-1}")
+        logger.info(
+            f"Fine-tuning complete. Latest checkpoint saved to {checkpoint_path}"
+        )
+        return checkpoint_path
     except Exception as e:
         logger.error(f"Error during fine-tuning: {e}")
         raise
@@ -191,7 +193,9 @@ def run_vllm_server(config_path: str, model_path: str) -> str:
         raise
 
 
-def run_inference(config_path: str, formatted_data_paths: List[str]) -> str:
+def run_inference(
+    config_path: str, formatted_data_paths: List[str], model_path: str = ""
+) -> str:
     """
     Run inference on the fine-tuned model.
 
@@ -211,9 +215,10 @@ def run_inference(config_path: str, formatted_data_paths: List[str]) -> str:
     output_dir = config.get("output_dir", "/tmp/finetune-pipeline/")
 
     # Model parameters
-    model_path = inference_config.get("model_path", None)
-    if model_path is None:
-        raise ValueError("model_path must be specified in the config")
+    if model_path == "":
+        model_path = inference_config.get("model_path", None)
+        if model_path is None:
+            raise ValueError("model_path must be specified in the config")
 
     # Get data path from parameters or config
     inference_data_path = inference_config.get("inference_data", None)
@@ -356,28 +361,28 @@ def run_pipeline(
         output_dir = config.get("output_dir", "/tmp/finetune-pipeline/")
         model_path = os.path.join(output_dir, "finetuned_model")
 
-    # Step 3: Start vLLM Server
-    server_url = ""
-    server_process = None
-    if not skip_server:
-        try:
-            server_url = run_vllm_server(config_path, model_path)
-        except Exception as e:
-            logger.error(f"Pipeline failed at vLLM server step: {e}")
-            sys.exit(1)
-    else:
-        logger.info("Skipping vLLM server step")
-        # Try to infer the server URL from the config
-        config = read_config(config_path)
-        inference_config = config.get("inference", {})
-        host = inference_config.get("host", "0.0.0.0")
-        port = inference_config.get("port", 8000)
-        server_url = f"http://{host}:{port}/v1"
+    # # Step 3: Start vLLM Server
+    # server_url = ""
+    # server_process = None
+    # if not skip_server:
+    #     try:
+    #         server_url = run_vllm_server(config_path, model_path)
+    #     except Exception as e:
+    #         logger.error(f"Pipeline failed at vLLM server step: {e}")
+    #         sys.exit(1)
+    # else:
+    #     logger.info("Skipping vLLM server step")
+    #     # Try to infer the server URL from the config
+    #     config = read_config(config_path)
+    #     inference_config = config.get("inference", {})
+    #     host = inference_config.get("host", "0.0.0.0")
+    #     port = inference_config.get("port", 8000)
+    #     server_url = f"http://{host}:{port}/v1"
 
-    # Step 4: Inference
+    # Step 3: Inference
     if not skip_inference:
         try:
-            results_path = run_inference(config_path, formatted_data_paths)
+            results_path = run_inference(config_path, formatted_data_paths, model_path)
             logger.info(
                 f"Pipeline completed successfully. Results saved to {results_path}"
             )

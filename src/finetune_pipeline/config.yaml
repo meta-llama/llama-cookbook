@@ -90,11 +90,15 @@ formatter:
 
 # Training configuration
 finetuning:
+  model_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct" # Path to the model checkpoint
+  tokenizer_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct/original/tokenizer.model" # Path to the tokenizer
+  output_dir: ${output_dir}/model_outputs  # Directory to store checkpoints
+  log_dir: ${output_dir}/logs  # Directory to store logs
   strategy: "lora"               # Training strategy ('fft' or 'lora')
   num_epochs: 1                 # Number of training epochs
-  batch_size: 1                 # Batch size per device for training
+  batch_size: 4                 # Batch size per device for training
   torchtune_config: "llama3_1/8B_lora"             # TorchTune-specific configuration
-  num_processes_per_node: 1             # TorchTune-specific configuration
+  num_processes_per_node: 8             # TorchTune-specific configuration
   distributed: true             # Whether to use distributed training
 
 
