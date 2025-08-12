@@ -1,5 +1,11 @@
+import base64
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, TypedDict, Union
+
+
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img:
+        return base64.b64encode(img.read()).decode("utf-8")
 
 
 class MessageContent(TypedDict, total=False):
@@ -224,7 +230,24 @@ class vLLMFormatter(Formatter):
         Returns:
             str: Formatted message in vLLM format
         """
-        return message
+        contents = []
+        vllm_message = {}
+
+        for content in message["content"]:
+            if content["type"] == "text":
+                contents.append(content["text"])
+            elif content["type"] == "image_url":
+                base64_image = image_to_base64(content["image_url"]["url"])
+                img_content = {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpg;base64,{base64_image}"},
+                }
+                contents.append(img_content)
+            else:
+                raise ValueError(f"Unknown content type: {content['type']}")
+        vllm_message["role"] = message["role"]
+        vllm_message["content"] = contents
+        return vllm_message
 
 
 class OpenAIFormatter(Formatter):

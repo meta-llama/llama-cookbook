@@ -1,9 +1,11 @@
 """
 Custom SFT dataset for fine-tuning.
 """
+
 from torchtune.data import OpenAIToMessages
 from torchtune.datasets import SFTDataset
 from torchtune.modules.transforms import Transform
+
 
 def custom_sft_dataset(
     model_transform: Transform,
@@ -11,7 +13,7 @@ def custom_sft_dataset(
     dataset_path: str = "/tmp/train.json",
     train_on_input: bool = False,
     split: str = "train",
-
+    source: str = "json",
 ) -> SFTDataset:
     """
     Creates a custom SFT dataset for fine-tuning.

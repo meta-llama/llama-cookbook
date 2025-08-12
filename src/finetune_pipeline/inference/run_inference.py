@@ -281,7 +281,9 @@ def run_vllm_batch_inference_on_dataset(
     seed: Optional[int] = None,
     structured: bool = False,
     gpu_memory_utilization: float = 0.95,
-    max_model_len: int = 4096,
+    max_model_len: int = 512,
+    max_num_seqs: int = 1,
+    tensor_parallel_size: int = 1,
 ) -> Dict[str, Any]:
     """
     Run inference on evaluation data using a vLLM server.
@@ -309,6 +311,8 @@ def run_vllm_batch_inference_on_dataset(
             gpu_memory_utilization=gpu_memory_utilization,
             max_model_len=max_model_len,
             seed=seed,
+            max_num_seqs=max_num_seqs,
+            tensor_parallel_size=tensor_parallel_size,
         )
     except Exception as e:
         logger.error(f"Failed to initialize vLLM model: {e}")
@@ -413,6 +417,7 @@ def main():
     # Performance parameters
     gpu_memory_utilization = inference_config.get("gpu_memory_utilization", 0.95)
     max_model_len = inference_config.get("max_model_len", 512)
+    max_num_seqs = inference_config.get("max_num_seqs", 1)
     tensor_parallel_size = inference_config.get("tensor_parallel_size", 1)
     dtype = inference_config.get("dtype", "auto")
     trust_remote_code = inference_config.get("trust_remote_code", False)
@@ -439,6 +444,8 @@ def main():
         structured,
         gpu_memory_utilization,
         max_model_len,
+        max_num_seqs,
+        tensor_parallel_size,
     )
 
     save_inference_results(results, results_path)

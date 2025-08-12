@@ -132,6 +132,23 @@ def get_formatter(formatter_type: str) -> Formatter:
     return formatter_map[formatter_type.lower()]()
 
 
+def get_image_path(img: str) -> str:
+    """
+    Get the image path from the image URL.
+
+    Args:
+        img: Image URL
+
+    Returns:
+        str: Image path
+    """
+
+    img_name = img.split("/")[-2]
+    img_id = img.split("/")[-1]
+    img_dir = "/home/yashkhare/workspace/IU-Xray/mnt/bn/haiyang-dataset-lq/medical/home/yisiyang/ysy/medical_dataset/iu_xray/iu_xray/images"
+    return f"{img_dir}/{img_name}/{img_id}"
+
+
 def convert_to_conversations(data, column_mapping: Optional[Dict] = None):
     """
     Convert data to a list of Conversation objects.
@@ -180,12 +197,17 @@ def convert_to_conversations(data, column_mapping: Optional[Dict] = None):
                 # Handle list of images
                 for img in image:
                     if img:  # Check if image path is not empty
+                        img_path = get_image_path(img)
                         user_content.append(
-                            {"type": "image", "image_url": {"url": img}}
+                            {"type": "image_url", "image_url": {"url": img_path}}
                         )
+                        break
             else:
                 # Handle single image
-                user_content.append({"type": "image", "image_url": {"url": image}})
+                img_path = get_image_path(image)
+                user_content.append(
+                    {"type": "image_url", "image_url": {"url": img_path}}
+                )
 
         user_message = {"role": "user", "content": user_content}
 

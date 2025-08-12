@@ -82,7 +82,7 @@ formatter:
   column_mapping:
     input: "query"             # Field containing the input text
     output: "response"              # Field containing the output text
-    image: null           # Field containing the image path (optional)
+    image: "images"           # Field containing the image path (optional)
 
   # Additional arguments to pass to the load_dataset function
   dataset_kwargs:
@@ -90,14 +90,16 @@ formatter:
 
 # Training configuration
 finetuning:
-  model_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct" # Path to the model checkpoint
-  tokenizer_path: "/home/yashkhare/workspace/Llama-3.1-8B-Instruct/original/tokenizer.model" # Path to the tokenizer
+  #formatter_type: "torchtune"            # Type of formatter to use ('torchtune', 'vllm', or 'openai')
+  model_path: "/home/yashkhare/workspace/Llama-3.2-11B-Vision-Instruct" # Path to the model checkpoint
+  tokenizer_path: "/home/yashkhare/workspace/Llama-3.2-11B-Vision-Instruct/original/tokenizer.model" # Path to the tokenizer
   output_dir: /home/yashkhare/workspace/finetuning-pipeline/model_outputs  # Directory to store checkpoints
   log_dir: /home/yashkhare/workspace/finetuning-pipeline/logs  # Directory to store logs
   strategy: "lora"               # Training strategy ('fft' or 'lora')
   num_epochs: 1                 # Number of training epochs
-  batch_size: 4                 # Batch size per device for training
-  torchtune_config: "llama3_1/8B_lora"             # TorchTune-specific configuration
+  max_steps_per_epoch: null
+  batch_size: 8                 # Batch size per device for training
+  torchtune_config: "llama3_2_vision/11B_lora"             # TorchTune-specific configuration
   num_processes_per_node: 8             # TorchTune-specific configuration
   distributed: true             # Whether to use distributed training
 
@@ -105,7 +107,7 @@ finetuning:
 # vLLM Inference configuration
 inference:
   # Model configuration
-  model_path: "/home/yashkhare/workspace/finetuning-pipeline/model_outputs/epoch_0" # Path to the model checkpoint
+  model_path: "/home/yashkhare/workspace/Llama-3.2-11B-Vision-Instruct" # Path to the model checkpoint
   quantization: null            # Quantization method (awq, gptq, squeezellm)
   dtype: "auto"                 # Data type for model weights (half, float, bfloat16, auto)
   trust_remote_code: false      # Trust remote code when loading the model
@@ -115,8 +117,8 @@ inference:
   host: "0.0.0.0"               # Host to run the server on
 
   # Performance configuration
-  tensor_parallel_size: 1       # Number of GPUs to use for tensor parallelism
-  max_model_len: 512           # Maximum sequence length
+  tensor_parallel_size: 8       # Number of GPUs to use for tensor parallelism
+  max_model_len: 8192           # Maximum sequence length
   max_num_seqs: 1              # Maximum number of sequences
   gpu_memory_utilization: 0.95   # Fraction of GPU memory to use
   enforce_eager: false          # Enforce eager execution
@@ -126,7 +128,7 @@ inference:
     split: "validation"               # Dataset split to load
     formatter_type: "vllm"            # Type of formatter to use ('torchtune', 'vllm', or 'openai')
     format_data: true                # Whether to format the inference dataset
-    max_samples: null                 # Maximum number of samples to load (null for all)
+    max_samples: 10                 # Maximum number of samples to load (null for all)
     is_local: false                   # Whether the data is stored locally
 
   # Additional vLLM parameters (optional)
