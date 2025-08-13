@@ -166,3 +166,54 @@ llama31-8b-text2sql-peft-quantized-cot
 
 The train loss chart should look like this:
 ![](train_loss_cot.png)
+
+
+## Fine-tuning with Llama 3.3 70B
+
+If you have 8xH100 GPUs, you can use [torchtune](https://github.com/pytorch/torchtune) to fine-tune Llama 3.3 70B and then evaluate the fine-tuned model. Note that "active development on torchtune" has been stopped ([detail](https://github.com/pytorch/torchtune/issues/2883)), but "Torchtune will continue to receive critical bug fixes and security patches during 2025", so here we just show torchtune as a method to fine-tune the larger Llama 3.3 70B on multiple GPUs.
+
+```
+pip install torch torchvision torchao
+pip install torchtune
+tune download meta-llama/Llama-3.3-70B-Instruct --ignore-patterns "original/consolidated*" --output-dir /tmp/Llama-3.3-70B-Instruct
+git clone https://github.com/pytorch/torchtune
+cd torchtune/tree/main/recipes/configs
+```
+
+Modify `llama3_3/70B_lora.yaml` as follows:
+
+```
+output_dir: /tmp/torchtune/llama3_3_70B/lora
+
+# Dataset and Sampler
+dataset:
+  _component_: torchtune.datasets.chat_dataset
+  source: json
+  conversation_column: messages
+  conversation_style: openai
+  data_files: train_text2sql_cot_dataset_array.json
+  #split: train
+seed: null
+shuffle: True
+
+# Validation
+run_val_every_n_steps: null  # Change to an integer to enable validation every N steps
+dataset_val:
+  _component_: torchtune.datasets.chat_dataset
+  source: json
+  conversation_column: messages
+  conversation_style: openai
+  data_files: test_text2sql_cot_dataset_array.json
+  #split: validation
+batch_size_val: ${batch_size}
+```
+
+Then run:
+
+```
+tune run --nproc_per_node 8 lora_finetune_distributed --config llama3_3/70B_lora
+```
+
+After the fine-tuning is done, cd to `text2sql/fine-tuning` folder, set `peft_model_path` as `/tmp/torchtune/llama3_3_70B/lora` and `output_dir` as `llama3_3_70B/lora`, then run `vllm serve llama3_3_70B/lora --tensor-parallel-size 8 --max-num-batched-tokens 8192 --max-num-seqs 64`.
+
+Finally, in the `eval/llama_eval.sh`, set `model='llama3_3_70B/lora'`, and run `sh llama_eval.sh`. The accuracy of the fine-tuned Llama 3.3 70B should be around 57.24%, compared with the original 54.11% for off-the-shelf Llama 3.3 70B as shown in the [eval README](../eval#evaluation-results). 
