@@ -1,4 +1,6 @@
-## NotebookLlama: An Open Source version of NotebookLM
+## NotebookLlama: PDF to Podcast using Llama models
+
+> Note: We have updated this to support Llama API, sign up [here](http://llama.com)
 
 ![NotebookLlama](./resources/Outline.jpg)
 
@@ -15,13 +17,13 @@ It assumes zero knowledge of LLMs, prompting and audio models, everything is cov
 Here is step by step thought (pun intended) for the task:
 
 - Step 1: Pre-process PDF: Use `Llama-3.2-1B-Instruct` to pre-process the PDF and save it in a `.txt` file.
-- Step 2: Transcript Writer: Use `Llama-3.1-70B-Instruct` model to write a podcast transcript from the text
-- Step 3: Dramatic Re-Writer: Use `Llama-3.1-8B-Instruct` model to make the transcript more dramatic
+- Step 2: Transcript Writer: Use `Llama-4-Maverick` model to write a podcast transcript from the text
+- Step 3: Dramatic Re-Writer: Use `Llama-3-8B-Instruct` model to make the transcript more dramatic
 - Step 4: Text-To-Speech Workflow: Use `parler-tts/parler-tts-mini-v1` and `bark/suno` to generate a conversational podcast
 
 Note 1: In Step 1, we prompt the 1B model to not modify the text or summarize it, strictly clean up extra characters or garbage characters that might get picked due to encoding from PDF. Please see the prompt in Notebook 1 for more details.
 
-Note 2: For Step 2, you can also use `Llama-3.1-8B-Instruct` model, we recommend experimenting and trying if you see any differences. The 70B model was used here because it gave slightly more creative podcast transcripts for the tested examples.
+Note 2: For Step 2, you can also use `Llama-3-8B-Instruct` model, we recommend experimenting and trying if you see any differences. The 70B model was used here because it gave slightly more creative podcast transcripts for the tested examples.
 
 Note 3: For Step 4, please try to extend the approach with other models. These models were chosen based on a sample prompt and worked best, newer models might sound better. Please see [Notes](./TTS_Notes.md) for some of the sample tests.
 
