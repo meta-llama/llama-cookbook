@@ -1,0 +1,19 @@
+{
+  "total_chunks": 19,
+  "index_type": "flat",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "model_loaded": true,
+  "index_loaded": true,
+  "use_gpu": false,
+  "cache_dir": "knowledge_base/.faiss_cache",
+  "knowledge_base_dir": "knowledge_base",
+  "index_size": 19,
+  "dimension": 384,
+  "is_trained": true,
+  "total_searches": 5,
+  "cache_hits": 0,
+  "index_builds": 1,
+  "last_updated": "2025-08-08T12:24:57.695935",
+  "content_size_mb": 0.012198448181152344,
+  "avg_chunk_size": 673.2105263157895
+}

@@ -145,3 +145,95 @@ def get_image_quality_config() -> Dict[str, Any]:
     """
     config = get_config()
     return config.get('image_quality', {})
+
+
+def get_knowledge_config() -> Dict[str, Any]:
+    """
+    Get knowledge base configuration settings.
+
+    Returns:
+        Dictionary containing knowledge base settings
+    """
+    config = get_config()
+    return config.get('knowledge', {})
+
+
+def is_knowledge_enabled() -> bool:
+    """
+    Check if knowledge base integration is enabled.
+
+    Returns:
+        True if knowledge base is enabled, False otherwise
+    """
+    knowledge_config = get_knowledge_config()
+    return knowledge_config.get('enabled', False)
+
+
+def validate_knowledge_config() -> None:
+    """
+    Validate knowledge base configuration parameters.
+
+    Raises:
+        ValueError: If configuration is invalid
+    """
+    from ..knowledge.exceptions import KnowledgeConfigurationError
+
+    if not is_knowledge_enabled():
+        return
+
+    knowledge_config = get_knowledge_config()
+
+    # Validate required fields
+    required_fields = ['knowledge_base_dir', 'embedding', 'search', 'context']
+    for field in required_fields:
+        if field not in knowledge_config:
+            raise KnowledgeConfigurationError(
+                f"Missing required knowledge configuration field: {field}",
+                config_key=field
+            )
+
+    # Validate embedding config
+    embedding_config = knowledge_config.get('embedding', {})
+    if 'model_name' not in embedding_config:
+        raise KnowledgeConfigurationError(
+            "Missing embedding model_name in knowledge configuration",
+            config_key='embedding.model_name'
+        )
+
+    # Validate search config
+    search_config = knowledge_config.get('search', {})
+    top_k = search_config.get('top_k', 5)
+    if not isinstance(top_k, int) or top_k <= 0:
+        raise KnowledgeConfigurationError(
+            f"Invalid top_k value: {top_k}. Must be a positive integer.",
+            config_key='search.top_k',
+            config_value=top_k
+        )
+
+    similarity_threshold = search_config.get('similarity_threshold', 0.3)
+    if not isinstance(similarity_threshold, (int, float)) or not 0.0 <= similarity_threshold <= 1.0:
+        raise KnowledgeConfigurationError(
+            f"Invalid similarity_threshold: {similarity_threshold}. Must be between 0.0 and 1.0.",
+            config_key='search.similarity_threshold',
+            config_value=similarity_threshold
+        )
+
+    # Validate context config
+    context_config = knowledge_config.get('context', {})
+    strategy = context_config.get('strategy', 'combined')
+    valid_strategies = ['knowledge_only', 'narrative_priority', 'combined']
+    if strategy not in valid_strategies:
+        raise KnowledgeConfigurationError(
+            f"Invalid context strategy: {strategy}. Must be one of {valid_strategies}.",
+            config_key='context.strategy',
+            config_value=strategy
+        )
+
+    integration_method = context_config.get('integration_method', 'system_prompt')
+    valid_methods = ['system_prompt', 'user_message']
+    if integration_method not in valid_methods:
+        raise KnowledgeConfigurationError(
+            f"Invalid integration method: {integration_method}. Must be one of {valid_methods}.",
+            config_key='context.integration_method',
+            config_value=integration_method
+        )

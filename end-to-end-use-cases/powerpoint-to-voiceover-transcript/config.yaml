@@ -2,7 +2,7 @@
 
 # API Configuration
 api:
-  llama_model: "Llama-4-Maverick-17B-128E-Instruct-FP8" # This notebook uses Llama API to access the model
+  groq_model: "meta-llama/llama-4-maverick-17b-128e-instruct"
   max_retries: 3
   retry_delay: 1
   rate_limit_delay: 1
@@ -16,7 +16,7 @@ processing:
 
 # File Paths
 paths:
-  default_output_dir: "slide_images"
+  default_output_dir: "output/"
   cache_dir: "cache"
   logs_dir: "logs"
   temp_dir: "temp"
@@ -59,6 +59,67 @@ image_quality:
   jpeg_quality: 90
   jpeg_optimize: true
   png_compression: 6
+
+# Knowledge Base Configuration
+knowledge:
+  # Enable/disable knowledge base integration
+  enabled: true  # Set to true to enable knowledge base features
+
+  # Knowledge base directory path (relative to project root)
+  knowledge_base_dir: "knowledge_base"
+
+  # Vector store configuration (FAISS)
+  vector_store:
+    type: "faiss"                  # Vector database type
+    index_type: "flat"             # "flat", "ivf", "hnsw"
+    use_gpu: false                 # Enable GPU acceleration (requires faiss-gpu)
+    cache_enabled: true            # Enable persistent caching
+    rebuild_on_changes: true       # Auto-rebuild when files change
+
+  # Embedding model configuration
+  embedding:
+    model_name: "all-MiniLM-L6-v2" # Lightweight, fast model
+    device: "cpu"                  # Use "cuda" if GPU available
+    batch_size: 32
+    max_seq_length: 512
+
+  # Search configuration
+  search:
+    top_k: 5                      # Number of knowledge chunks to retrieve
+    similarity_threshold: 0.3     # Minimum similarity threshold (0.0 to 1.0)
+    enable_keyword_fallback: true # Enable fallback keyword search if similarity search fails
+    max_chunk_size: 1000          # Maximum characters per knowledge chunk
+    chunk_overlap: 200            # Overlap between chunks (characters)
+
+  # Context integration settings
+  context:
+    # Strategy for combining knowledge with narrative context
+    strategy: "combined"          # Options: "knowledge_only", "narrative_priority", "combined"
+    max_context_length: 8000      # Maximum total context length (characters)
+    knowledge_weight: 0.3         # Knowledge context weight (0.0 to 1.0, higher = more knowledge influence)
+    integration_method: "system_prompt" # Integration method: "system_prompt" or "user_message"
+
+  # Performance and reliability settings
+  performance:
+    # Enable caching of embeddings and search results
+    enable_caching: true
+    # Cache directory (relative to project root)
+    cache_dir: "cache/knowledge"
+    # Cache expiration time in hours (0 = never expire)
+    cache_expiry_hours: 24
+    # Maximum memory usage for embeddings (MB)
+    max_memory_mb: 512
+    # Enable lazy loading of embeddings
+    lazy_loading: true
+
+  # Fallback options for reliability
+  fallback:
+    # Continue processing if knowledge base fails to load
+    graceful_degradation: true
+    # Use simple keyword matching if embedding model fails
+    use_keyword_fallback: true
+    # Log errors but don't fail the entire process
+    log_errors_only: true
 
 # Example System Prompt - Replace with your own, although this one is pretty good.
 system_prompt: |

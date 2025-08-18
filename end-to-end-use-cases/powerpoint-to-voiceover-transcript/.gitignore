@@ -185,3 +185,7 @@ credentials.json
 *.model
 *.bin
 *.safetensors
+.DS_Store
+**/.DS_Store
+
+*narrative_
