@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 from typing import Any, Dict, List, Optional, TypedDict, Union
+import os
 
 import requests
 from tqdm import tqdm

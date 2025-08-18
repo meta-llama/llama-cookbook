@@ -216,7 +216,7 @@ class vLLMFormatter(Formatter):
         formatted_messages = []
         for message in conversation.messages:
             role = message["role"]
-            if role == "user":
+            if role != "assistant":
                 formatted_messages.append(self.format_message(message))
         return {"messages": formatted_messages}
 
@@ -235,8 +235,8 @@ class vLLMFormatter(Formatter):
 
         for content in message["content"]:
             if content["type"] == "text":
-                contents.append(content["text"])
-            elif content["type"] == "image_url":
+                contents.append(content)
+            elif content["type"] == "image_url" or content["type"] == "image":
                 base64_image = image_to_base64(content["image_url"]["url"])
                 img_content = {
                     "type": "image_url",
