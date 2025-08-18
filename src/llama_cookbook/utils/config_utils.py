@@ -6,6 +6,7 @@ from dataclasses import asdict
 
 import torch.distributed as dist
 from torch.distributed.fsdp.fully_sharded_data_parallel import StateDictType
+from torch.distributed.fsdp import ShardingStrategy
 from torch.utils.data import DistributedSampler
 from peft import (
     LoraConfig,
@@ -120,3 +121,5 @@ def check_fsdp_config(fsdp_config):
     if not fsdp_config.checkpoint_type in VALID_TYPES:
         raise ValueError(f"Invalid checkpoint_type {fsdp_config.checkpoint_type}")
     
+    if isinstance(fsdp_config.sharding_strategy, str):
+        fsdp_config.sharding_strategy=ShardingStrategy[fsdp_config.sharding_strategy]
