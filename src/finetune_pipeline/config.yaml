@@ -2,10 +2,11 @@
 output_dir: "/tmp/finetuning-pipeline/llama3_2_vision/"  # Directory to store output files
 
 data:
-  data_path: "data/path"  # Path to the dataset to load
+  dataset_id: "data/path"  # Path to the dataset to load
   is_local: true           # Whether the data is stored locally
-  formatter_type: "vllm"            # Type of formatter to use ('torchtune', 'vllm', or
+  # formatter_type: "vllm"            # Type of formatter to use ('torchtune', 'vllm', or
   system_prompt: "You are a helpful assisstant"  # System prompt to use for the dataset
+  # TODO: Key should be old name, value should be new name. Ref: https://huggingface.co/docs/datasets/v4.0.0/en/package_reference/main_classes#datasets.Dataset.rename_columns
   column_mapping:
     input: "instruction"             # Field containing the input text
     output: "output"              # Field containing the output text
