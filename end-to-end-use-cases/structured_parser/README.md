@@ -24,8 +24,19 @@ The tool is designed to handle complex documents with high accuracy and provides
 ### Setup
 
 1. Clone the repository
-2. Install dependencies:
-
+```bash
+git clone https://github.com/meta-llama/llama-cookbook.git
+```
+```bash
+cd llama-cookbook
+```
+```bash
+pip install -r requirements.txt
+```
+2. Install project specific dependencies:
+```bash
+cd end-to-end-use-cases/structured_parser
+```
 ```bash
 pip install -r requirements.txt
 ```
@@ -35,7 +46,6 @@ pip install -r requirements.txt
 ## Quick Start
 
 Extract text from a PDF:
-
 ```bash
 python src/structured_extraction.py path/to/document.pdf --text
 ```
