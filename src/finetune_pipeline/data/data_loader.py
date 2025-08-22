@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
+
 import pandas as pd
 
 # Try to import yaml, but don't fail if it's not available
@@ -18,7 +19,7 @@ except ImportError:
 
 # Try to import datasets, but don't fail if it's not available
 try:
-    from datasets import load_dataset, load_from_disk, Dataset
+    from datasets import Dataset, load_dataset, load_from_disk
 
     HAS_DATASETS = True
 except ImportError:
@@ -94,7 +95,6 @@ def load_data(data_path: str, is_local: bool = False, **kwargs):
 
     if not data_path:
         raise ValueError("data_path must be provided")
-
     dataset = None
     if is_local:
         # Load from local disk
@@ -137,7 +137,6 @@ def get_formatter(formatter_type: str) -> Formatter:
         )
 
     return formatter_map[formatter_type.lower()]()
-
 
 
 def convert_to_conversations(
@@ -203,9 +202,7 @@ def convert_to_conversations(
                         break
             else:
                 # Handle single image
-                user_content.append(
-                    {"type": "image_url", "image_url": {"url": image}}
-                )
+                user_content.append({"type": "image_url", "image_url": {"url": image}})
 
         user_message = {"role": "user", "content": user_content}
 
