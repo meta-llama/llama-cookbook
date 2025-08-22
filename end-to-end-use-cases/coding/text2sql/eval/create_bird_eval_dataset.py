@@ -156,4 +156,6 @@ if __name__ == "__main__":
 
     create_bird_eval_dataset(input_json, db_root_path)
 
+# follow steps 1 and 2 here https://github.com/meta-llama/llama-cookbook/tree/text2sql/end-to-end-use-cases/coding/text2sql/eval#quick-start-with-llama-models-via-llama-api
+# then run:
 # python3 create_bird_eval_dataset.py --input_json ../data/dev_20240627/dev.json --db_root_path ../data/dev_20240627/dev_databases
