@@ -1,0 +1,44 @@
+model:
+  name: "databricks/databricks-llama-4-maverick"
+  api_base: "https://<YOUR_DATABRICKS_URL>.cloud.databricks.com/serving-endpoints"
+  temperature: 0.0
+  max_tokens: 2048
+
+dataset:
+  adapter_class: "llama_prompt_ops.datasets.hotpotqa.HotpotQAAdapter"
+  path: "hotpotqa_sample_subset.json"
+  train_size: 0.07
+  validation_size: 0.07
+  test_size: 0.07
+  adapter_params:
+    passages_per_hop: 3
+    max_hops: 2
+    retriever_url: null  # Set to a valid ColBERT URL if available
+    input_field: "question"  # Primary input field is the question
+    context_field: "context"  # Field containing context passages
+    supporting_facts_field: "supporting_facts"  # Field containing supporting facts
+    golden_output_field: "answer"  # Field to use as ground truth/reference output
+
+system_prompt:
+  text: |
+    You are an expert at answering complex questions that require multi-hop reasoning. Give a short factoid answer.
+  inputs: ["question", "context"]
+  outputs: ["answer"]
+
+metric:
+  class: "llama_prompt_ops.datasets.hotpotqa.HotpotQAMetric"
+  output_field: "answer"
+  passage_weight: 0.5  # Weight for passage retrieval in the combined score
+  strict_json: false
+
+optimization:
+  strategy: "llama"
+  max_rounds: 3
+  max_examples_per_round: 5
+  max_prompt_length: 4096
+  num_candidates: 5
+  bootstrap_examples: 4
+  num_threads: 36
+
+output:
+  prefix: "hotpotqa_databricks"
