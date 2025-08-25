@@ -96,10 +96,13 @@ This step-by-step tutorial shows how to use the [WhatsApp Business API](https://
 
 
 ## [Messenger Chatbot](./customerservice_chatbots/messenger_chatbot/messenger_llama3.md):
-
 ### Building a Llama 3 Enabled Messenger Chatbot
 This step-by-step tutorial shows how to use the [Messenger Platform](https://developers.facebook.com/docs/messenger-platform/overview) to build a Llama 3 enabled Messenger chatbot.
 
 
-### RAG Chatbot Example (running [locally](./customerservice_chatbots/RAG_chatbot/RAG_Chatbot_Example.ipynb)
+## [RAG Chatbot Example (running locally)](./customerservice_chatbots/RAG_chatbot/RAG_Chatbot_Example.ipynb)
 A complete example of how to build a Llama 3 chatbot hosted on your browser that can answer questions based on your own data using retrieval augmented generation (RAG).
+
+## [Powerpoint to Text-to-Speech Ready Transcripts:](./powerpoint-to-voiceover-transcript/README.md)
+### Knowledge Grounded & Narrative Continuity Enabled TTS Transcript Generation from a Powerpoint Deck
+This tutorial demonstrates the complete workflow for converting PowerPoint presentations into Llama 4 generated TTS transcripts with retrieval augmentation and narrative continuity features, powered by Llama 4 Maverick's vision capabilities through the Llama API.
