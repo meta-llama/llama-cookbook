@@ -107,7 +107,6 @@ def load_dataset(
 
     if not data_path:
         raise ValueError("data_path must be provided")
-
     dataset = None
     if is_local:
         # Load from local disk

@@ -1,8 +1,8 @@
 import argparse
 import json
 import logging
-from typing import Any, Dict, List, Optional, TypedDict, Union
 import os
+from typing import Any, Dict, List, Optional, TypedDict, Union
 
 import requests
 from tqdm import tqdm
@@ -16,6 +16,8 @@ from ..data.data_loader import (
     read_config,
     save_formatted_data,
 )
+
+logging.basicConfig(level=logging.INFO)
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -94,7 +96,6 @@ def load_inference_data(
         try:
             logger.info("Loading raw data...")
             data = load_data(path, is_local, **dataset_kwargs)
-
             # Apply sample limit if specified
             if max_samples and hasattr(data, "__len__") and len(data) > max_samples:
                 logger.info(
@@ -131,7 +132,6 @@ def load_inference_data(
                 logger.debug(
                     f"Sample conversation: {sample_conv.messages[:2] if hasattr(sample_conv, 'messages') else sample_conv}"
                 )
-
         except Exception as e:
             logger.error(f"Failed to convert data to conversations: {e}")
             logger.error(f"Column mapping: {column_mapping}")
@@ -405,7 +405,7 @@ def main():
 
     config = read_config(args.config)
     inference_config = config.get("inference", {})
-    formatter_config = config.get("formatter", {})
+    formatter_config = config.get("data", {})
 
     # Model parameters
     model_path = inference_config.get("model_path", None)
@@ -434,7 +434,6 @@ def main():
     inference_data_kwargs = inference_config.get("inference_data_kwargs", {})
 
     inference_data = load_inference_data(inference_data_kwargs, formatter_config)
-
     results = run_vllm_batch_inference_on_dataset(
         inference_data,
         model_path,
