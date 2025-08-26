@@ -35,7 +35,7 @@ class GroqClient:
         self.client = Groq(api_key=api_key)
 
         # Groq vision models (update as new models become available)
-        self.model = model or "llama-3.2-11b-vision-preview"
+        self.model = model or "meta-llama/llama-4-maverick-17b-128e-instruct"
 
         # Groq API configuration
         self.max_tokens = 4096
