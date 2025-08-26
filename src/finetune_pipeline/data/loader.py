@@ -2,83 +2,17 @@
 Data loader module for loading and formatting data from Hugging Face.
 """
 
-import base64
 import json
 import os
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
-import pandas as pd
-from PIL import Image
+from datasets import load_dataset, load_from_disk
 
-# Try to import yaml, but don't fail if it's not available
-try:
-    import yaml
-
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-
-# Try to import datasets, but don't fail if it's not available
-try:
-    from datasets import Dataset, load_dataset, load_from_disk
-
-    HAS_DATASETS = True
-except ImportError:
-    HAS_DATASETS = False
-
-    # Define dummy functions to avoid "possibly unbound" errors
-    def load_dataset(*args, **kwargs):
-        raise ImportError("The 'datasets' package is required to load data.")
-
-    def load_from_disk(*args, **kwargs):
-        raise ImportError("The 'datasets' package is required to load data.")
+from .utils import image_to_base64, read_config
 
 
-def image_to_base64(image: Union[str, Image.Image]):
-    if isinstance(image, str):
-        with open(image, "rb") as img:
-            return base64.b64encode(img.read()).decode("utf-8")
-    elif isinstance(image, Image.Image):
-        return base64.b64encode(image.tobytes()).decode("utf-8")
-
-
-def read_config(config_path: str) -> Dict:
-    """
-    Read the configuration file (supports both JSON and YAML formats).
-
-    Args:
-        config_path: Path to the configuration file
-
-    Returns:
-        dict: Configuration parameters
-
-    Raises:
-        ValueError: If the file format is not supported
-        ImportError: If the required package for the file format is not installed
-    """
-    file_extension = Path(config_path).suffix.lower()
-
-    with open(config_path, "r") as f:
-        if file_extension in [".json"]:
-            config = json.load(f)
-        elif file_extension in [".yaml", ".yml"]:
-            if not HAS_YAML:
-                raise ImportError(
-                    "The 'pyyaml' package is required to load YAML files. "
-                    "Please install it with 'pip install pyyaml'."
-                )
-            config = yaml.safe_load(f)
-        else:
-            raise ValueError(
-                f"Unsupported config file format: {file_extension}. "
-                f"Supported formats are: .json, .yaml, .yml"
-            )
-
-    return config
-
-
-def load_dataset(
+def process_hf_dataset(
     data_path: str,
     is_local: bool = False,
     column_mapping: Optional[Dict] = None,
@@ -99,12 +33,6 @@ def load_dataset(
         ImportError: If the datasets package is not installed
         ValueError: If data_path is None or empty
     """
-    if not HAS_DATASETS:
-        raise ImportError(
-            "The 'datasets' package is required to load data. "
-            "Please install it with 'pip install datasets'."
-        )
-
     if not data_path:
         raise ValueError("data_path must be provided")
 
@@ -113,9 +41,7 @@ def load_dataset(
         # Load from local disk
         file_extension = Path(data_path).suffix.lower()
         if file_extension in [".csv"]:
-            data = pd.read_csv(data_path)
-            dataset = Dataset.from_pandas(data)
-        else:
+            dataset = load_dataset("csv", data_files=data_path)
             dataset = load_from_disk(data_path)
     else:
         # Load from Hugging Face Hub
@@ -171,12 +97,13 @@ def convert_to_encoded_messages(
     messages.append({"role": "user", "content": user_content})
 
     # Create assistant message with text content
-    messages.append(
-        {
-            "role": "assistant",
-            "content": [{"type": "text", "text": output_label}],
-        }
-    )
+    if output_label:
+        messages.append(
+            {
+                "role": "assistant",
+                "content": [{"type": "text", "text": output_label}],
+            }
+        )
     # Serialize to string and return. This is required because datasets.map adds extra keys to each dict in messages
     example["messages"] = json.dumps(messages)
     return example
@@ -194,12 +121,6 @@ def save_encoded_dataset(encoded_dataset, output_dir: str, split: str):
     messages = [json.loads(x) for x in encoded_dataset["messages"]]
     with open(conversation_data_path, "w") as f:
         json.dump(messages, f, indent=2)
-
-
-# TODO: Verify if this is actually needed?
-# def format_encoded_dataset(encoded_dataset, output_dir, split, format):
-#     if format == "vllm":
-#         messages = [json.loads(x) for x in encoded_dataset["messages"]]
 
 
 def get_splits(dataset):
@@ -266,7 +187,7 @@ def get_hf_dataset(
         )
 
     # Load the dataset
-    dataset = load_dataset(
+    dataset = process_hf_dataset(
         data_path=dataset_id,
         is_local=is_local,
         column_mapping=column_mapping,
