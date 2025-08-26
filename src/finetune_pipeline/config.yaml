@@ -2,19 +2,18 @@
 output_dir: "/tmp/finetuning-pipeline/llama3_2_vision/"  # Directory to store output files
 
 data:
-  dataset_id: "data/path"  # Path to the dataset to load
-  is_local: true           # Whether the data is stored locally
+  dataset_id: "itsanmolgupta/mimic-cxr-dataset-cleaned"  # Path to the dataset to load
+  is_local: false           # Whether the data is stored locally
   # formatter_type: "vllm"            # Type of formatter to use ('torchtune', 'vllm', or
   system_prompt: "You are a helpful assisstant"  # System prompt to use for the dataset
   # TODO: Key should be old name, value should be new name. Ref: https://huggingface.co/docs/datasets/v4.0.0/en/package_reference/main_classes#datasets.Dataset.rename_columns
   column_mapping:
-    input: "instruction"             # Field containing the input text
-    output: "output"              # Field containing the output text
+    input: "findings"             # Field containing the input text
+    output: "impression"              # Field containing the output text
     image: "image"           # Field containing the image path (optional)
   # Additional arguments to pass to the load_dataset function
   dataset_kwargs:
     split: "validation"                # Dataset split to load
-    shuffle: false                 # Whether to shuffle the dataset
 
 # Training configuration
 finetuning:

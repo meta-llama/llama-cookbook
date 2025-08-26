@@ -35,12 +35,40 @@ except ImportError:
         raise ImportError("The 'datasets' package is required to load data.")
 
 
-def image_to_base64(image: Union[str, Image.Image]):
+def is_base64_encoded(s: str) -> bool:
+    """Check if a string is already base64 encoded."""
+    try:
+        # Basic character check - base64 only contains these characters
+        if not all(
+            c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+            for c in s
+        ):
+            return False
+
+        # Try to decode - if it fails, it's not valid base64
+        decoded = base64.b64decode(s, validate=True)
+
+        # Re-encode and compare - if they match, it was valid base64
+        re_encoded = base64.b64encode(decoded).decode("utf-8")
+        return s == re_encoded or s == re_encoded.rstrip(
+            "="
+        )  # Handle padding differences
+    except Exception:
+        return False
+
+
+def image_to_base64(image: Union[str, list, Image.Image]):
     if isinstance(image, str):
+        # Check if the string is already base64 encoded
+        if is_base64_encoded(image):
+            return image
+        # Otherwise, treat it as a file path
         with open(image, "rb") as img:
             return base64.b64encode(img.read()).decode("utf-8")
     elif isinstance(image, Image.Image):
         return base64.b64encode(image.tobytes()).decode("utf-8")
+    elif isinstance(image, list):
+        return [image_to_base64(img) for img in image]
 
 
 def read_config(config_path: str) -> Dict:
@@ -78,7 +106,7 @@ def read_config(config_path: str) -> Dict:
     return config
 
 
-def load_dataset(
+def load_data(
     data_path: str,
     is_local: bool = False,
     column_mapping: Optional[Dict] = None,
@@ -124,10 +152,15 @@ def load_dataset(
     if column_mapping is None:
         column_mapping = {"input": "input", "output": "output", "image": "image"}
 
+    ## change column mapping
     required_fields = ["input", "output"]
     for field in required_fields:
         if field not in column_mapping:
             raise ValueError(f"Column mapping must include '{field}' field")
+
+    print(f"Column Mapping: {column_mapping}")
+
+    ## switch the key:val of column_mapping for renaming
     dataset = dataset.rename_columns(column_mapping)
 
     return dataset
@@ -165,7 +198,12 @@ def convert_to_encoded_messages(
             image = [image]
         for img in image:
             b64_img = image_to_base64(img)
-            user_content.append({"type": "image_url", "image_url": {"url": b64_img}})
+            user_content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpg;base64,{b64_img}"},
+                }
+            )
 
     messages.append({"role": "user", "content": user_content})
 
@@ -242,6 +280,8 @@ def get_hf_dataset(
     """
 
     # If config_path is provided, load from config file
+
+    dataset_kwargs = {}
     if config_path:
         config = read_config(config_path)
         output_dir = config.get("output_dir", "/tmp/finetuning-pipeline/outputs")
@@ -256,7 +296,7 @@ def get_hf_dataset(
     else:
         # Use individual parameters passed to the function
         if dataset_kwargs is None:
-            dataset_kwargs = {}
+            dataset_kwargs = {"split": "train"}
 
     # Validate required parameters
     if not dataset_id:
@@ -265,7 +305,7 @@ def get_hf_dataset(
         )
 
     # Load the dataset
-    dataset = load_dataset(
+    dataset = load_data(
         data_path=dataset_id,
         is_local=is_local,
         column_mapping=column_mapping,
