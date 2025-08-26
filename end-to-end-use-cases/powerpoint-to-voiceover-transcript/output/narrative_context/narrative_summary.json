@@ -1,0 +1,46 @@
+{
+  "total_slides": 10,
+  "context_window_size": 5,
+  "slide_progression": [
+    {
+      "slide_number": 1,
+      "title": "Llamas: Fascinating Animals of the Andes"
+    },
+    {
+      "slide_number": 2,
+      "title": "Introduction to Llamas"
+    },
+    {
+      "slide_number": 3,
+      "title": "Physical Characteristics"
+    },
+    {
+      "slide_number": 4,
+      "title": "Diet & Habitat"
+    },
+    {
+      "slide_number": 5,
+      "title": "Behavior & Social Structure"
+    },
+    {
+      "slide_number": 6,
+      "title": "Breeding & Life Cycle"
+    },
+    {
+      "slide_number": 7,
+      "title": "Historical & Cultural Significance"
+    },
+    {
+      "slide_number": 8,
+      "title": "Modern Uses of Llamas"
+    },
+    {
+      "slide_number": 9,
+      "title": "Conservation & Welfare"
+    },
+    {
+      "slide_number": 10,
+      "title": "Conclusion & Fun Facts"
+    }
+  ]
+}
