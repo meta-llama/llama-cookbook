@@ -56,6 +56,9 @@ Use Llama4 Maverick to process entire books at once and visualize character rela
 
 Discover new insights into your favorite books!
 
+## [Powerpoint to Text-to-Speech Ready Transcripts:](./powerpoint-to-voiceover-transcript/README.md)
+### Knowledge Grounded & Narrative Continuity Enabled TTS Transcript Generation from a Powerpoint Deck
+This tutorial demonstrates the complete workflow for converting PowerPoint presentations into Llama 4 generated TTS transcripts with retrieval augmentation and narrative continuity features, powered by Llama 4 Maverick's vision capabilities through the Llama API.
 
 
 
@@ -102,7 +105,3 @@ This step-by-step tutorial shows how to use the [Messenger Platform](https://dev
 
 ## [RAG Chatbot Example (running locally)](./customerservice_chatbots/RAG_chatbot/RAG_Chatbot_Example.ipynb)
 A complete example of how to build a Llama 3 chatbot hosted on your browser that can answer questions based on your own data using retrieval augmented generation (RAG).
-
-## [Powerpoint to Text-to-Speech Ready Transcripts:](./powerpoint-to-voiceover-transcript/README.md)
-### Knowledge Grounded & Narrative Continuity Enabled TTS Transcript Generation from a Powerpoint Deck
-This tutorial demonstrates the complete workflow for converting PowerPoint presentations into Llama 4 generated TTS transcripts with retrieval augmentation and narrative continuity features, powered by Llama 4 Maverick's vision capabilities through the Llama API.
