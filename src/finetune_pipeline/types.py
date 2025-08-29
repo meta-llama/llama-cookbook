@@ -11,7 +11,7 @@ from typing import Dict, List, Optional, TypedDict, Union
 class MessageContent(TypedDict, total=False):
     """Type definition for message content in LLM requests."""
 
-    type: str  # Required field
+    type: str  # "text", "image_url""
     text: Optional[str]  # Optional field
     image_url: Optional[Dict[str, str]]  # Optional field
 
