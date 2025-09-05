@@ -17,7 +17,7 @@ fastapi==0.115.12
 filelock==3.18.0
 frozenlist==1.5.0
 groq==0.22.0
-h11==0.14.0
+h11==0.16.0
 httpcore==1.0.8
 httpx==0.28.1
 idna==3.10
