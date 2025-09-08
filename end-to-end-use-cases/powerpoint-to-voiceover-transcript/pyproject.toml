@@ -1,0 +1,32 @@
+[project]
+name = "pptx-to-transcript"
+version = "0.1.0"
+description = "Convert PowerPoint presentations to transcripts with AI-powered analysis"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.3.1",
+    "pillow>=11.3.0",
+    "python-pptx>=1.0.2",
+    "pymupdf>=1.24.0",
+    "numpy>=2.3.2",
+    "python-dotenv>=1.0.0",
+    "tqdm>=4.66.0",
+    "pyyaml>=6.0.0",
+    "matplotlib>=3.10.5",
+    # Knowledge base integration dependencies
+    "sentence-transformers>=2.2.0,<3.0.0",
+    "jupyter>=1.1.1",
+    "ipykernel>=6.30.1",
+    "seaborn>=0.13.2",
+    "faiss-cpu>=1.11.0.post1",
+    "openpyxl>=3.1.5",
+    "groq>=0.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "memory-profiler>=0.60.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-mock>=3.10.0",
+]
