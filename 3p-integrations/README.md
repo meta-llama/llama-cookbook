@@ -40,6 +40,9 @@ AI-powered code and data analysis tool using Meta Llama and the E2B SDK, support
 ### [Groq](./groq)
 Examples and templates for using Llama models with Groq's high-performance inference API.
 
+### [IBM](./ibm)
+Recipe to use llama models within IBM's watsonx.ai platform.
+
 ### [Lamini](./lamini)
 Integration examples with Lamini's platform, including text2sql with memory tuning.
 
