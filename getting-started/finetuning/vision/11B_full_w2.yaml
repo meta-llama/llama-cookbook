@@ -51,19 +51,19 @@ collate_fn: torchtune.data.padded_collate_tiled_images_and_mask
 
 epochs: 5
 max_steps_per_epoch: null
-batch_size: 4
-gradient_accumulation_steps: 8 # Use to increase effective batch size
+batch_size: 1
+gradient_accumulation_steps: 1 # Use to increase effective batch size
 # explicit optimizer / scheduler / loss
 optimizer:
   _component_: bitsandbytes.optim.PagedAdamW8bit
   lr: 2e-5
-optimizer_in_bwd: False  # True saves memory. Requires gradient_accumulation_steps=1
+optimizer_in_bwd: True  # True saves memory. Requires gradient_accumulation_steps=1
 
 loss:
   _component_: torchtune.modules.loss.LinearCrossEntropyLoss
 
-clip_grad_norm: 1.0
-compile: false
+# clip_grad_norm: 1.0
+compile: true
 
 # Device & memory
 device: cuda
