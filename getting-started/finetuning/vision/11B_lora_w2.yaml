@@ -1,5 +1,5 @@
 # Top-level output directory
-output_dir: ./outputs/Llama-3.2-11B-Instruct-w2-lora-80
+output_dir: ./outputs/Llama-3.2-11B-Instruct-w2-lora
 
 # Model + LoRA settings
 model:
@@ -46,8 +46,7 @@ dataset:
   _component_: torchtune.datasets.multimodal.vqa_dataset
   source: arrow
   data_files:
-    # train: "w2_with_input/train/data-00000-of-00001.arrow"
-    train: "fake_w2_us_tax_form_dataset_train80_test20/train/data-00000-of-00001.arrow"
+    train: "fake_w2_us_tax_form_dataset_train30_test70/train/data-00000-of-00001.arrow"
   split: train
   column_map:
     input: input
@@ -62,16 +61,17 @@ collate_fn: torchtune.data.padded_collate_tiled_images_and_mask
 # Training loop & hyperparams
 
 # example’s train-control
-epochs: 10
+epochs: 5
 max_steps_per_epoch: null
-batch_size: 4
-gradient_accumulation_steps: 8 # Use to increase effective batch size
+batch_size: 1
+gradient_accumulation_steps: 1 # Use to increase effective batch size
 # explicit optimizer / scheduler / loss
 optimizer:
   _component_: torch.optim.AdamW
   fused: true
   weight_decay: 0.01
   lr: 1e-4
+optimizer_in_bwd: true
 
 lr_scheduler:
   _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
