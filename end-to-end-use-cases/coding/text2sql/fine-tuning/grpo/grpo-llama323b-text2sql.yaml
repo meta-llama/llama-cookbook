@@ -5,13 +5,13 @@ torch_dtype: bfloat16
 attn_implementation: flash_attention_2
 bf16: true
 tf32: true
-output_dir: runs/llama-3.2-3b-grpo-text2sql-alltrain-lr5-ng8
+output_dir: runs/llama-3.2-3b-grpo-text2sql-3rewards-6gpu
 
 # Lora Arguments
 # No LoRA is used here
 
 # Training arguments
-max_steps: 500 # 1000 #500
+max_steps: 750 # 1000 #500
 per_device_train_batch_size: 1
 gradient_accumulation_steps: 8
 gradient_checkpointing: true
@@ -46,7 +46,7 @@ reward_weights: [1.0, 3.0, 1.0]
 # **Similarity-focused: `[1.0, 2.0, 2.0]`**
 # *   Higher weight on N-gram similarity
 # *   Useful if execution often fails initially
-
+# final_reward = format_reward*1.0 + execution_reward*3.0 + ngram_reward*1.0
 
 vllm_device: "cuda:0" # use vLLM for generation and DeepSpeed for distributed training.
 # Set the num_processes to the number of GPUs you have -

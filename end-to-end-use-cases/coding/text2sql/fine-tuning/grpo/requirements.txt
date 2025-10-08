@@ -11,3 +11,4 @@ trl==0.14.0
 peft==0.15.2
 vllm==0.7.0
 func_timeout==4.3.5
+together==1.5.26
