@@ -5,7 +5,7 @@ torch_dtype: bfloat16
 attn_implementation: flash_attention_2
 bf16: true
 tf32: true
-output_dir: runs/llama-3.2-3b-grpo-text2sql-3rewards-6gpu
+output_dir: runs/llama-3.2-3b-grpo-text2sql-4rewards-6gpu
 
 # Lora Arguments
 # No LoRA is used here
@@ -29,7 +29,7 @@ use_vllm: true
 
 # Reward function weights
 # Order: [format_reward_func, execution_reward_func, ensemble_n_gram_reward_func]
-reward_weights: [1.0, 3.0, 1.0]
+reward_weights: [1.0, 3.0, 1.0, 1.0]
 # **Recommended Weight Strategy**
 # Current Setting: `[1.0, 3.0, 1.0]`**
 # *   **Format reward (1.0)**: Standard weight since format correctness is binary but essential
