@@ -4319,8 +4319,6 @@ tqdm>=4.66.0
 jupyter>=1.0.0
 ipykernel>=6.0.0
 
-# Warning handling
-warnings>=0.1.0
 
 
 ================================================
