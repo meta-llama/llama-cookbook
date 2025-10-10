@@ -1,0 +1,13 @@
+{
+  "knowledge_base_hash": "8364d097acf9253df6376c62a82b791c",
+  "index_type": "flat",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "total_chunks": 19,
+  "created_at": "2025-08-26T16:31:16.693386",
+  "stats": {
+    "total_searches": 0,
+    "cache_hits": 0,
+    "index_builds": 1,
+    "last_updated": "2025-08-26T16:31:16.688962"
+  }
+}
