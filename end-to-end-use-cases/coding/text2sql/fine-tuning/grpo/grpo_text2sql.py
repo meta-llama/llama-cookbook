@@ -658,13 +658,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# before running this script, make sure you set the following environment variable
-# so the reward of using LLM as a judge can be calculated:
-# export TOGETHER_API_KEY=<your together.ai api key>
-
-# two ways to run this script, assuming you have 6 GPUs to use for the training
-
-# with-proxy accelerate launch --num_processes 6 --gpu_ids 2,3,4,5,6,7 --config_file deepspeed_zero3.yaml grpo_text2sql.py --config grpo-llama323b-text2sql.yaml
-
-# with-proxy nohup accelerate launch --num_processes 6 --gpu_ids 2,3,4,5,6,7 --config_file deepspeed_zero3.yaml grpo_text2sql.py --config grpo-llama323b-text2sql.yaml &
