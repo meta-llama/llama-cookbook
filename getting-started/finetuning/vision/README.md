@@ -1,15 +1,15 @@
-# Fine-tuning Llama 3.2 11B Vision for Structured Document Extraction
+# Fine-tuning Llama 3.2 11B Vision for Structured Data Extraction
 
-This recipe demonstrates how to fine-tune Llama 3.2 11B Vision model on a synthetic W-2 tax form dataset for structured information extraction. The tutorial compares LoRA (Low-Rank Adaptation) and full parameter fine-tuning approaches, evaluating their trade-offs in terms of accuracy, memory consumption, and computational requirements.
+This recipe demonstrates how to fine-tune Llama 3.2 11B Vision model on a synthetic W-2 tax form dataset for structured data extraction. The tutorial compares LoRA (Low-Rank Adaptation) and full parameter fine-tuning approaches, evaluating their trade-offs in terms of accuracy, memory consumption, and computational requirements.
 
 ## Objectives
-- Showcase how to fine-tune and evaluate on a specific document extraction use case
+- Showcase how to fine-tune and evaluate on a specific extraction use case
 - Demonstrate custom benchmarking for structured output tasks
 - Compare trade-offs between LoRA and Full Parameter Fine-tuning on both task-specific and general benchmarks
 - Provide guidance on data preparation, training configuration, and evaluation methodologies
 
 ## Prerequisites
-- CUDA-compatible GPU with at least 40GB VRAM (H100 recommended)
+- CUDA-compatible GPU with at least 40GB VRAM
 - HuggingFace account with access to Llama models
 - Python 3.10+
 
@@ -19,13 +19,13 @@ This recipe demonstrates how to fine-tune Llama 3.2 11B Vision model on a synthe
 ```bash
 git clone git@github.com:meta-llama/llama-cookbook.git
 cd llama-cookbook/getting-started/finetuning/vision
-conda create -n image-ft python=3.10 -y
+conda create -n image-ft python=3.12 -y
 conda activate image-ft
 ```
 
 ### Dependencies Installation
 ```bash
-pip install -r requirements.txt
+pip install torchtune torch torchvision torchaudio torchao bitsandbytes transformers==4.51.1 accelerate vllm==0.9.2 lm_eval wandb
 ```
 
 Install torchtune nightly for the latest vision model support:
@@ -45,7 +45,7 @@ The dataset contains 2,000 examples of synthetic W-2 forms with three splits: tr
 The preparation script:
 1. Reshuffles the train/test splits according to the specified ratio
 2. Removes unnecessary JSON structure wrappers from ground truth
-3. Adds standardized prompts for training consistency
+3. Adds standardized prompts for training
 
 ```bash
 python prepare_w2_dataset.py --train-ratio 0.3
@@ -83,7 +83,7 @@ CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model 
 
 ### Run Baseline Evaluation
 ```bash
-python evaluate.py --server_url http://localhost:8001 --model Llama-3.2-11B-Vision-Instruct/ --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 200
+python evaluate.py --server_url http://localhost:8001/v1 --model Llama-3.2-11B-Vision-Instruct/ --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
 ```
 
 ## Fine-tuning
@@ -141,17 +141,26 @@ Start a vLLM server with your fine-tuned model:
 
 **For LoRA model:**
 ```bash
-CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-lora/epoch_4/ --port 8003 --max-model-len 128000 --tensor-parallel-size 2
+CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-lora/epoch_4/ --port 8001 --max-model-len 65000 --tensor-parallel-size 2 --max-num-seqs 10
 ```
 
 **For full fine-tuned model:**
 ```bash
-CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --port 8003 --max-model-len 128000 --tensor-parallel-size 2
+CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --port 8001 --max-model-len 65000 --tensor-parallel-size 2
 ```
 
 ### Task-Specific Evaluation
 ```bash
-python evaluate.py --server_url http://localhost:8003 --model <model_path> --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 200
+python evaluate.py --server_url http://localhost:8001/v1 --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
+```
+
+
+### Cloud Evaluation Setup
+
+To evaluate bigger models, like Llama 4 Maverick, we leverage cloud providers that server these models, like together.ai. Any OpenAI compatible provider should work out of the box with our evaluation script, as it uses the OpenAI SDK.
+
+```bash
+TOGETHER_API_KEY=<your_api_key> python evaluate.py --server_url https://api.together.xyz/v1 --model meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8  --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
 ```
 
 ### General Benchmark Evaluation
@@ -191,7 +200,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch -m lm_eval --model hf-multimodal 
     --tasks chartqa_llama_90 \
     --batch_size 16 \
     --seed 4242 \
-    --log_samples
+    --log_samples \
+    --output_path results
+
 ```
 
 ## Results
@@ -348,7 +359,7 @@ You can benchmark against the Llama API for comparison:
 
 ```bash
 LLAMA_API_KEY="<your_api_key>" python evaluate.py \
-  --server_url https://api.llama.com/compat \
+  --server_url https://api.llama.com/compa/v1 \
   --limit 100 \
   --model Llama-4-Maverick-17B-128E-Instruct-FP8 \
   --structured \
