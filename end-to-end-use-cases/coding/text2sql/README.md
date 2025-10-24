@@ -1,30 +1,39 @@
-## Text2SQL: Natural Language to SQL Interface
+# Improving Llama Text2SQL performance with CoT Fine-tuning
 
-This project provides a set of scripts to convert natural language queries into SQL statements using Meta's Llama model. The goal is to enable users to interact with databases using natural language inputs, making it easier for non-technical users to access and analyze data. 
+This recipe is step by step guide to improve Llama performance on Text2SQL measured with the popular [BIRD](https://bird-bench.github.io) benchmark. We generate a synthetic Chain of Thought(CoT) dataset and fine-tune Llama models on it.
 
-For detailed instructions on setting up the environment, creating a database, and executing natural language queries using the Text2SQL interface, please refer to the quickstart.ipynb notebook.
+Results:
 
-### Structure:
+| Fine-tuning Combination     | Accuracy                      |
+|-----------------------------|-------------------------------|
+| baseline                    | 39.47%                        |
+| CoT, PEFT                   | 43.35%                        |
+| CoT, FFT                    | 42.44% (3 epochs)             |
+| CoT, FFT                    | 43.87% (10 epochs)            |
 
-- quickstart.ipynb: A Quick Demo of Text2SQL Using Llama 3.3. This Jupyter Notebook includes examples of how to use the interface to execute natural language queries on the sample data. It uses Llama 3.3 to answer questions about a SQLite database using LangChain and the Llama cloud provider Together.ai.
-- nba.txt: A text file containing NBA roster information, which is used as sample data for demonstration purposes.
-- txt2csv.py: A script that converts text data into a CSV format. This script is used to preprocess the input data before it is fed into csv2db.py.
-- csv2db.py: A script that imports data from a CSV file into a SQLite database. This script is used to populate the database with sample data.
-- nba_roster.db: A SQLite database file created from the nba.txt data, used to test the Text2SQL interface.
+The complete steps are:
 
-### Detailed steps on running the notebook:
+1. Pre-processing the [BIRD](https://bird-bench.github.io) TRAIN datset by converting text, schema, external knowledge, and SQL statements into the conversation format.
 
-- Before getting started, please make sure to setup Together.ai and get an API key from [here](https://www.together.ai/). 
+2. Using Llama-3.3-70B to add CoT to the conversation format dataset.
 
-- First, please install the requirements from [here](https://github.com/meta-llama/llama-cookbook/blob/main/end-to-end-use-cases/coding/text2sql/requirements.txt) by running inside the folder:
+3. Fine-tuning Llama-3.1-8B on the CoT dataset from step 2.
 
-```
-git clone https://github.com/meta-llama/llama-cookbook.git
-cd llama-cookbook/end-to-end-use-cases/coding/text2sql/
-pip install -r requirements.txt
-```
+4. Running the BIRD DEV eval benchmark on the fine-tuned models and compare it with out of the model.
 
-### Contributing
-Contributions are welcome! If you'd like to add new features or improve existing ones, please submit a pull request. We encourage contributions in the following areas:
-- Adding support for additional databases
-- Developing new interfaces or applications that use the Text2SQL interface
+## Folder Structure
+
+- quickstart folder: contains a notebook to ask Llama 3.3 to convert natural language queries into SQL queries.
+- data folder: contains scripts to download the BIRD TRAIN and DEV datasets;
+- fine-tune folder: contains scripts to generate CoT dataset based on the BIRD TRAIN set and to supervised fine-tune Llama models using the dataset, with different SFT options (quantization or not, full fine-tuning or parameter-efficient fine-tuning);
+- eval folder: contains scripts to evaluate Llama models (original and fine-tuned) on the BIRD dataset.
+
+We also experimented with supervised fine-tuning (SFT) without CoT which resulted in slightly lower accuracy.
+
+## Next Steps
+
+1. Hyper-parameter tuning of the current SFT scripts.
+2. Try GRPO reinforcement learning to further improve the accuracy.
+3. Fine-tune Llama 3.3 70B and Llama 4 models.
+4. Try agentic workflow.
+5. Expand the eval to support other enterprise databases.
