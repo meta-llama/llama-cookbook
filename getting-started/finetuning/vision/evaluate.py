@@ -337,7 +337,7 @@ def process_single_sample(
             usage = response.usage.model_dump() if response.usage else {}
 
         except Exception as e:
-            logger.error(f"Error calling OpenAI SDK for sample {idx}: {e}")
+            logger.error(f"Error calling SDK for sample {idx}: {e}")
             content = ""
             usage = {}
 
@@ -505,7 +505,7 @@ def vllm_openai_sdk_evaluation(
     # Initialize OpenAI client
     client = OpenAI(
         api_key=api_key,  # vLLM doesn't require a real API key
-        base_url=f"{server_url}/v1",
+        base_url=f"{server_url}",
     )
 
     # Prepare sample data for batch processing
@@ -533,7 +533,7 @@ def vllm_openai_sdk_evaluation(
         for future in tqdm(
             as_completed(future_to_sample),
             total=len(sample_data),
-            desc="Processing samples with OpenAI SDK (batch)",
+            desc="Processing samples (batch)",
         ):
             sample_idx = future_to_sample[future]
             try:
@@ -578,13 +578,13 @@ def vllm_openai_sdk_sequential_evaluation(
     # Initialize OpenAI client
     client = OpenAI(
         api_key=api_key,  # vLLM doesn't require a real API key
-        base_url=f"{server_url}/v1",
+        base_url=f"{server_url}",
     )
 
     results = []
 
     for idx, sample in enumerate(
-        tqdm(test_set, desc="Processing samples with OpenAI SDK (sequential)")
+        tqdm(test_set, desc="Processing samples (sequential)")
     ):
         result = process_single_sample(
             client, (idx, sample), output_dir, model, structured, timeout
@@ -596,7 +596,7 @@ def vllm_openai_sdk_sequential_evaluation(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Evaluate vision-language model on W2 tax form dataset using OpenAI SDK"
+        description="Evaluate vision-language model on W2 tax form dataset"
     )
     parser.add_argument(
         "--server_url",
@@ -678,11 +678,11 @@ def main():
         logger.info(f"Limited to {args.limit} samples")
 
     # Get API key from environment variable
-    api_key = os.getenv("LLAMA_API_KEY") or os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("TOGETHER_API_KEY") or os.getenv("OPENAI_API_KEY")
 
     if not api_key:
         logger.warning(
-            "No API key found. Please set the LLAMA_API_KEY or OPENAI_API_KEY environment variable for public APIs."
+            "No API key found. Please set the TOGETHER_API_KEY or OPENAI_API_KEY environment variable for public APIs."
         )
         api_key = "default-blank-localhost"
 
@@ -690,15 +690,15 @@ def main():
     try:
         client = OpenAI(
             api_key=api_key,
-            base_url=f"{args.server_url}/v1",
+            base_url=f"{args.server_url}",
         )
         # Test with a simple call
-        models = client.models.list()
-        logger.info(f"Successfully connected to vLLM server at {args.server_url}")
-        logger.info(f"Available models: {[model.id for model in models.data]}")
+        # models = client.models.list()
+        logger.info(f"Successfully connected to server at {args.server_url}")
+        # logger.info(f"Available models: {[model.id for model in models.data]}")
     except Exception as e:
-        logger.error(f"Failed to connect to vLLM server at {args.server_url}: {e}")
-        logger.error("Make sure the vLLM server is running and accessible")
+        logger.error(f"Failed to connect to server at {args.server_url}: {e}")
+        logger.error("Make sure the server is running and accessible")
         return 1
 
     # Run evaluation
