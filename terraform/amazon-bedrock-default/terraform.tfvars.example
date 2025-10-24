@@ -1,0 +1,12 @@
+# Example terraform.tfvars for minimal Amazon Bedrock deployment
+# Copy this file to terraform.tfvars and customize as needed
+
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+project_name = "my-llama-api"
+environment  = "dev"
+
+# IAM User (optional)
+create_user = false  # Set to true if you need programmatic access keys

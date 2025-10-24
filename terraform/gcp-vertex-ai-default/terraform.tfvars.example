@@ -1,0 +1,13 @@
+# Example terraform.tfvars for minimal GCP Vertex AI deployment
+# Copy this file to terraform.tfvars and customize as needed
+
+# GCP Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# Project Configuration
+project_name = "my-llama-api"
+environment  = "dev"
+
+# Storage Configuration
+artifact_retention_days = 30

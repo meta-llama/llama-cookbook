@@ -1,0 +1,33 @@
+# Example terraform.tfvars for minimal GCP Cloud Run deployment
+# Copy this file to terraform.tfvars and customize as needed
+
+# GCP Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# Project Configuration
+project_name = "my-llama-api"
+environment  = "dev"
+
+# Container Configuration
+container_image = "gcr.io/cloudrun/hello"  # Replace with your Llama inference image
+cpu_limit       = "4"
+memory_limit    = "4Gi"
+container_port  = 8080
+
+# Scaling Configuration
+min_instances = 0
+max_instances = 10
+
+# Environment Variables (optional)
+environment_variables = {
+  MODEL_NAME = "llama-3.2-1B-instruct"
+  # Add other environment variables as needed
+}
+
+# Access Control
+allow_public_access = false  # Set to true for public access
+allowed_members = [
+  # "user:example@domain.com",
+  # "serviceAccount:service@project.iam.gserviceaccount.com"
+]

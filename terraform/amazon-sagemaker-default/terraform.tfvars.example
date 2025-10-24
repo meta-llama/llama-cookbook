@@ -1,0 +1,18 @@
+# Example terraform.tfvars for minimal Amazon SageMaker deployment
+# Copy this file to terraform.tfvars and customize as needed
+
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+project_name = "my-llama-api"
+environment  = "dev"
+
+# Model Configuration
+model_image_uri = "763104351884.dkr.ecr.us-east-1.amazonaws.com/huggingface-pytorch-inference:2.0.0-transformers4.28.1-gpu-py310-cu118-ubuntu20.04"
+model_data_s3_path = "s3://my-bucket/model/model.tar.gz"  # Update with your model path
+model_name = "Llama-3.3-70B-Instruct"
+
+# Instance Configuration
+instance_type = "ml.p4d.24xlarge"  # GPU instance for Llama models
+initial_instance_count = 1

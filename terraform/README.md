@@ -1,0 +1,4 @@
+# Starter deployment scripts
+Included in this folder are starter deployment scripts for both Amazon Web Services (AWS) and Google Cloud Platform (GCP). These scripts act as bare-bones deployments for Llama models in both managed and un-managed settings.
+
+These scripts act as a companion to the [private cloud deployment guide](/docs/open_source/private_cloud.md). The guide outlines advanced deployment techniques such as multi-region deployment and granular permissioning that may be requirements for your specific cloud deployment. Use these scripts as a starting point to build your own custom cloud deployments.
