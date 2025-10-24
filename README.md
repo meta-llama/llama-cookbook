@@ -29,6 +29,7 @@ This repository covers the most popular community approaches, use-cases and the 
 * 5M long context using [Llama 4 Scout](./getting-started/build_with_llama_4.ipynb)
 * Analyze research papers with [Llama 4 Maverick](./end-to-end-use-cases/research_paper_analyzer/README.md)
 * Create a character mind map from a book using [Llama 4 Maverick](./end-to-end-use-cases/book-character-mindmap/README.md)
+* Convert Powerpoint Decks to Text-to-Speech Ready Transcripts with [Llama 4 Maverick](./end-to-end-use-cases/powerpoint-to-voiceover-transcript/README.md)
 
 ## Repository Structure:
 
