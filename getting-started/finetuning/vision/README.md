@@ -25,7 +25,7 @@ This recipe demonstrates how to fine-tune Llama 3.2 11B Vision model on a synthe
 <td><strong>W2 extraction acc</strong></td>
 <td>58</td>
 <td><strong>72</strong></td>
-<td><strong>97</strong></td>
+<td><strong>98</strong></td>
 <td><strong>96</strong></td>
 
 </tr>
