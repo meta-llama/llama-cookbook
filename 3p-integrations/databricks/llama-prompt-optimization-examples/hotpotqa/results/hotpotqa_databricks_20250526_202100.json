@@ -1,0 +1,484 @@
+{
+  "prompt": "<s> You are a knowledgeable assistant capable of answering complex questions by analyzing the given context and extracting relevant information. Provide a concise answer to the question based on the provided context. </s>",
+  "few_shots": [
+    {
+      "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant?",
+      "context": [
+        [
+          "James P. Comer",
+          [
+            "James P. Comer (born James Pierpont Comer, September 25, 1934 in East Chicago, Indiana) is currently the Maurice Falk Professor of Child Psychiatry at the Yale Child Study Center and has been since 1976.",
+            " He is also an associate dean at the Yale School of Medicine.",
+            " As one of the world's leading child psychiatrists, he is best known for his efforts to improve the scholastic performance of children from lower-income and minority backgrounds which led to the founding of the Comer School Development Program in 1968.",
+            " His program has been used in more than 600 schools in eighty-two school districts.",
+            " He is the author of ten books, including the autobiographical \"Maggie’s American Dream: The Life and Times of a Black Family\", 1988; \"Leave No Child Behind: Preparing Today's Youth for Tomorrow's World\", 2004; and his most recent book, \"What I Learned in School: Reflections on Race, Child Development, and School Reform\", 2009.",
+            " He has also written more than 150 articles for Parents (magazine) and more than 300 articles on children's health and development and race relations.",
+            " Dr. Comer has also served as a consultant to the Children's Television Workshop (Sesame Workshop) which produces Sesame Street and The Electric Company (1971 TV series).",
+            " He is a co-founder and past president of the Black Psychiatrists of America and has served on the board of several universities, foundations, and corporations.",
+            " He has also lectured and consulted widely not only across the United States at different universities, medical schools, and scientific associations, but also around the world in places such as London, Paris, Tokyo, Dakar, Senegal and Sydney, Australia.",
+            " For his work and scholarship, Dr. Comer has been awarded 47 honorary degrees and has been recognized by numerous organizations."
+          ]
+        ],
+        [
+          "Method Man",
+          [
+            "Clifford Smith (born April 1, 1971), better known by his stage name Method Man, is an American rapper, record producer, and actor.",
+            " He is known as a member of the East Coast hip hop collective Wu-Tang Clan.",
+            " He is also one half of the hip hop duo Method Man & Redman.",
+            " He took his stage name from the 1979 film \"Method Man\".",
+            " In 1996, he won a Grammy Award for Best Rap Performance by a Duo or Group, for \"I'll Be There for You/You're All I Need to Get By\", with American R&B singer-songwriter Mary J. Blige."
+          ]
+        ],
+        [
+          "Indriati Iskak",
+          [
+            "Indriati Gerald Bernardina (born 9 June 1942), also known by her stage name Indriati Iskak and after marriage as Indri Makki, is an Indonesian actress turned psychologist and marketer.",
+            " Born in Surabaya, she entered the Indonesian film industry and soared to popularity with Usmar Ismail's commercially successful \"Tiga Dara\" (1957).",
+            " She appeared in eight further films and established her own girl group before retiring from cinema in 1963.",
+            " She graduated from the University of Indonesia with a degree in psychology in 1968, and has taught the subject at the .",
+            " For twenty-six years she worked with Unilever, and since 1994 she has been a marketing consultant with Makki Makki."
+          ]
+        ],
+        [
+          "Eenasul Fateh",
+          [
+            "Eenasul Fateh (Bengali: ঈনাসুল ফাতেহ ; born 3 April 1959), also known by his stage name Aladin, is a Bangladeshi-British cultural practitioner, magician, live artist and former international management consultant."
+          ]
+        ],
+        [
+          "Mick (DJ)",
+          [
+            "Mick Batyske (known by his stage name Mick, sometimes styled as MICK, and formerly Mick Boogie) is an American DJ and entrepreneur.",
+            " He is an A-list DJ and spun private parties for celebrities including Kanye West, LeBron James, Jay-Z and Will Smith.",
+            " In addition to his mix tape releases, he has performed in venues internationally, including New York City, Dubai, Tokyo, Las Vegas, and Los Angeles.",
+            " As an entrepreneur, he has invested in various start-up companies including Localeur, in which he is also an advisor and consultant."
+          ]
+        ],
+        [
+          "Criss Angel",
+          [
+            "Christopher Nicholas Sarantakos (born December 19, 1967), known by the stage name Criss Angel, is an American magician, illusionist and musician.",
+            " Angel began his career in New York City, before moving his base of operations to the Las Vegas Valley.",
+            " He is known for starring in the television and stage show \"Criss Angel Mindfreak\" and his previous live performance illusion show \"Criss Angel Believe\" in collaboration with \"Cirque du Soleil\" at the Luxor casino in Las Vegas.",
+            " The show generated $150 million in tourist revenue to Las Vegas in 2010, but has since been replaced by \"Mindfreak LIVE\" on 11 May 2016 (the show is partly produced by Cirque, however the directive rights are entirely with Criss Angel).",
+            " He also starred in the television series \"Criss Angel BeLIEve\" on Spike TV, the reality-competition television show \"Phenomenon\" on NBC, and the 2014 stage show \"Criss Angel Magicjam\"."
+          ]
+        ],
+        [
+          "ELDee",
+          [
+            "Lanre Dabiri (born May 23, 1977), better known by his stage name Eldee, stylized as eLDee, is a former Nigerian-American rapper, singer, and record producer but now an IT Consultant based in the United_States \"Lanre\" is a diminutive for the Yoruba name \"Olanrewaju\" (which translates to \"\"Wealth is moving forward\"\").",
+            " eLDee has a masters degree in Architecture from the University of Lagos, Nigeria.",
+            " He is an original member of the band Trybesmen, which was started in 1998 with rappers KB and Freestyle.",
+            " He hails from Lagos Island in Lagos State of Nigeria."
+          ]
+        ],
+        [
+          "Management consulting",
+          [
+            "Management consulting is the practice of helping organizations to improve their performance, operating primarily through the analysis of existing organizational problems and the development of plans for improvement.",
+            " Organizations may draw upon the services of management consultants for a number of reasons, including gaining external (and presumably objective) advice and access to the consultants' specialized expertise."
+          ]
+        ],
+        [
+          "Lil Ru",
+          [
+            "Sylvester Samuels better known by his stage name Lil Ru, is an American rapper from Ridgeway, South Carolina currently signed to Def Jam Recordings.",
+            " His debut album, 21 & Up was released on August 25, 2009.",
+            " The Ridgeway native was 16 when he made his professional foray into the music business.",
+            " Inspired by New Orleans’ innovative Cash Money Crew, Ru began making a name for himself on his local music scene, doing live shows and pressing up his own CDs.",
+            " His hard-hitting lyrics and entrepreneurial spirit caught the attention of fellow South Carolinian Angie Stone.",
+            " Shortly after the neo-soul songstress helped him secure a deal with Elektra Records, Ru found himself unsigned again, among the artists lost in the shuffle after the label merged with Atlantic Records.",
+            " Music fans first heard him on his 2001 debut single Will Destroy.",
+            " He then released his 2002 follow up, Shawty What You Doin’.",
+            " Both songs reached the Billboard R&B/Hip-Hop charts and helped land him at his next label home, Capitol Records."
+          ]
+        ],
+        [
+          "Amaruk Kayshapanta",
+          [
+            "Amaruk Caizapanta Anchapacxi (Quito, January 30, 1970), whose stage name is Amaruk Kayshapanta.",
+            " Is an Ecuadorian multidisciplinary artist, known in Spain and Ecuador for his artistic and humanistic trajectory in favor of the Human Rights of Immigration in Spain.",
+            " Named as the \"Chasqui de Oro\" (In the VI Race and hike \"El Chasqui-NY).",
+            " Received the award as \"Cultural Ambassador of the Andes-Mushuk Nina 2014 (Third Edition)\", for rescuing the traditions and culture of the Andes for the Indigenous Organizations of Peru, Bolivia based in Ecuador.",
+            " He obtained the prize \"100 Latinos Madrid\", by the Community of Madrid, in recognition of their non-profit altruistic and cultural work for the benefit of foreign immigrants in Spain.",
+            " Known for his role in the TV series \"Hospital Central\" in which he gave life to the character \"Edgar\".",
+            " His Philosophy \"Amawtica Amarukiana Desestructuration\" brings to the contemporary world the Philosophical study of the Andean Worldview, a spiritual legacy of transformation and balance for the awakening of a collective conscience."
+          ]
+        ]
+      ],
+      "answer": "Eenasul Fateh"
+    },
+    {
+      "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+      "context": [
+        [
+          "Esma Sultan (daughter of Abdülaziz)",
+          [
+            "Esma Sultan (21 March 1873 – 7 May 1899) was an Ottoman princess, the daughter of Sultan Abdülaziz and his wife Gevheri Kadın, herself the daughter of Salih Bey Svatnba.",
+            " She was the half-sister of Abdülmecid II, the last Caliph of the Muslim world."
+          ]
+        ],
+        [
+          "Djamaâ el Kebir",
+          [
+            "The Great Mosque of Algiers (Arabic: الجامع الكبير‎ ‎ , \"Jemaa Kebir\") or “Djama’a al-Kebir” (meaning Great Mosque) is a mosque in Algiers, Algeria, located very close to Algiers Harbor.",
+            " An inscription on the minbar (منبر) or the pulpit testifies to fact that the mosque was built in 1097.",
+            " It is also known by several other names such as Grand Mosque d'Alger, Djamaa al-Kebir, El Kebir Mosque and Jami Masjid.",
+            " It is one of the few remaining examples of Almoravid architecture.",
+            " It is the oldest mosque in Algiers and is said to be the oldest mosque in Algeria after Sidi Okba Mosque.",
+            " It was built under sultan Ali ibn Yusuf.",
+            " Its minaret dates from 1332 (1324 in some sources) and was built by the Ziyyanid Sultan of Tlemcen.",
+            " The gallery at the outside of the mosque was built in 1840.",
+            " Its construction was a consequence of a complete reconstruction of the street by the French."
+          ]
+        ],
+        [
+          "Küçük Hüseyin Pasha",
+          [
+            "Küçük Hüseyin Pasha (1757 – 7 December 1803), also known as Tayazade Damat Küçük Hüseyin Pasha, was an Ottoman statesman and admiral who was Kapudan Pasha (Grand Admiral of the Ottoman Navy) from 11 March 1792 to 7 December 1803.",
+            " He was a \"damat\" (\"bridegroom\") to the Ottoman dynasty after he married an Ottoman princess, Esma Sultan."
+          ]
+        ],
+        [
+          "Esma Sultan (daughter of Abdul Hamid I)",
+          [
+            "Esma Sultan (17 July 1778 – 4 June 1848) was an Ottoman princess, daughter of Sultan Abdul Hamid I, sister of Sultan Mustafa IV and Sultan Mahmud II.",
+            " She was the adoptive mother of Bezmiâlem Sultan and Rahime Perestu Sultan."
+          ]
+        ],
+        [
+          "Sultan Ahmed Mosque",
+          [
+            "The Sultan Ahmed Mosque or Sultan Ahmet Mosque (Turkish: \"Sultan Ahmet Camii\" ) is a historic mosque located in Istanbul, Turkey.",
+            " A popular tourist site, the Sultan Ahmed Mosque continues to function as a mosque today; men still kneel in prayer on the mosque's lush red carpet after the call to prayer.",
+            " The Blue Mosque, as it is popularly known, was constructed between 1609 and 1616 during the rule of Ahmed I.",
+            " Its Külliye contains Ahmed's tomb, a madrasah and a hospice.",
+            " Hand-painted blue tiles adorn the mosque’s interior walls, and at night the mosque is bathed in blue as lights frame the mosque’s five main domes, six minarets and eight secondary domes.",
+            " It sits next to the Hagia Sophia, another popular tourist site."
+          ]
+        ],
+        [
+          "Laleli Mosque",
+          [
+            "The Laleli Mosque (Turkish: \"Laleli Camii, or Tulip Mosque\" ) is an 18th-century Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey."
+          ]
+        ],
+        [
+          "Esma Sultan Mansion",
+          [
+            "The Esma Sultan Mansion (Turkish: \"Esma Sultan Yalısı\" ), a historical yalı (English: waterside mansion ) located at Bosphorus in Ortaköy neighborhood of Istanbul, Turkey and named after its original owner Esma Sultan, is used today as a cultural center after being redeveloped."
+          ]
+        ],
+        [
+          "Esma Sultan",
+          [
+            "Esma Sultan is the name of three daughters of three Ottoman Sultans:"
+          ]
+        ],
+        [
+          "Gevheri Kadın",
+          [
+            "Gevheri Kadın (8 July 1856 – 6 September 1884) was the fifth wife of 32nd Ottoman Sultan Abdülaziz.",
+            " She was the mother of Şehzade Mehmed Seyfeddin and Esma Sultan of the Ottoman Empire."
+          ]
+        ],
+        [
+          "Esma Sultan (daughter of Ahmed III)",
+          [
+            "Esma Sultan (14 March 1726 – 13 August 1788) was an Ottoman princess, daughter of Sultan Ahmed III and his consort Zeynep Kadın.",
+            " She was the half-sister of Sultan Mustafa III and Abdul Hamid I."
+          ]
+        ]
+      ],
+      "answer": "no"
+    },
+    {
+      "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+      "context": [
+        [
+          "List of awards and nominations received by Shinee",
+          [
+            "South Korean boy group Shinee have received several awards and nominations for their music work.",
+            " The group was formed by S.M. Entertainment in 2008 and released their first full-length album, \"The Shinee World\", on August 28, 2008, which won the Newcomer Album of the Year at the 23rd Golden Disk Awards.",
+            " The first single released from the album was \"Sanso Gateun Neo (Love Like Oxygen)\" and won first place on \"M Countdown\" on September 18, 2008 making it the group's first win on Korean music shows since debut.",
+            " Their second album \"Lucifer\" (2010) produced two singles, \"Lucifer\" and \"Hello\".",
+            " For their outstanding choreography the group was nominated for the Best Dance Performance Award at the Mnet Asian Music Awards in 2010. \"",
+            "Lucifer\" also won the Disk Bonsang Award at the 25th Golden Disk Awards as well as the Popularity Award.",
+            " On March 21, 2012 the group released their fourth EP \"Sherlock\" for which the group was awarded another Disk Bonsang Award at the 27th Golden Disc Awards and the Bonsang Award at the 22nd Seoul Music Award.",
+            " Also following the success of the lead single it was also nominated for Song of the Year at the 2012 Mnet Asian Music Awards."
+          ]
+        ],
+        [
+          "Cho Kyuhyun",
+          [
+            "Cho Kyu-hyun (born February 3, 1988), better known mononymously as Kyuhyun, is a South Korean singer and musical theatre actor.",
+            " He is best known as a member of South Korean boy group Super Junior, its sub-groups Super Junior-K.R.Y., Super Junior-M and a former member of the South Korean ballad group S.M. the Ballad.",
+            " He is one of the first four Korean artists to appear on Chinese postage stamps."
+          ]
+        ],
+        [
+          "2014 S/S",
+          [
+            "2014 S/S is the debut album of South Korean group WINNER.",
+            " It was released on August 12, 2014 by the group's record label, YG Entertainment.",
+            " The members were credited for writing the lyrics and composing the majority of the album's songs."
+          ]
+        ],
+        [
+          "History (band)",
+          [
+            "History (Korean: 히스토리 ) was a South Korean boy group formed by LOEN Entertainment in 2013.",
+            " They debuted on April 26, 2013 with \"Dreamer\", featuring the narration of their labelmate IU.",
+            " They were LOEN Entertainment's first boy group.",
+            " They officially disbanded on May 12, 2017."
+          ]
+        ],
+        [
+          "Winner (band)",
+          [
+            "Winner (Hangul: 위너), often stylized as WINNER, is a South Korean boy group formed in 2013 by YG Entertainment and debuted in 2014.",
+            " It currently consists of four members, Jinwoo, Seunghoon, Mino and Seungyoon.",
+            " Originally a five-piece group with Taehyun, who later departed from the group in November 2016."
+          ]
+        ],
+        [
+          "Madtown",
+          [
+            "Madtown (Hangul: 매드타운 ), often stylized as MADTOWN, is a South Korean boy group formed in 2014 by J. Tune Camp.",
+            " The group consists of Moos, Daewon, Lee Geon, Jota, Heo Jun, Buffy and H.O.",
+            " Their debut album, \"Mad Town\", was released on October 6, 2014.",
+            " Two of the members, Moos and Buffy, originally debuted as the hip hop duo \"Pro C\" in 2013.",
+            " Madtown's official fan-base name is Mad-people.",
+            " Starting December 22, 2016, MADTOWN's contract was sold to GNI Entertainment after J. Tune Camp closed."
+          ]
+        ],
+        [
+          "List of songs written by Ravi",
+          [
+            "Ravi is a South Korean rapper, songwriter and producer, signed under Jellyfish Entertainment.",
+            " He began his career as a rapper in 2012 in the South Korean boy group VIXX, and later formed VIXX's first sub-unit VIXX LR with band mate Leo in 2015.",
+            " Ravi's songwriting career began with his participation in co-writing VIXX's debut single \"Super Hero\".",
+            " As of November 2016 with the release of \"VIXX 2016 Conception Ker\", Ravi has contributed to the writing and composing of over 46 songs recorded by VIXX.",
+            " Ravi is widely known for his participation of composing and songwriting rap portions for the group as well as lyrics and music."
+          ]
+        ],
+        [
+          "SF9 (band)",
+          [
+            "SF9 (Korean: 에스에프나인 ; shortened from Sensational Feeling 9) is a South Korean boy group formed by FNC Entertainment.",
+            " SF9 is the company's first dance boy group to ever debut.",
+            " SF9 debuted on October 5, 2016 with the release of their first single album \"Feeling Sensation\"."
+          ]
+        ],
+        [
+          "Seventeen discography",
+          [
+            "This is the discography of South Korean boy group Seventeen.",
+            " Seventeen (Hangul: 세븐틴), also stylized as SEVENTEEN or SVT, is a South Korean boy group formed by Pledis Entertainment in 2015.",
+            " They have released one album and four EPs."
+          ]
+        ],
+        [
+          "BTS discography",
+          [
+            "The following is the discography of South Korean boy group BTS.",
+            " The group debuted in South Korea on June 2013 with single album, \"2 Cool 4 Skool\", at number 5 on South Korean Week 31 Gaon Weekly Chart.",
+            " They made a comeback on September 2013 with an extended play, \"O!RUL8,2?",
+            "\", which peaked at number 4 on Week 38 Gaon Weekly Chart.",
+            " BTS then released their second extended play, \"Skool Luv Affair\", in February 2014, where it charted at number 1 on Week 18 Gaon Weekly Chart.",
+            " This also marked the first time their album charted on international charts, Billboard World Albums and Japan's Oricon Chart, specifically.",
+            " A repackaged version of the album, \"Skool Luv Affair Special Addition\" which was released in May 2014, also peaked at number 1 on Week 21 Gaon Weekly Chart."
+          ]
+        ]
+      ],
+      "answer": "YG Entertainment"
+    },
+    {
+      "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+      "context": [
+        [
+          "Ed Wood (film)",
+          [
+            "Ed Wood is a 1994 American biographical period comedy-drama film directed and produced by Tim Burton, and starring Johnny Depp as cult filmmaker Ed Wood.",
+            " The film concerns the period in Wood's life when he made his best-known films as well as his relationship with actor Bela Lugosi, played by Martin Landau.",
+            " Sarah Jessica Parker, Patricia Arquette, Jeffrey Jones, Lisa Marie, and Bill Murray are among the supporting cast."
+          ]
+        ],
+        [
+          "Scott Derrickson",
+          [
+            "Scott Derrickson (born July 16, 1966) is an American director, screenwriter and producer.",
+            " He lives in Los Angeles, California.",
+            " He is best known for directing horror films such as \"Sinister\", \"The Exorcism of Emily Rose\", and \"Deliver Us From Evil\", as well as the 2016 Marvel Cinematic Universe installment, \"Doctor Strange.\""
+          ]
+        ],
+        [
+          "Woodson, Arkansas",
+          [
+            "Woodson is a census-designated place (CDP) in Pulaski County, Arkansas, in the United States.",
+            " Its population was 403 at the 2010 census.",
+            " It is part of the Little Rock–North Little Rock–Conway Metropolitan Statistical Area.",
+            " Woodson and its accompanying Woodson Lake and Wood Hollow are the namesake for Ed Wood Sr., a prominent plantation owner, trader, and businessman at the turn of the 20th century.",
+            " Woodson is adjacent to the Wood Plantation, the largest of the plantations own by Ed Wood Sr."
+          ]
+        ],
+        [
+          "Tyler Bates",
+          [
+            "Tyler Bates (born June 5, 1965) is an American musician, music producer, and composer for films, television, and video games.",
+            " Much of his work is in the action and horror film genres, with films like \"Dawn of the Dead, 300, Sucker Punch,\" and \"John Wick.\"",
+            " He has collaborated with directors like Zack Snyder, Rob Zombie, Neil Marshall, William Friedkin, Scott Derrickson, and James Gunn.",
+            " With Gunn, he has scored every one of the director's films; including \"Guardians of the Galaxy\", which became one of the highest grossing domestic movies of 2014, and its 2017 sequel.",
+            " In addition, he is also the lead guitarist of the American rock band Marilyn Manson, and produced its albums \"The Pale Emperor\" and \"Heaven Upside Down\"."
+          ]
+        ],
+        [
+          "Ed Wood",
+          [
+            "Edward Davis Wood Jr. (October 10, 1924 – December 10, 1978) was an American filmmaker, actor, writer, producer, and director."
+          ]
+        ],
+        [
+          "Deliver Us from Evil (2014 film)",
+          [
+            "Deliver Us from Evil is a 2014 American supernatural horror film directed by Scott Derrickson and produced by Jerry Bruckheimer.",
+            " The film is officially based on a 2001 non-fiction book entitled \"Beware the Night\" by Ralph Sarchie and Lisa Collier Cool, and its marketing campaign highlighted that it was \"inspired by actual accounts\".",
+            " The film stars Eric Bana, Édgar Ramírez, Sean Harris, Olivia Munn, and Joel McHale in the main roles and was released on July 2, 2014."
+          ]
+        ],
+        [
+          "Adam Collis",
+          [
+            "Adam Collis is an American filmmaker and actor.",
+            " He attended the Duke University from 1986 to 1990 and the University of California, Los Angeles from 2007 to 2010.",
+            " He also studied cinema at the University of Southern California from 1991 to 1997.",
+            " Collis first work was the assistant director for the Scott Derrickson's short \"Love in the Ruins\" (1995).",
+            " In 1998, he played \"Crankshaft\" in Eric Koyanagi's \"Hundred Percent\"."
+          ]
+        ],
+        [
+          "Sinister (film)",
+          [
+            "Sinister is a 2012 supernatural horror film directed by Scott Derrickson and written by Derrickson and C. Robert Cargill.",
+            " It stars Ethan Hawke as fictional true-crime writer Ellison Oswalt who discovers a box of home movies in his attic that puts his family in danger."
+          ]
+        ],
+        [
+          "Conrad Brooks",
+          [
+            "Conrad Brooks (born Conrad Biedrzycki on January 3, 1931 in Baltimore, Maryland) is an American actor.",
+            " He moved to Hollywood, California in 1948 to pursue a career in acting.",
+            " He got his start in movies appearing in Ed Wood films such as \"Plan 9 from Outer Space\", \"Glen or Glenda\", and \"Jail Bait.\"",
+            " He took a break from acting during the 1960s and 1970s but due to the ongoing interest in the films of Ed Wood, he reemerged in the 1980s and has become a prolific actor.",
+            " He also has since gone on to write, produce and direct several films."
+          ]
+        ],
+        [
+          "Doctor Strange (2016 film)",
+          [
+            "Doctor Strange is a 2016 American superhero film based on the Marvel Comics character of the same name, produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures.",
+            " It is the fourteenth film of the Marvel Cinematic Universe (MCU).",
+            " The film was directed by Scott Derrickson, who wrote it with Jon Spaihts and C. Robert Cargill, and stars Benedict Cumberbatch as Stephen Strange, along with Chiwetel Ejiofor, Rachel McAdams, Benedict Wong, Michael Stuhlbarg, Benjamin Bratt, Scott Adkins, Mads Mikkelsen, and Tilda Swinton.",
+            " In \"Doctor Strange\", surgeon Strange learns the mystic arts after a career-ending car accident."
+          ]
+        ]
+      ],
+      "answer": "yes"
+    },
+    {
+      "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+      "context": [
+        [
+          "Meet Corliss Archer",
+          [
+            "Meet Corliss Archer, a program from radio's Golden Age, ran from January 7, 1943 to September 30, 1956.",
+            " Although it was CBS's answer to NBC's popular \"A Date with Judy\", it was also broadcast by NBC in 1948 as a summer replacement for \"The Bob Hope Show\".",
+            " From October 3, 1952 to June 26, 1953, it aired on ABC, finally returning to CBS.",
+            " Despite the program's long run, fewer than 24 episodes are known to exist."
+          ]
+        ],
+        [
+          "Shirley Temple",
+          [
+            "Shirley Temple Black (April 23, 1928 – February 10, 2014) was an American actress, singer, dancer, businesswoman, and diplomat who was Hollywood's number one box-office draw as a child actress from 1935 to 1938.",
+            " As an adult, she was named United States ambassador to Ghana and to Czechoslovakia and also served as Chief of Protocol of the United States."
+          ]
+        ],
+        [
+          "Janet Waldo",
+          [
+            "Janet Marie Waldo (February 4, 1920 – June 12, 2016) was an American radio and voice actress.",
+            " She is best known in animation for voicing Judy Jetson, Nancy in \"Shazzan\", Penelope Pitstop, and Josie in \"Josie and the Pussycats\", and on radio as the title character in \"Meet Corliss Archer\"."
+          ]
+        ],
+        [
+          "Meet Corliss Archer (TV series)",
+          [
+            "Meet Corliss Archer is an American television sitcom that aired on CBS (July 13, 1951 - August 10, 1951) and in syndication via the Ziv Company from April to December 1954.",
+            " The program was an adaptation of the radio series of the same name, which was based on a series of short stories by F. Hugh Herbert."
+          ]
+        ],
+        [
+          "Lord High Treasurer",
+          [
+            "The post of Lord High Treasurer or Lord Treasurer was an English government position and has been a British government position since the Acts of Union of 1707.",
+            " A holder of the post would be the third-highest-ranked Great Officer of State, below the Lord High Steward and the Lord High Chancellor."
+          ]
+        ],
+        [
+          "A Kiss for Corliss",
+          [
+            "A Kiss for Corliss is a 1949 American comedy film directed by Richard Wallace and written by Howard Dimsdale.",
+            " It stars Shirley Temple in her final starring role as well as her final film appearance.",
+            " It is a sequel to the 1945 film \"Kiss and Tell\".",
+            " \"A Kiss for Corliss\" was retitled \"Almost a Bride\" before release and this title appears in the title sequence.",
+            " The film was released on November 25, 1949, by United Artists."
+          ]
+        ],
+        [
+          "Kiss and Tell (1945 film)",
+          [
+            "Kiss and Tell is a 1945 American comedy film starring then 17-year-old Shirley Temple as Corliss Archer.",
+            " In the film, two teenage girls cause their respective parents much concern when they start to become interested in boys.",
+            " The parents' bickering about which girl is the worse influence causes more problems than it solves."
+          ]
+        ],
+        [
+          "Secretary of State for Constitutional Affairs",
+          [
+            "The office of Secretary of State for Constitutional Affairs was a British Government position, created in 2003.",
+            " Certain functions of the Lord Chancellor which related to the Lord Chancellor's Department were transferred to the Secretary of State.",
+            " At a later date further functions were also transferred to the Secretary of State for Constitutional Affairs from the First Secretary of State, a position within the government held by the Deputy Prime Minister."
+          ]
+        ],
+        [
+          "Village accountant",
+          [
+            "The Village Accountant (variously known as \"Patwari\", \"Talati\", \"Patel\", \"Karnam\", \"Adhikari\", \"Shanbogaru\",\"Patnaik\" etc.) is an administrative government position found in rural parts of the Indian sub-continent.",
+            " The office and the officeholder are called the \"patwari\" in Telangana, Bengal, North India and in Pakistan while in Sindh it is called \"tapedar\".",
+            " The position is known as the \"karnam\" in Andhra Pradesh, \"patnaik\" in Orissa or \"adhikari\" in Tamil Nadu, while it is commonly known as the \"talati\" in Karnataka, Gujarat and Maharashtra.",
+            " The position was known as the \"kulkarni\" in Northern Karnataka and Maharashtra.",
+            " The position was known as the \"shanbogaru\" in South Karnataka."
+          ]
+        ],
+        [
+          "Charles Craft",
+          [
+            "Charles Craft (May 9, 1902 – September 19, 1968) was an English-born American film and television editor.",
+            " Born in the county of Hampshire in England on May 9, 1902, Craft would enter the film industry in Hollywood in 1927.",
+            " The first film he edited was the Universal Pictures silent film, \"Painting the Town\".",
+            " Over the next 25 years, Craft would edit 90 feature-length films.",
+            " In the early 1950s he would switch his focus to the small screen, his first show being \"Racket Squad\", from 1951–53, for which he was the main editor, editing 93 of the 98 episodes.",
+            " He would work on several other series during the 1950s, including \"Meet Corliss Archer\" (1954), \"Science Fiction Theatre\" (1955–56), and \"Highway Patrol\" (1955–57).",
+            " In the late 1950s and early 1960s he was one of the main editors on \"Sea Hunt\", starring Lloyd Bridges, editing over half of the episodes.",
+            " His final film work would be editing \"Flipper's New Adventure\" (1964, the sequel to 1963's \"Flipper\".",
+            " When the film was made into a television series, Craft would begin the editing duties on that show, editing the first 28 episodes before he retired in 1966.",
+            " Craft died on September 19, 1968 in Los Angeles, California."
+          ]
+        ]
+      ],
+      "answer": "Chief of Protocol"
+    }
+  ]
+}

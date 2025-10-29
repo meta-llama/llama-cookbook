@@ -1,0 +1,40 @@
+model:
+  # name: "databricks/databricks-llama-4-maverick"
+  name: "databricks/maverick"
+  api_base: "https://<YOUR_DATABRICKS_URL>.cloud.databricks.com/serving-endpoints"
+  temperature: 0.0
+  max_tokens: 100
+
+dataset:
+  adapter_class: "llama_prompt_ops.core.datasets.ConfigurableJSONAdapter"
+  path: "hts_classification_sample.json"
+  train_size: 0.7
+  validation_size: 0.15
+  test_size: 0.15
+  input_field: "description"
+  golden_output_field: "hts_code"
+
+system_prompt:
+  text: |
+    You are an expert at classifying products into Harmonized Tariff Schedule (HTS) codes.
+    Given a product description, assign the most appropriate HTS code.
+    Provide only the HTS code as output, without any additional explanation.
+  inputs: ["description"]
+  outputs: ["hts_code"]
+
+metric:
+  class: "hts_metric.HTSCodeMetric"
+  output_field: "hts_code"
+
+
+optimization:
+  strategy: "llama"
+  max_rounds: 2
+  max_examples_per_round: 5
+  max_prompt_length: 1000
+  num_candidates: 5
+  bootstrap_examples: 4
+  num_threads: 8
+
+output:
+  prefix: "hts_classification"
