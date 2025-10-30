@@ -170,7 +170,7 @@ python prepare_w2_dataset.py --train-ratio 0.3
 
 This creates a new dataset directory: `fake_w2_us_tax_form_dataset_train30_test70`
 
-**Configuration Note**: If you change the train ratio, update the `dataset.data_files.train` path in the corresponding YAML configuration files.
+> **Note**: If you change the train ratio, update the `dataset.data_files.train` path in the corresponding YAML configuration files.
 
 ## Model Download
 
@@ -188,20 +188,35 @@ This downloads to the expected directory structure used in the provided YAML fil
 Before fine-tuning, establish a baseline by evaluating the pre-trained model on the test set.
 
 ### Start vLLM Server
-For single GPU (H100):
+
 ```bash
-CUDA_VISIBLE_DEVICES="0" python -m vllm.entrypoints.openai.api_server --model Llama-3.2-11B-Vision-Instruct/ --port 8001 --max-model-len 65000 --max-num-seqs 10
+python -m vllm.entrypoints.openai.api_server --model Llama-3.2-11B-Vision-Instruct/ --port 8001 --max-model-len 9000 --max-num-seqs 100 --served-model-name 11B-base
+
+
 ```
 
 For multi-GPU setup:
 ```bash
-CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model Llama-3.2-11B-Vision-Instruct/ --port 8001 --max-model-len 65000 --tensor-parallel-size 2 --max-num-seqs 10
+CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model Llama-3.2-11B-Vision-Instruct/ --port 8001 --max-model-len 9000 --tensor-parallel-size 2 --max-num-seqs 100 --served-model-name 11B-base
 ```
 
 ### Run Baseline Evaluation
 ```bash
-python evaluate.py --server_url http://localhost:8001/v1 --model Llama-3.2-11B-Vision-Instruct/ --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
+python evaluate.py --server_url http://localhost:8001/v1 --model 11B-base --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
 ```
+
+This will give an accuracy result around 58%, as shown in the table in the top.
+> **Note:** Modify the `max-model-len` and `max-num-seqs` to fit your hardware. Specially `max-num-seqs` as vllm will OOM if not set with Llama 3.2 multimodal models.
+
+### Cloud Evaluation Setup
+
+To evaluate bigger models, like Llama 4 Maverick, we leverage cloud providers that server these models, like together.ai. Any OpenAI compatible provider should work out of the box with our evaluation script, as it uses the OpenAI SDK.
+
+```bash
+TOGETHER_API_KEY=<your_api_key> python evaluate.py --server_url https://api.together.xyz/v1 --model meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8  --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
+```
+
+The value from Maverick in our testing was around 67% accuracy out of the box.
 
 ## Fine-tuning
 
@@ -215,20 +230,21 @@ Key differences:
 
 **Full Parameter Fine-tuning:**
 - Trains encoder and fusion layers, leaving decoder frozen
-- Higher memory requirements but potentially better performance
+- Better performance on the target use case
 - Learning rate: 2e-5
 - Optimizer: PagedAdamW8bit for memory efficiency
 
 **LoRA Fine-tuning:**
 - Only trains low-rank adapters across enconder and fusion layers only as well. Decoder is frozen.
-- Significantly lower memory requirements
 - Learning rate: 1e-4
 - LoRA rank: 8, alpha: 16
 - Frozen decoder with LoRA on encoder and fusion layers
 
+
+In our case, using torchtune, there was no significant memory gains to be had when using Lora. The footprint on the GPU was below 24GB for `batch_size: 1`, `compile: true`, `optimizer_in_bwd: True` and `gradient_accumulation_steps: 1`. Training time for 5 epochs on a single H100 was around 40 minutes.
 ### WandB Configuration
 
-Before training, update the WandB entity in your YAML files:
+Before training, update the WandB entity in your YAML files and make sure you are logged in to your account:
 ```yaml
 metric_logger:
   _component_: torchtune.training.metric_logging.WandBLogger
@@ -248,7 +264,9 @@ tune run full_finetune_single_device --config 11B_full_w2.yaml
 tune run lora_finetune_single_device --config 11B_lora_w2.yaml
 ```
 
-**Note**: The VQA dataset component in torchtune is pre-configured to handle the multimodal format, eliminating the need for custom preprocessors.
+This will create models in different `output_dir` for each configuration, used further down for the evaluation commands.
+
+> **Note**: The VQA dataset component in torchtune is pre-configured to handle the multimodal format, eliminating the need for custom preprocessors. The `prepare_w2_dataset.py` script adapts the input to this format on the prompt.
 
 ## Model Evaluation
 
@@ -258,27 +276,20 @@ Start a vLLM server with your fine-tuned model:
 
 **For LoRA model:**
 ```bash
-CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-lora/epoch_4/ --port 8001 --max-model-len 65000 --tensor-parallel-size 2 --max-num-seqs 10
+python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-lora/epoch_4/ --port 8001 --max-model-len 9000  --max-num-seqs 100 --served-model-name 11B-lora
 ```
 
 **For full fine-tuned model:**
 ```bash
-CUDA_VISIBLE_DEVICES="0,1" python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --port 8001 --max-model-len 65000 --tensor-parallel-size 2
+python -m vllm.entrypoints.openai.api_server --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --port 8001 --max-model-len 9000 --max-num-seqs 100 --served-model-name 11B-full
 ```
 
 ### Task-Specific Evaluation
 ```bash
-python evaluate.py --server_url http://localhost:8001/v1 --model ./outputs/Llama-3.2-11B-Instruct-w2-full/epoch_4/ --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
+python evaluate.py --server_url http://localhost:8001/v1 --model 11B-full --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
 ```
 
 
-### Cloud Evaluation Setup
-
-To evaluate bigger models, like Llama 4 Maverick, we leverage cloud providers that server these models, like together.ai. Any OpenAI compatible provider should work out of the box with our evaluation script, as it uses the OpenAI SDK.
-
-```bash
-TOGETHER_API_KEY=<your_api_key> python evaluate.py --server_url https://api.together.xyz/v1 --model meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8  --structured --dataset fake_w2_us_tax_form_dataset_train30_test70/test --limit 100 --max_workers 25
-```
 
 ### General Benchmark Evaluation
 
@@ -322,73 +333,15 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch -m lm_eval --model hf-multimodal 
 
 ```
 
+## Performance
 
-
-## Key Findings
-
-### Task-Specific Performance
-- **Full Parameter Fine-tuning** achieved the best task-specific performance (97% accuracy on W2 extraction)
-- **LoRA fine-tuning** provided substantial improvement (72% vs 58% baseline) with significantly lower resource requirements
-- Both approaches showed dramatic improvement over the baseline for the specific task
-
-### General Capability Preservation
-- **LoRA fine-tuning** preserved general capabilities better, showing minimal degradation on standard benchmarks
-- **Full Parameter fine-tuning** showed minimal degradation on industry benchmarks, making it the preferred choice for this small dataset and FT results. With a larger dataset, as the original split of 80/10/10 and more steps, we do see additional degradation on the benchmarks.
-- Both methods maintained strong performance on mathematical reasoning tasks (gsm8k)
-
-### Resource Efficiency
-- **LoRA** requires significantly less GPU memory and training time
-- **Full Parameter fine-tuning** requires more resources but achieves better task-specific performance
-
-## Performance Graphs
-
-### Performance
-
-#### Peak memory
+### Peak memory
 
 <img src="peak_memory.png" width="600" alt="Peak Memory Usage">
 
-#### Loss curve graph
+### Loss curve graph
 
 <img src="loss_curve.png" width="600" alt="Loss curve">
-
-## Comparison with Llama API
-
-You can benchmark against the Llama API for comparison:
-
-```bash
-LLAMA_API_KEY="<your_api_key>" python evaluate.py \
-  --server_url https://api.llama.com/compa/v1 \
-  --limit 100 \
-  --model Llama-4-Maverick-17B-128E-Instruct-FP8 \
-  --structured \
-  --max_workers 50 \
-  --dataset fake_w2_us_tax_form_dataset_train30_test70/test
-```
-
-## Best Practices
-
-1. **Data Preparation**: Ensure your dataset format matches the expected structure. The preparation script handles common formatting issues.
-
-2. **Configuration Management**: Always update paths in YAML files when changing directory structures.
-
-3. **Memory Management**: Use PagedAdamW8bit optimizer for full parameter fine-tuning to reduce memory usage.
-
-4. **Evaluation Strategy**: Evaluate both task-specific and general capabilities to understand trade-offs.
-
-5. **Monitoring**: Use WandB for comprehensive training monitoring and comparison.
-
-## Troubleshooting
-
-### Common Issues
-
-1. **CUDA Out of Memory**: Reduce batch size, enable gradient checkpointing, or use LoRA instead of full fine-tuning.
-
-2. **Dataset Path Errors**: Verify that dataset paths in YAML files match your actual directory structure.
-
-3. **Model Download Issues**: Ensure you're logged into HuggingFace and have access to Llama models.
-
-4. **vLLM Server Connection**: Check that the server is running and accessible on the specified port.
 
 ## References
 
