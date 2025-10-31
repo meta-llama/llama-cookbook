@@ -1,0 +1,103 @@
+# Config for multi-device LoRA finetuning in lora_finetune_distributed.py
+# using a Llama3.1 8B Instruct model
+#
+# This config assumes that you've run the following command before launching
+# this run:
+#   tune download meta-llama/Meta-Llama-3.1-8B-Instruct --output-dir /tmp/Meta-Llama-3.1-8B-Instruct --ignore-patterns "original/consolidated.00.pth"
+#
+# To launch on 2 devices, run the following command from root:
+#   tune run --nproc_per_node 2 lora_finetune_distributed --config llama3_1/8B_lora
+#
+# You can add specific overrides through the command line. For example
+# to override the checkpointer directory while launching training
+# you can run:
+#   tune run --nproc_per_node 2 lora_finetune_distributed --config llama3_1/8B_lora checkpointer.checkpoint_dir=<YOUR_CHECKPOINT_DIR>
+#
+# This config works best when the model is being fine-tuned on 2+ GPUs.
+# For single device LoRA finetuning please use 8B_lora_single_device.yaml
+# or 8B_qlora_single_device.yaml
+
+output_dir: ""
+
+# Modeling Arguments
+model:
+  _component_: torchtune.models.llama3_1.llama3_1_8b
+  decoder_trainable: "lora"
+  encoder_trainable: "frozen"
+  fusion_trainable: "lora"
+  lora_attn_modules: ['q_proj', 'v_proj', 'output_proj']
+  apply_lora_to_mlp: True
+  apply_lora_to_output: False
+  lora_rank: 64  # higher increases accuracy and memory
+  lora_alpha: 128  # usually alpha=2*rank
+  lora_dropout: 0.05
+
+tokenizer:
+  _component_: torchtune.models.llama3.llama3_tokenizer
+  max_seq_len: null
+  max_num_tiles: 16
+
+checkpointer:
+  _component_: torchtune.training.FullModelHFCheckpointer
+  checkpoint_files: [
+    model-00001-of-00004.safetensors,
+    model-00002-of-00004.safetensors,
+    model-00003-of-00004.safetensors,
+    model-00004-of-00004.safetensors
+  ]
+  recipe_checkpoint: null
+  output_dir: ${output_dir}
+  model_type: LLAMA3
+resume_from_checkpoint: False
+
+dataset:
+  _component_: transferability.datasets.torchtune_format.sft_dataset
+
+# Training arguments
+epochs: 1
+max_steps_per_epoch: null
+batch_size: 24
+gradient_accumulation_steps: 1 # Use to increase effective batch size
+clip_grad_norm: null
+
+# Optimizer
+optimizer:
+  _component_: torch.optim.AdamW
+  lr: 3e-4
+  fused: False
+optimizer_in_bwd: False
+
+# Scheduler
+lr_scheduler:
+  _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
+  num_warmup_steps: 100
+
+loss:
+  _component_: torchtune.modules.loss.LinearCrossEntropyLoss
+
+
+# cuda, cpu, rocm, xpu...
+device: cuda
+seed: 42
+shuffle: False
+
+# Memory management / performance
+enable_activation_checkpointing: True
+enable_activation_offloading: False
+fsdp_cpu_offload: False
+compile: False # torch.compile, set to true for perf/memory improvement
+
+# Reduced precision
+dtype: bf16
+
+# Log metrics during training
+metric_logger:
+  _component_: torchtune.training.metric_logging.DiskLogger
+  log_dir: ${output_dir}/logs
+log_every_n_steps: 1
+log_peak_memory_stats: True
+
+# Useful for understanding how to optimize memory and performance
+profiler:
+  _component_: torchtune.training.setup_torch_profiler
+  enabled: False
