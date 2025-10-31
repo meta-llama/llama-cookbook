@@ -8,7 +8,15 @@ This recipe demonstrates how to fine-tune Llama 3.2 11B Vision model on a synthe
 - Compare trade-offs between LoRA and Full Parameter Fine-tuning on both task-specific and general benchmarks
 - Provide guidance on data preparation, training configuration, and evaluation methodologies
 
+## Summary
+
+  This tutorial lays out the end to end process of preparing a sample dataset, benchmarking the baseline models, finetuning and re evaluating the models after the FT run. It also demonstrates that full parameter fine-tuning is both feasible and yields better results for specialized vision tasks with small datasets. In tortchune, memory optimized FPFT challenges the conventional wisdom that LoRA is always more memory efficient, given the caveat the default "full" parameters configurations are not training the decoder layers.
+
+  > **Note:** We tested if this model would improve in other image to json extraction tasks, but we did not observe an improvement in those. Further testing is required to understand what type and diversity of data is requried to improve the performance on all json extraction tasks.
+
 ## Results
+
+We present the results of the selected benchmarks across relevant domains. The focus was to add a new capability to the model without degrading existing ones, validated by testing tool calling, visual document and chart understanding, instruction following and general knowledge remain unchanged.
 
 ### Task-Specific Performance (W2 Extraction)
 

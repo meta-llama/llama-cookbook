@@ -13,6 +13,9 @@ If you are new to fine-tuning techniques, check out [an overview](./LLM_finetuni
 > [!TIP]
 > If you want to try finetuning Meta Llama 3 in a Jupyter notebook you can find a quickstart notebook [here](./quickstart_peft_finetuning.ipynb)
 
+> [!NOTE]
+> **New: Vision Fine-tuning Recipe** - Looking to fine-tune Llama 3.2 11B Vision for structured data extraction? Check out our comprehensive [vision fine-tuning recipe](./vision/README.md) that achieves 98% accuracy on document understanding tasks using torchtune, with detailed benchmarking comparing LoRA vs Full Parameter Fine-Tuning approaches.
+
 
 ## How to configure finetuning settings?
 
