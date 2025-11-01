@@ -1,0 +1,7 @@
+results/
+outputs/
+w2_evaluation_results/
+Llama-3.2-11B-Vision-Instruct/
+fake_w2_us_tax_form_dataset_train30_test70/
+fake_w2_us_tax_form_dataset_train80_test20/
+htmlcov/

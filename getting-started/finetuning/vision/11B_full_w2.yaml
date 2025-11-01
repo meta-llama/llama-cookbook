@@ -1,0 +1,100 @@
+# Top-level output directory
+output_dir: ./outputs/Llama-3.2-11B-Instruct-w2-full
+
+# Model
+model:
+  _component_: torchtune.models.llama3_2_vision.llama3_2_vision_11b
+  decoder_trainable: False
+  encoder_trainable: True
+  fusion_trainable: True
+  image_size: 560 # Make sure this matches the image_size in tokenizer
+
+# Tokenizer / vision transform
+tokenizer:
+  _component_: torchtune.models.llama3_2_vision.llama3_2_vision_transform
+  path: ./Llama-3.2-11B-Vision-Instruct/original/tokenizer.model
+  image_size: 560
+  max_seq_len: 8192
+
+# Checkpointing
+checkpointer:
+  _component_: torchtune.training.FullModelHFCheckpointer
+  checkpoint_dir: ./Llama-3.2-11B-Vision-Instruct
+  checkpoint_files:
+    filename_format: model-{}-of-{}.safetensors
+    max_filename: "00005"
+  recipe_checkpoint: null
+  output_dir: ${output_dir}
+  model_type: LLAMA3_VISION
+
+resume_from_checkpoint: false
+save_adapter_weights_only: False # PeFT formatting not available yet. This will save it in torchtune format only.
+
+# Dataset
+dataset:
+  _component_: torchtune.datasets.multimodal.vqa_dataset
+  source: arrow
+  data_files:
+    train: "fake_w2_us_tax_form_dataset_train30_test70/train/data-00000-of-00001.arrow"
+  split: train
+  column_map:
+    input: input
+    output: ground_truth
+    image: image
+
+# General data handling
+seed: null
+shuffle: true
+collate_fn: torchtune.data.padded_collate_tiled_images_and_mask
+
+# Training loop & hyperparams
+
+epochs: 5
+max_steps_per_epoch: null
+batch_size: 1
+gradient_accumulation_steps: 1 # Use to increase effective batch size
+# explicit optimizer / scheduler / loss
+optimizer:
+  _component_: bitsandbytes.optim.PagedAdamW8bit
+  lr: 2e-5
+optimizer_in_bwd: True  # True saves memory. Requires gradient_accumulation_steps=1
+
+loss:
+  _component_: torchtune.modules.loss.LinearCrossEntropyLoss
+
+# clip_grad_norm: 1.0
+compile: true
+
+# Device & memory
+device: cuda
+enable_activation_checkpointing: true
+dtype: bf16
+
+# Logging
+
+metric_logger:
+  _component_: torchtune.training.metric_logging.WandBLogger
+  project: llama3_2_w2_extraction
+  entity: <your_wandb_entity>
+  job_type: full_finetune_single_device
+  group: llama-cookbook
+log_every_n_steps: 5
+save_steps: 100
+log_peak_memory_stats: true
+log_level: INFO
+
+# Profiler (off by default)
+profiler:
+  _component_: torchtune.training.setup_torch_profiler
+  enabled: false
+  output_dir: ${output_dir}/profiling_outputs
+  cpu: true
+  cuda: true
+  profile_memory: false
+  with_stack: false
+  record_shapes: true
+  with_flops: false
+  wait_steps: 5
+  warmup_steps: 3
+  active_steps: 2
+  num_cycles: 1
