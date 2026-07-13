@@ -1183,6 +1183,8 @@ ShardingStrategy
 hsdp
 prem
 Prem
+Anthropic
+MiniMax
 OpenAI
 Prem
 TCP

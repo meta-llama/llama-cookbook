@@ -11,8 +11,9 @@ import logging
 
 import time
 from abc import ABC, abstractmethod
-from typing import Callable
+from typing import Callable, Literal
 
+import anthropic
 import openai
 from typing_extensions import override
 
@@ -20,6 +21,11 @@ NUM_LLM_RETRIES = 10
 MAX_TOKENS = 1000
 TEMPERATURE = 0.1
 TOP_P = 0.9
+
+MINIMAX_DEFAULT_BASE_URLS = {
+    "openai": "https://api.minimax.io/v1",
+    "anthropic": "https://api.minimax.io/anthropic",
+}
 
 LOG: logging.Logger = logging.getLogger(__name__)
 
@@ -157,3 +163,66 @@ class ANYSCALE(LLM):
             "mistralai/Mistral-7B-Instruct-v0.1",
             "HuggingFaceH4/zephyr-7b-beta",
         ]
+
+
+class MINIMAX(LLM):
+    """Access MiniMax through its OpenAI- or Anthropic-compatible API.
+
+    Global endpoints are used by default. For China endpoints, pass
+    ``https://api.minimaxi.com/v1`` for the OpenAI format or
+    ``https://api.minimaxi.com/anthropic`` for the Anthropic format.
+    """
+
+    def __init__(
+        self,
+        model: str,
+        api_key: str,
+        api_format: Literal["openai", "anthropic"] = "openai",
+        base_url: str | None = None,
+    ) -> None:
+        super().__init__(model, api_key)
+        if api_format not in MINIMAX_DEFAULT_BASE_URLS:
+            raise ValueError(f"Unsupported MiniMax API format: {api_format}")
+
+        self.api_format = api_format
+        resolved_base_url = base_url or MINIMAX_DEFAULT_BASE_URLS[api_format]
+        self.openai_client: openai.OpenAI | None = None
+        self.anthropic_client: anthropic.Anthropic | None = None
+        if api_format == "openai":
+            self.openai_client = openai.OpenAI(
+                base_url=resolved_base_url, api_key=api_key
+            )
+        else:
+            self.anthropic_client = anthropic.Anthropic(
+                base_url=resolved_base_url, api_key=api_key
+            )
+
+    @override
+    def query(self, prompt: str) -> str:
+        level = logging.getLogger().level
+        logging.getLogger().setLevel(logging.WARNING)
+        try:
+            if self.openai_client is not None:
+                response = self.openai_client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=MAX_TOKENS,
+                )
+                return response.choices[0].message.content or ""
+
+            if self.anthropic_client is None:
+                raise RuntimeError("MiniMax client is not configured")
+            message = self.anthropic_client.messages.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=MAX_TOKENS,
+            )
+            return "".join(
+                block.text for block in message.content if block.type == "text"
+            )
+        finally:
+            logging.getLogger().setLevel(level)
+
+    @override
+    def valid_models(self) -> list[str]:
+        return ["MiniMax-M3", "MiniMax-M2.7"]

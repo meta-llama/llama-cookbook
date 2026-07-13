@@ -15,6 +15,7 @@ scipy
 optimum
 matplotlib
 chardet
+anthropic>=0.72.0
 openai
 typing-extensions>=4.8.0
 tabulate
