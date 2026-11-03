@@ -39,6 +39,29 @@ def test_image_failure_preserves_ground_truth_and_counts_as_wrong(evaluate, wrap
     assert metrics["parse_error"] == 0.5
 
 
+@pytest.mark.parametrize("wrapped", [False, True])
+def test_image_failure_with_preparsed_dict_ground_truth(evaluate, wrapped):
+    # A dataset whose ground_truth column is already a dict (no JSON
+    # stringification) must still keep its labels on the failure path
+    # instead of being replaced by the full expected-field schema.
+    ground_truth = {
+        "box_b_employer_identification_number": "123",
+        "box_c_employer_name": "ACME",
+    }
+    sample = {"ground_truth": {"gt_parse": ground_truth} if wrapped else ground_truth}
+    result = evaluate.process_single_sample(None, (1, sample), ".", "test", False, 1)
+    assert result["json_parsing_error"]
+    assert result["ground_truth"] == ground_truth
+    success = {
+        "prediction": ground_truth,
+        "ground_truth": ground_truth,
+        "json_parsing_error": False,
+    }
+    metrics = evaluate.calculate_metrics([success, result])
+    assert metrics["accuracy"] == 0.5
+    assert metrics["parse_error"] == 0.5
+
+
 def test_executor_failure_preserves_sample_ground_truth(evaluate, monkeypatch):
     ground_truth = {"box_c_employer_name": "ACME"}
     sample = {"ground_truth": json.dumps(ground_truth)}

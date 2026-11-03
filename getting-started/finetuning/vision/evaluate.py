@@ -289,7 +289,11 @@ def call_api_client(
 def ground_truth_for_failed_sample(sample: Dict) -> Dict[str, Any]:
     """Keep failed samples in the accuracy denominator, even before image loading."""
     try:
-        ground_truth = json.loads(sample["ground_truth"])
+        ground_truth = sample["ground_truth"]
+        # Datasets loaded with a structured column already hold a dict;
+        # only string labels need parsing.
+        if not isinstance(ground_truth, dict):
+            ground_truth = json.loads(ground_truth)
         if isinstance(ground_truth, dict) and "gt_parse" in ground_truth:
             ground_truth = ground_truth["gt_parse"]
         if isinstance(ground_truth, dict) and ground_truth:
