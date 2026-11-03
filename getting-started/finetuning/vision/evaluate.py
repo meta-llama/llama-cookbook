@@ -286,6 +286,27 @@ def call_api_client(
         raise
 
 
+def ground_truth_for_failed_sample(sample: Dict) -> Dict[str, Any]:
+    """Keep failed samples in the accuracy denominator, even before image loading."""
+    try:
+        ground_truth = sample["ground_truth"]
+        # Datasets loaded with a structured column already hold a dict;
+        # only string labels need parsing.
+        if not isinstance(ground_truth, dict):
+            ground_truth = json.loads(ground_truth)
+        if isinstance(ground_truth, dict) and "gt_parse" in ground_truth:
+            ground_truth = ground_truth["gt_parse"]
+        if isinstance(ground_truth, dict) and ground_truth:
+            return ground_truth
+    except (KeyError, TypeError, ValueError):
+        pass
+
+    # With no usable ground truth, count all expected form fields as failures.
+    # This dictionary is only used with json_parsing_error=True, never compared
+    # to predictions as if it contained real labels.
+    return dict.fromkeys(W2Form.model_json_schema()["properties"])
+
+
 def process_single_sample(
     client: OpenAI,
     sample_data: Tuple[int, Dict],
@@ -381,7 +402,7 @@ def process_single_sample(
         return {
             "sample_id": idx,
             "prediction": {},
-            "ground_truth": {},
+            "ground_truth": ground_truth_for_failed_sample(sample),
             "normalized_prediction": {},
             "normalized_gt": {},
             "raw_response": "",
@@ -526,7 +547,7 @@ def vllm_openai_sdk_evaluation(
                 model,
                 structured,
                 timeout,
-            ): data[0]
+            ): data
             for data in sample_data
         }
 
@@ -536,7 +557,7 @@ def vllm_openai_sdk_evaluation(
             total=len(sample_data),
             desc="Processing samples (batch)",
         ):
-            sample_idx = future_to_sample[future]
+            sample_idx, sample = future_to_sample[future]
             try:
                 result = future.result()
                 results.append(result)
@@ -547,7 +568,7 @@ def vllm_openai_sdk_evaluation(
                     {
                         "sample_id": sample_idx,
                         "prediction": {},
-                        "ground_truth": {},
+                        "ground_truth": ground_truth_for_failed_sample(sample),
                         "normalized_prediction": {},
                         "normalized_gt": {},
                         "raw_response": "",
