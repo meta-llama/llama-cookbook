@@ -286,6 +286,35 @@ def call_api_client(
         raise
 
 
+def _extract_ground_truth(sample: Any) -> Dict[str, Any]:
+    """Extract ground truth dictionary from a sample, falling back to schema fields on failure."""
+    if isinstance(sample, dict) and "ground_truth" in sample:
+        gt_raw = sample["ground_truth"]
+        if isinstance(gt_raw, str):
+            try:
+                gt_data = json.loads(gt_raw)
+            except Exception:
+                gt_data = None
+        elif isinstance(gt_raw, dict):
+            gt_data = gt_raw
+        else:
+            gt_data = None
+
+        if isinstance(gt_data, dict):
+            if "gt_parse" in gt_data and isinstance(gt_data["gt_parse"], dict):
+                return gt_data["gt_parse"]
+            return gt_data
+
+    # Fallback to schema properties so field count is preserved
+    try:
+        props = W2Form.model_json_schema().get("properties", {})
+        if props:
+            return {k: "" for k in props.keys()}
+    except Exception:
+        pass
+    return {}
+
+
 def process_single_sample(
     client: OpenAI,
     sample_data: Tuple[int, Dict],
@@ -348,13 +377,7 @@ def process_single_sample(
         extracted_json, json_parsing_error = extract_json_from_response(content)
 
         # Get ground truth
-        ground_truth_raw = json.loads(sample["ground_truth"])
-
-        # Handle the gt_parse wrapper structure if present
-        if "gt_parse" in ground_truth_raw:
-            ground_truth = ground_truth_raw["gt_parse"]
-        else:
-            ground_truth = ground_truth_raw
+        ground_truth = _extract_ground_truth(sample)
 
         # Normalize for comparison
         normalized_pred = normalize_json(extracted_json)
@@ -378,12 +401,13 @@ def process_single_sample(
     except Exception as e:
         traceback_str = traceback.format_exc()
         logger.error(f"Error processing sample {idx}: {str(e)} at line {traceback_str}")
+        gt = _extract_ground_truth(sample)
         return {
             "sample_id": idx,
             "prediction": {},
-            "ground_truth": {},
+            "ground_truth": gt,
             "normalized_prediction": {},
-            "normalized_gt": {},
+            "normalized_gt": normalize_json(gt) if gt else {},
             "raw_response": "",
             "processing_time": 0.0,
             "json_parsing_error": True,
@@ -526,7 +550,7 @@ def vllm_openai_sdk_evaluation(
                 model,
                 structured,
                 timeout,
-            ): data[0]
+            ): data
             for data in sample_data
         }
 
@@ -536,20 +560,22 @@ def vllm_openai_sdk_evaluation(
             total=len(sample_data),
             desc="Processing samples (batch)",
         ):
-            sample_idx = future_to_sample[future]
+            sample_data_item = future_to_sample[future]
+            sample_idx, sample = sample_data_item
             try:
                 result = future.result()
                 results.append(result)
             except Exception as e:
                 logger.error(f"Exception in sample {sample_idx}: {e}")
+                gt = _extract_ground_truth(sample)
                 # Add error result
                 results.append(
                     {
                         "sample_id": sample_idx,
                         "prediction": {},
-                        "ground_truth": {},
+                        "ground_truth": gt,
                         "normalized_prediction": {},
-                        "normalized_gt": {},
+                        "normalized_gt": normalize_json(gt) if gt else {},
                         "raw_response": "",
                         "processing_time": 0.0,
                         "json_parsing_error": True,
