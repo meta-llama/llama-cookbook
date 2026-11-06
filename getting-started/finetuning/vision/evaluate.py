@@ -377,13 +377,7 @@ def process_single_sample(
         extracted_json, json_parsing_error = extract_json_from_response(content)
 
         # Get ground truth
-        ground_truth_raw = json.loads(sample["ground_truth"])
-
-        # Handle the gt_parse wrapper structure if present
-        if "gt_parse" in ground_truth_raw:
-            ground_truth = ground_truth_raw["gt_parse"]
-        else:
-            ground_truth = ground_truth_raw
+        ground_truth = _extract_ground_truth(sample)
 
         # Normalize for comparison
         normalized_pred = normalize_json(extracted_json)

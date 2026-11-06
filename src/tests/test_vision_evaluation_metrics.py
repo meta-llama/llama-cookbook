@@ -102,6 +102,35 @@ def test_process_single_sample_exception_preserves_ground_truth():
     assert result["sample_id"] == 0
 
 
+def test_process_single_sample_dict_ground_truth_success():
+    mock_client = MagicMock()
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock()]
+    mock_response.choices[0].message.content = '{"box_1": "test"}'
+    mock_response.usage = None
+    mock_client.chat.completions.create.return_value = mock_response
+
+    sample_data = (
+        0,
+        {"ground_truth": {"box_1": "test"}, "image": "dummy.png"},
+    )
+
+    with patch.object(vision_eval, "get_image_path", return_value="/tmp/dummy.png"), \
+         patch.object(vision_eval, "call_api_client", return_value=mock_response):
+        result = vision_eval.process_single_sample(
+            client=mock_client,
+            sample_data=sample_data,
+            output_dir="/tmp",
+            model="test-model",
+            structured=False,
+            timeout=10,
+        )
+
+    assert result["json_parsing_error"] is False
+    assert result["ground_truth"] == {"box_1": "test"}
+    assert result["prediction"] == {"box_1": "test"}
+
+
 if __name__ == "__main__":
     test_extract_ground_truth_from_dict()
     test_extract_ground_truth_from_json_string()
@@ -109,4 +138,5 @@ if __name__ == "__main__":
     test_extract_ground_truth_fallback_schema()
     test_calculate_metrics_includes_failed_samples_in_denominator()
     test_process_single_sample_exception_preserves_ground_truth()
+    test_process_single_sample_dict_ground_truth_success()
     print("All vision evaluation metrics tests passed!")
